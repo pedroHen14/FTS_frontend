@@ -54,9 +54,10 @@ export const GlobalStyles = createGlobalStyle`
     a{
         color:var(--light);
         transition:.2s;
+        text-decoration:none;
         
         :hover{
-            color:var(--primary);
+            color:var(--dark);
         }
 
         :active{
