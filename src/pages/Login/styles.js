@@ -59,6 +59,8 @@ export const ImageLogin = styled.div`
 
   > img {
     width: 100px;
+    border-radius: 50%;
+    box-shadow: 5px 5px 5px var(--darkGray);
   }
 `;
 

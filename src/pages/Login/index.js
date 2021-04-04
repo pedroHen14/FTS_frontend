@@ -9,13 +9,14 @@ import {
 } from "./styles";
 
 import Input from "../../components/Input";
+import imgLogo from "../../assets/FTS.png";
 
 function Login() {
   return (
     <Container>
       <ContainerLogin>
         <ImageLogin>
-          <img />
+          <img src={imgLogo} alt="logo" />
         </ImageLogin>
         <FormLogin>
           <Header>
