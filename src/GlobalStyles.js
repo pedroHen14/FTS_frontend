@@ -52,7 +52,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     a{
-        color:var(--light);
+        color:var(--secondary);
         transition:.2s;
         text-decoration:none;
         

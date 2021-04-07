@@ -1,21 +1,22 @@
 import { Link } from "react-router-dom";
-import { Container, ImageLogo, Items } from "./styles";
+import { Container, IconSignOut, ImageLogo, Items } from "./styles";
 
-function NavigationMenu({ image, menuItens }) {
+function NavigationMenu({ image, menuItens, handleSignOut }) {
   return (
     <Container>
       <ImageLogo>
         <img src={image} alt="Logo" />
       </ImageLogo>
       <Items>
-        {menuItens.map((m) => (
+        {menuItens.map((i) => (
           <li>
-            <Link to={m.rota}>
-              <h1>{m.nome}</h1>
+            <Link to={i.route}>
+              <h1>{i.name}</h1>
             </Link>
           </li>
         ))}
       </Items>
+      <IconSignOut onClick={handleSignOut} />
     </Container>
   );
 }

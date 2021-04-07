@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FaSignOutAlt } from "react-icons/fa";
 
 export const Container = styled.div`
   display: flex;
@@ -6,6 +7,8 @@ export const Container = styled.div`
   width: 20%;
   background-color: var(--primary);
   height: 100vh;
+  align-items: center;
+  position: relative;
 `;
 
 export const ImageLogo = styled.div`
@@ -39,5 +42,23 @@ export const Items = styled.ul`
 
   li {
     list-style: none;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+`;
+
+export const IconSignOut = styled(FaSignOutAlt)`
+  font-size: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  position: absolute;
+  top: 10px;
+  right: 0;
+
+  :hover {
+    color: var(--dark);
   }
 `;

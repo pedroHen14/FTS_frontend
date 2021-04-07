@@ -10,7 +10,7 @@ import {
 
 import Input from "../../components/Input";
 import imgLogo from "../../assets/FTS.png";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import formatCpf from "@brazilian-utils/format-cpf";
 
@@ -25,7 +25,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    history.push("/registerUser");
+    history.push("/home");
     console.log(login);
   };
 
