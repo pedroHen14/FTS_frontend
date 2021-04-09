@@ -13,6 +13,8 @@ import imgLogo from "../../assets/FTS.png";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import formatCpf from "@brazilian-utils/format-cpf";
+import { api } from "../../services/api";
+import { signIn } from "../../services/security";
 
 function Login() {
   const history = useHistory();
@@ -25,8 +27,15 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    history.push("/home");
-    console.log(login);
+    try {
+      const response = await api.post("session", login);
+
+      signIn(response.data);
+
+      history.push("/home");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleInput = (e) => {

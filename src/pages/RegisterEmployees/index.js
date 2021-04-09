@@ -40,7 +40,7 @@ function RegisterEmployees() {
       <NavigationMenu image={imgLogo} menuItens={testeItens} />
       <Body>
         <Header>
-          <h1>Pagina de cadastro de gerentes</h1>
+          <h1>Pagina de cadastro de funcionários</h1>
         </Header>
         <ContainerForm>
           <FormRegister onSubmit={handleSubmit}>
