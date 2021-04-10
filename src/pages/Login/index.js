@@ -2,9 +2,10 @@ import {
   Container,
   ContainerLogin,
   FormLogin,
-  ImageLogin,
+  SideLogin,
   Header,
   Button,
+  ContainerButton,
   Body,
 } from "./styles";
 
@@ -13,14 +14,17 @@ import imgLogo from "../../assets/FTS.png";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import formatCpf from "@brazilian-utils/format-cpf";
+import formatCnpj from "@brazilian-utils/format-cnpj";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
 
 function Login() {
   const history = useHistory();
 
+  const [typeLogin, setTypeLogin] = useState(false);
+
   const [login, setLogin] = useState({
-    cpf: "",
+    cpf_cnpj: "",
     password: "",
   });
 
@@ -28,7 +32,10 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await api.post("session", login);
+      const response = await api.post("session", {
+        cnpj_ou_cpf: login.cpf_cnpj,
+        password: login.password,
+      });
 
       signIn(response.data);
 
@@ -45,22 +52,41 @@ function Login() {
   return (
     <Container>
       <ContainerLogin>
-        <ImageLogin>
+        <SideLogin>
           <img src={imgLogo} alt="logo" />
-        </ImageLogin>
+          <ContainerButton>
+            <Button onClick={() => setTypeLogin(true)}>Empresa</Button>
+            <Button onClick={() => setTypeLogin(false)}>Funcionário</Button>
+          </ContainerButton>
+        </SideLogin>
+
         <FormLogin onSubmit={handleSubmit}>
           <Header>
             <h1>Faça o Login</h1>
           </Header>
           <Body>
-            <Input
-              id="cpf"
-              label="CPF"
-              type="text"
-              value={formatCpf(login.cpf)}
-              handler={handleInput}
-              required
-            />
+            {typeLogin ? (
+              <Input
+                id="cpf_cnpj"
+                label="CNPJ"
+                type="text"
+                value={formatCnpj(login.cpf_cnpj)}
+                handler={handleInput}
+                required
+                minLength="18"
+              />
+            ) : (
+              <Input
+                id="cpf_cnpj"
+                label="CPF"
+                type="text"
+                value={formatCpf(login.cpf_cnpj)}
+                handler={handleInput}
+                required
+                maxLength="14"
+              />
+            )}
+
             <Input
               id="password"
               label="Senha"
@@ -69,6 +95,7 @@ function Login() {
               handler={handleInput}
               required
             />
+
             <Button>Entrar</Button>
           </Body>
         </FormLogin>
