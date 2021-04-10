@@ -17,9 +17,9 @@ export const signOut = () => {
 };
 
 export const getUser = () => {
-  const { student } = JSON.parse(localStorage.getItem(USER_KEY));
+  const { user } = JSON.parse(localStorage.getItem(USER_KEY));
 
-  return student;
+  return user;
 };
 
 export const setUser = (student) => {

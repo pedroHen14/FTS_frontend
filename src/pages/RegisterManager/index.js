@@ -12,46 +12,102 @@ import Input from "../../components/Input";
 import Select from "../../components/Select";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { useState } from "react";
+import { useEffect } from "react";
+import { api } from "../../services/api";
+import { getUser } from "../../services/security";
 
 function RegisterManager() {
+  const company = getUser();
+
   const [register, setRegister] = useState({
     name: "",
     office: "",
+    branch: "",
     cpf: "",
     rg: "",
     password: "",
   });
 
-  const testeGerente = [
-    { id: 1, name: "Vendas" },
-    { id: 2, name: "Compras" },
-    { id: 3, name: "Estoque" },
-    { id: 4, name: "Nadas" },
-  ];
+  const [reload, setReload] = useState(null);
+
+  const [roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      try {
+        const response = await api.get("/role");
+
+        setRoles(response.data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    loadRoles();
+  }, [reload]);
 
   const testeItens = [
     { route: "/registerManager", name: "Cadastro gerente" },
     { route: "/registerEmployees", name: "Cadastro funcionário" },
   ];
 
-  const handleCategories = (e) => {
+  const handleRoles = (e) => {
     const idSel = e.target.value;
 
-    const categorySel = testeGerente.find((c) => c.id.toString() === idSel);
+    const categorySel = roles.find((c) => c.id.toString() === idSel);
 
-    if (categorySel) setRegister({ ...register, ["office"]: categorySel.id });
+    setRegister({ ...register, ["office"]: categorySel.id });
 
-    console.log(categorySel);
+    console.log(idSel);
+  };
+
+  const handleBranches = (e) => {
+    const idSel = e.target.value;
+
+    const branchSel = company.branches.find((b) => b.id.toString() === idSel);
+
+    setRegister({ ...register, ["branch"]: branchSel.id });
+
+    console.log(idSel);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await api.post("/manager", {
+        manager_name: register.name,
+        rg: register.rg,
+        cpf: register.cpf,
+        manager_password: register.password,
+        branch_id: register.branch,
+        role_id: register.office,
+      });
+
+      console.log(response.data);
+
+      handleReload();
+    } catch (error) {
+      alert(error);
+    }
 
     console.log(register);
   };
 
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
+  };
+
+  const handleReload = () => {
+    setRegister({
+      name: "",
+      office: "",
+      branch: "",
+      cpf: "",
+      rg: "",
+      password: "",
+    });
+    setReload(Math.random());
   };
 
   return (
@@ -71,11 +127,19 @@ function RegisterManager() {
               handler={handleInput}
               required
             />
-            <Select id="manager" handler={handleCategories}>
+            <Select id="manager" handler={handleRoles}>
               <option value="">Selecione o cargo</option>
-              {testeGerente.map((g) => (
+              {roles.map((g) => (
                 <option key={g.id} value={g.id}>
-                  {g.name}
+                  {g.role_name}
+                </option>
+              ))}
+            </Select>
+            <Select id="branch" handler={handleBranches}>
+              <option value="">Selecione a filial</option>
+              {company.branches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.branch_name}
                 </option>
               ))}
             </Select>
@@ -86,6 +150,7 @@ function RegisterManager() {
               value={formatCpf(register.cpf)}
               handler={handleInput}
               required
+              maxLength="14"
             />
             <Input
               id="rg"
@@ -94,7 +159,7 @@ function RegisterManager() {
               value={register.rg}
               handler={handleInput}
               required
-              maxLength="14"
+              maxLength="12"
             />
             <Input
               id="password"
