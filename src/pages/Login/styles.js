@@ -49,13 +49,16 @@ export const ContainerLogin = styled.div`
   box-shadow: 0px 0px 10px black;
 `;
 
-export const ImageLogin = styled.div`
+export const SideLogin = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 20px;
   flex: 1;
   border-radius: 4px 0px 0px 4px;
   background-color: var(--primary);
+  padding: 10px;
 
   > img {
     width: 100px;
@@ -101,4 +104,15 @@ export const Body = styled.section`
 export const Button = styled.button`
   width: 100%;
   margin-top: 10px;
+`;
+
+export const ContainerButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  button {
+    flex: 1;
+  }
 `;
