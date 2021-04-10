@@ -9,7 +9,7 @@ function Home() {
 
   const teste = [
     { route: "/registerManager", name: "Cadastro gerente" },
-    { route: "/registerUser", name: "Cadastro funcionário" },
+    { route: "/registerEmployees", name: "Cadastro funcionário" },
   ];
 
   const handleSignOut = () => {

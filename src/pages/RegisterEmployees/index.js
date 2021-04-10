@@ -8,11 +8,15 @@ import {
   FormRegister,
   Button,
 } from "./styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import formatCpf from "@brazilian-utils/format-cpf";
 import Input from "../../components/Input";
+import { getUser } from "../../services/security";
+import { api } from "../../services/api";
 
 function RegisterEmployees() {
+  const manager = getUser();
+
   const [register, setRegister] = useState({
     name: "",
     cpf: "",
@@ -27,6 +31,20 @@ function RegisterEmployees() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await api.post("/user", {
+        user_name: register.name,
+        rg: register.rg,
+        cpf: register.cpf,
+        user_password: register.password,
+        manager_id: manager.id,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      alert(error);
+    }
 
     console.log(register);
   };
@@ -59,6 +77,7 @@ function RegisterEmployees() {
               value={formatCpf(register.cpf)}
               handler={handleInput}
               required
+              maxLength="14"
             />
             <Input
               id="rg"
@@ -67,7 +86,7 @@ function RegisterEmployees() {
               value={register.rg}
               handler={handleInput}
               required
-              maxLength="14"
+              maxLength="12"
             />
             <Input
               id="password"
