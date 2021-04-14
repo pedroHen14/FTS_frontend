@@ -2,10 +2,9 @@ import {
   Container,
   ContainerLogin,
   FormLogin,
-  SideLogin,
+  ImageLogin,
   Header,
   Button,
-  ContainerButton,
   Body,
 } from "./styles";
 
@@ -20,8 +19,6 @@ import { signIn } from "../../services/security";
 
 function Login() {
   const history = useHistory();
-
-  const [typeLogin, setTypeLogin] = useState(false);
 
   const [login, setLogin] = useState({
     cpf_cnpj: "",
@@ -52,40 +49,27 @@ function Login() {
   return (
     <Container>
       <ContainerLogin>
-        <SideLogin>
+        <ImageLogin>
           <img src={imgLogo} alt="logo" />
-          <ContainerButton>
-            <Button onClick={() => setTypeLogin(true)}>Empresa</Button>
-            <Button onClick={() => setTypeLogin(false)}>Funcionário</Button>
-          </ContainerButton>
-        </SideLogin>
+        </ImageLogin>
 
         <FormLogin onSubmit={handleSubmit}>
           <Header>
             <h1>Faça o Login</h1>
           </Header>
           <Body>
-            {typeLogin ? (
-              <Input
-                id="cpf_cnpj"
-                label="CNPJ"
-                type="text"
-                value={formatCnpj(login.cpf_cnpj)}
-                handler={handleInput}
-                required
-                minLength="18"
-              />
-            ) : (
-              <Input
-                id="cpf_cnpj"
-                label="CPF"
-                type="text"
-                value={formatCpf(login.cpf_cnpj)}
-                handler={handleInput}
-                required
-                maxLength="14"
-              />
-            )}
+            <Input
+              id="cpf_cnpj"
+              label="CPF/CNPJ"
+              type="text"
+              value={
+                login.cpf_cnpj.length < 15
+                  ? formatCpf(login.cpf_cnpj)
+                  : formatCnpj(login.cpf_cnpj)
+              }
+              handler={handleInput}
+              required
+            />
 
             <Input
               id="password"

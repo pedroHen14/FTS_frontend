@@ -49,7 +49,7 @@ export const ContainerLogin = styled.div`
   box-shadow: 0px 0px 10px black;
 `;
 
-export const SideLogin = styled.div`
+export const ImageLogin = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
