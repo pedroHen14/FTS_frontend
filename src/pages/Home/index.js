@@ -8,8 +8,8 @@ function Home() {
   const history = useHistory();
 
   const teste = [
-    { route: "/registerManager", name: "Cadastro gerente" },
-    { route: "/registerEmployees", name: "Cadastro funcionário" },
+    { id: 1, route: "/registerManager", name: "Cadastro gerente" },
+    { id: 2, route: "/registerEmployees", name: "Cadastro funcionário" },
   ];
 
   const handleSignOut = () => {

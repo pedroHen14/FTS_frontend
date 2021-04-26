@@ -9,7 +9,7 @@ function NavigationMenu({ image, menuItens, handleSignOut }) {
       </ImageLogo>
       <Items>
         {menuItens.map((i) => (
-          <li>
+          <li key={i.id}>
             <Link to={i.route}>
               <h1>{i.name}</h1>
             </Link>

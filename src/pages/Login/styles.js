@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import bgImg from "../../assets/bg.jpg";
+import { Button } from "@material-ui/core";
 
 export const Container = styled.div`
   width: 100vw;
@@ -7,6 +8,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   ::before {
     content: "";
@@ -101,9 +103,10 @@ export const Body = styled.section`
   width: 100%;
 `;
 
-export const Button = styled.button`
+export const ButtonLogin = styled(Button)`
   width: 100%;
   margin-top: 10px;
+  background-color: blue;
 `;
 
 export const ContainerButton = styled.div`

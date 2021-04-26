@@ -24,7 +24,7 @@ export const GlobalStyles = createGlobalStyle`
         user-select:none;
     }
 
-    button{
+    /* button{
         padding:10px;
         font-weight:bold;
         color:var(--light);
@@ -49,7 +49,7 @@ export const GlobalStyles = createGlobalStyle`
             border:1px solid var(--darkGray);
             color:var(--darkGray);
         }
-    }
+    } */
 
     a{
         color:var(--secondary);

@@ -4,8 +4,8 @@ import {
   FormLogin,
   ImageLogin,
   Header,
-  Button,
   Body,
+  ButtonLogin,
 } from "./styles";
 
 import Input from "../../components/Input";
@@ -16,6 +16,8 @@ import formatCpf from "@brazilian-utils/format-cpf";
 import formatCnpj from "@brazilian-utils/format-cnpj";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const history = useHistory();
@@ -24,6 +26,18 @@ function Login() {
     cpf_cnpj: "",
     password: "",
   });
+
+  const notify = () => {
+    toast.error("Usuário/senha incorretos!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +52,7 @@ function Login() {
 
       history.push("/home");
     } catch (error) {
+      notify();
       console.error(error);
     }
   };
@@ -48,6 +63,7 @@ function Login() {
 
   return (
     <Container>
+      <ToastContainer style={{ color: "white" }} />
       <ContainerLogin>
         <ImageLogin>
           <img src={imgLogo} alt="logo" />
@@ -80,7 +96,16 @@ function Login() {
               required
             />
 
-            <Button>Entrar</Button>
+            <ButtonLogin
+              type="submit"
+              variant="contained"
+              style={{
+                backgroundColor: "var(--primary)",
+                color: "var(--secondary)",
+              }}
+            >
+              Entrar
+            </ButtonLogin>
           </Body>
         </FormLogin>
       </ContainerLogin>
