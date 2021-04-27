@@ -1,21 +1,15 @@
 import NavigationMenu from "../../components/NavigationMenu";
 import imgLogo from "../../assets/FTS.png";
-import {
-  Body,
-  Container,
-  Header,
-  ContainerForm,
-  FormRegister,
-  Button,
-} from "./styles";
+import { Body, Container, Header, ContainerForm, FormRegister } from "./styles";
 import { useEffect, useState } from "react";
 import formatCpf from "@brazilian-utils/format-cpf";
 import Input from "../../components/Input";
 import { getUser } from "../../services/security";
 import { api } from "../../services/api";
+import { Button } from "@material-ui/core";
 
 function RegisterEmployees() {
-  const manager = getUser();
+  // const manager = getUser();
 
   const [register, setRegister] = useState({
     name: "",
@@ -38,7 +32,7 @@ function RegisterEmployees() {
         rg: register.rg,
         cpf: register.cpf,
         user_password: register.password,
-        manager_id: manager.id,
+        // manager_id: manager.id,
       });
 
       console.log(response.data);
@@ -96,7 +90,16 @@ function RegisterEmployees() {
               handler={handleInput}
               required
             />
-            <Button>Cadastrar</Button>
+            <Button
+              type="submit"
+              variant="contained"
+              style={{
+                backgroundColor: "var(--primary)",
+                color: "var(--secondary)",
+              }}
+            >
+              Cadastrar
+            </Button>
           </FormRegister>
         </ContainerForm>
       </Body>

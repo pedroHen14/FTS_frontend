@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Container, IconSignOut, ImageLogo, Items } from "./styles";
 
 function NavigationMenu({ image, menuItens, handleSignOut }) {
+  menuItens.map((m) => console.log(m.Screens));
   return (
     <Container>
       <ImageLogo>
@@ -9,9 +10,9 @@ function NavigationMenu({ image, menuItens, handleSignOut }) {
       </ImageLogo>
       <Items>
         {menuItens.map((i) => (
-          <li key={i.id}>
-            <Link to={i.route}>
-              <h1>{i.name}</h1>
+          <li key={i.Screens.id}>
+            <Link to="">
+              <h1>{i.Screens.screen_name}</h1>
             </Link>
           </li>
         ))}

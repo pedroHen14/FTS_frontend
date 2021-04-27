@@ -1,16 +1,15 @@
 import NavigationMenu from "../../components/NavigationMenu";
 import imgLogo from "../../assets/FTS.png";
 import { Body, Container } from "./styles";
-import { signOut } from "../../services/security";
+import { getUser, signOut } from "../../services/security";
 import { useHistory } from "react-router";
 
 function Home() {
   const history = useHistory();
 
-  const teste = [
-    { id: 1, route: "/registerManager", name: "Cadastro gerente" },
-    { id: 2, route: "/registerEmployees", name: "Cadastro funcionário" },
-  ];
+  const user = getUser();
+
+  console.log(user.permissions);
 
   const handleSignOut = () => {
     signOut();
@@ -22,7 +21,7 @@ function Home() {
     <Container>
       <NavigationMenu
         image={imgLogo}
-        menuItens={teste}
+        menuItens={user.permissions}
         handleSignOut={() => handleSignOut()}
       />
       <Body>
