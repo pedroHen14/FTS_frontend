@@ -1,16 +1,18 @@
 import NavigationMenu from "../../components/NavigationMenu";
 import imgLogo from "../../assets/FTS.png";
 import { Body, Container } from "./styles";
-import { signOut } from "../../services/security";
+import { getUser, signOut } from "../../services/security";
 import { useHistory } from "react-router";
+import { useState } from "react";
+import { api } from "../../services/api";
+import { useEffect } from "react";
 
 function Home() {
   const history = useHistory();
 
-  const teste = [
-    { id: 1, route: "/registerManager", name: "Cadastro gerente" },
-    { id: 2, route: "/registerEmployees", name: "Cadastro funcionário" },
-  ];
+  const user = getUser();
+
+  console.log(user);
 
   const handleSignOut = () => {
     signOut();
@@ -20,11 +22,7 @@ function Home() {
 
   return (
     <Container>
-      <NavigationMenu
-        image={imgLogo}
-        menuItens={teste}
-        handleSignOut={() => handleSignOut()}
-      />
+      <NavigationMenu image={imgLogo} handleSignOut={() => handleSignOut()} />
       <Body>
         <h1>Seja bem-vindo ao nosso sistema de gerenciamento comercial</h1>
       </Body>

@@ -3,7 +3,8 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import RegisterManager from "./pages/RegisterManager";
 import RegisterEmployees from "./pages/RegisterEmployees";
-import { isSignedIn } from "./services/security";
+import { getUser, isSignedIn } from "./services/security";
+import { useEffect } from "react";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -25,11 +26,11 @@ function Router() {
           <Home />
         </PrivateRoute>
 
-        <Route path="/registerManager">
+        <Route path="/managersRegister">
           <RegisterManager />
         </Route>
 
-        <Route path="/registerEmployees">
+        <Route path="/employeesRegister">
           <RegisterEmployees />
         </Route>
       </Switch>
