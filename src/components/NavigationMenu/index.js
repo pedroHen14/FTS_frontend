@@ -1,27 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "../../services/api";
-import { getUser, signOut } from "../../services/security";
+import { getUser } from "../../services/security";
+
 import { Container, IconSignOut, ImageLogo, Items } from "./styles";
 
 function NavigationMenu({ image, handleSignOut }) {
   const user = getUser();
-
-  const [menuItens, setMenuItens] = useState([]);
-
-  useEffect(() => {
-    const loadMenuItens = async () => {
-      try {
-        const response = await api.get(`/user/${user.id}`);
-
-        console.log(response.data);
-
-        setMenuItens(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }, []);
 
   return (
     <Container>
@@ -29,13 +12,15 @@ function NavigationMenu({ image, handleSignOut }) {
         <img src={image} alt="Logo" />
       </ImageLogo>
       <Items>
-        {menuItens.map((i) => (
-          <li key={i.id}>
-            <Link to="">
-              <h1>{i.user_name}</h1>
-            </Link>
-          </li>
-        ))}
+        {user.permissions.map((p) => {
+          return p.Screens.map((s) => (
+            <li key={s.id}>
+              <Link to={`/${s.route}`}>
+                <h3>{s.screen_name}</h3>
+              </Link>
+            </li>
+          ));
+        })}
       </Items>
       <IconSignOut onClick={handleSignOut} />
     </Container>

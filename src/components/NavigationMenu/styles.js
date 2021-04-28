@@ -35,17 +35,13 @@ export const ImageLogo = styled.div`
 export const Items = styled.ul`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 20px;
   padding: 20px;
 
   li {
     list-style: none;
-  }
-
-  h1 {
-    font-size: 25px;
   }
 `;
 

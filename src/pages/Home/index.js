@@ -10,10 +10,6 @@ import { useEffect } from "react";
 function Home() {
   const history = useHistory();
 
-  const user = getUser();
-
-  console.log(user);
-
   const handleSignOut = () => {
     signOut();
 
