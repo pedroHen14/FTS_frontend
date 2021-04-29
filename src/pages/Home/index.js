@@ -1,11 +1,8 @@
 import NavigationMenu from "../../components/NavigationMenu";
 import imgLogo from "../../assets/FTS.png";
 import { Body, Container } from "./styles";
-import { getUser, signOut } from "../../services/security";
+import { signOut } from "../../services/security";
 import { useHistory } from "react-router";
-import { useState } from "react";
-import { api } from "../../services/api";
-import { useEffect } from "react";
 
 function Home() {
   const history = useHistory();

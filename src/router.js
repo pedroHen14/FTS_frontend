@@ -1,10 +1,8 @@
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import RegisterManager from "./pages/RegisterManager";
-import RegisterEmployees from "./pages/RegisterEmployees";
-import { getUser, isSignedIn } from "./services/security";
-import { useEffect } from "react";
+import { isSignedIn } from "./services/security";
+import UsersRegister from "./pages/UsersRegister";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -26,12 +24,8 @@ function Router() {
           <Home />
         </PrivateRoute>
 
-        <Route path="/managersRegister">
-          <RegisterManager />
-        </Route>
-
-        <Route path="/employeesRegister">
-          <RegisterEmployees />
+        <Route path="/usersRegister">
+          <UsersRegister />
         </Route>
       </Switch>
     </BrowserRouter>

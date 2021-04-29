@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button } from "@material-ui/core";
 
 export const Container = styled.div`
   width: 100vw;
@@ -43,9 +44,14 @@ export const FormRegister = styled.form`
   justify-content: center;
   text-align: center;
   overflow: hidden;
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
-export const Button = styled.button`
+export const ButtonRegister = styled(Button)`
   width: 30%;
   margin-top: 20px;
   border-radius: 10px;
