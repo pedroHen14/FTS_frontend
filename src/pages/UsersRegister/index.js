@@ -43,8 +43,6 @@ function UsersRegister() {
 
   const permissionsRef = useRef();
 
-  console.log(user);
-
   useEffect(() => {
     const loadRoles = async () => {
       try {
@@ -74,7 +72,7 @@ function UsersRegister() {
   const handlePermissions = (e) => {
     const idSel = e.target.value;
 
-    const permissionSel = permissions.find((c) => c.id.toString() === idSel);
+    const permissionSel = permissions.find((p) => p.id.toString() === idSel);
 
     if (permissionSel && !permissionsSel.includes(permissionSel))
       setPermissionsSel([...permissionsSel, permissionSel]);
@@ -96,11 +94,9 @@ function UsersRegister() {
   const handleRoles = (e) => {
     const idSel = e.target.value;
 
-    const categorySel = roles.find((c) => c.id.toString() === idSel);
+    const roleSel = roles.find((c) => c.id.toString() === idSel);
 
-    setRegister({ ...register, ["role"]: categorySel.id });
-
-    console.log(idSel);
+    setRegister({ ...register, ["role"]: roleSel?.id });
   };
 
   const handleBranches = (e) => {
@@ -108,17 +104,14 @@ function UsersRegister() {
 
     const branchSel = user.branches.find((b) => b.id.toString() === idSel);
 
-    setRegister({ ...register, ["branch"]: branchSel.id });
-
-    console.log(idSel);
+    setRegister({ ...register, ["branch"]: branchSel?.id });
+    // else setRegister({ ...register, ["branch"]: "" });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const permissions = permissionsSel.reduce((s, p) => (s += p.id + ","), "");
-
-    console.log(permissions);
 
     try {
       const response = await api.post("/user", {
@@ -127,32 +120,33 @@ function UsersRegister() {
         cpf: register.cpf,
         user_password: register.password,
         permissions: permissions.substr(0, permissions.length - 1),
-        branch_id: register.branch,
+        branch_id: parseInt(register.branch),
         role_id: register.role,
       });
 
-      handleReload();
+      handleReload(e);
     } catch (error) {
       alert(error);
     }
-
-    console.log(register);
   };
 
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
   };
 
-  const handleReload = () => {
+  const handleReload = (e) => {
     setRegister({
       name: "",
       role: "",
       branch: "",
-      permissions: "",
       cpf: "",
       rg: "",
       password: "",
     });
+
+    setPermissions([]);
+    setPermissionsSel([]);
+
     setReload(Math.random());
   };
 
@@ -208,7 +202,7 @@ function UsersRegister() {
               handler={handleInput}
               required
             />
-            <Select id="role" handler={handleRoles}>
+            <Select id="role" value={register.role} handler={handleRoles}>
               <option value="">Selecione o cargo</option>
               {roles.map((g) => (
                 <option key={g.id} value={g.id}>
@@ -217,7 +211,11 @@ function UsersRegister() {
               ))}
             </Select>
             {user.branches && (
-              <Select id="branch" handler={handleBranches}>
+              <Select
+                id="branch"
+                value={register.branch}
+                handler={handleBranches}
+              >
                 <option value="">Selecione a filial</option>
                 {user.branches.map((b) => (
                   <option key={b.id} value={b.id}>
