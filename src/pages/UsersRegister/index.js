@@ -43,6 +43,8 @@ function UsersRegister() {
 
   const permissionsRef = useRef();
 
+  console.log(user);
+
   useEffect(() => {
     const loadRoles = async () => {
       try {
@@ -214,14 +216,16 @@ function UsersRegister() {
                 </option>
               ))}
             </Select>
-            <Select id="branch" handler={handleBranches}>
-              <option value="">Selecione a filial</option>
-              {user.branches.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.branch_name}
-                </option>
-              ))}
-            </Select>
+            {user.branches && (
+              <Select id="branch" handler={handleBranches}>
+                <option value="">Selecione a filial</option>
+                {user.branches.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.branch_name}
+                  </option>
+                ))}
+              </Select>
+            )}
             <Select
               id="permissions"
               handler={handlePermissions}
