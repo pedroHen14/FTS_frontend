@@ -24,9 +24,21 @@ function Router() {
           <Home />
         </PrivateRoute>
 
-        <Route path="/usersRegister">
+        <PrivateRoute path="/usersRegister">
           <UsersRegister />
-        </Route>
+        </PrivateRoute>
+
+        <PrivateRoute path="/inventoryReports">
+          <InventoryReports />
+        </PrivateRoute>
+
+        <PrivateRoute path="/salesReports">
+          <SalesReports />
+        </PrivateRoute>
+
+        <PrivateRoute path="/purchasesReports">
+          <PurchasesReports />
+        </PrivateRoute>
       </Switch>
     </BrowserRouter>
   );
