@@ -3,6 +3,9 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { isSignedIn } from "./services/security";
 import UsersRegister from "./pages/UsersRegister";
+import InventoryReports from "./pages/InventoryReports";
+import PurchasesReports from "./pages/PurchasesReports";
+import SalesReports from "./pages/SalesReports";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {

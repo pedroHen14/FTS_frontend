@@ -6,6 +6,7 @@
     "@brazilian-utils/format-cnpj": "^0.1.9",
     "@brazilian-utils/format-cpf": "^0.1.8",
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",

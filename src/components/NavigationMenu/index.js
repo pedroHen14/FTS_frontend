@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
-import { getUser } from "../../services/security";
+import { Link, useHistory } from "react-router-dom";
+import { getUser, signOut } from "../../services/security";
 
 import { Container, IconSignOut, ImageLogo, Items } from "./styles";
 
-function NavigationMenu({ image, handleSignOut }) {
+function NavigationMenu({ image }) {
   const user = getUser();
+
+  const history = useHistory();
+
+  const handleSignOut = () => {
+    signOut();
+
+    history.replace("/");
+  };
 
   return (
     <Container>
