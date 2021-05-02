@@ -44,11 +44,18 @@ export const FormRegister = styled.form`
   justify-content: center;
   text-align: center;
   overflow: hidden;
+  padding: 10px;
 
   > div {
     display: flex;
     flex-wrap: wrap;
   }
+`;
+
+export const ContainerInput = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
 `;
 
 export const ButtonRegister = styled(Button)`

@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 100%;
   margin-top: 10px;
-
   display: flex;
   flex-direction: column;
 
@@ -12,7 +11,9 @@ export const Container = styled.div`
   }
 
   > select {
-    height: 30px;
+    height: 50px;
+    border-radius: 3px;
+    background-color: white;
     font-size: 16px;
   }
 `;

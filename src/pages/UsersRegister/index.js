@@ -1,4 +1,9 @@
-import { ButtonRegister, ContainerForm, FormRegister } from "./styles";
+import {
+  ButtonRegister,
+  ContainerForm,
+  ContainerInput,
+  FormRegister,
+} from "./styles";
 import Select from "../../components/Select";
 import Tag from "../../components/Tag";
 import { useState } from "react";
@@ -8,7 +13,7 @@ import { getUser } from "../../services/security";
 import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
-import { TextField } from "@material-ui/core";
+import { FormControl, TextField } from "@material-ui/core";
 import formatCpf from "@brazilian-utils/format-cpf";
 
 function UsersRegister() {
@@ -163,41 +168,54 @@ function UsersRegister() {
       <ToastContainer style={{ color: "white" }} />
       <ContainerForm>
         <FormRegister onSubmit={handleSubmit}>
-          <TextField
-            id="name"
-            label="Nome"
-            type="text"
-            value={register.name}
-            onChange={handleInput}
-            required
-          />
-
-          <TextField
-            id="cpf"
-            label="CPF"
-            type="text"
-            value={formatCpf(register.cpf)}
-            onChange={handleInput}
-            required
-            maxLength="14"
-          />
-          <TextField
-            id="rg"
-            label="RG"
-            type="text"
-            value={register.rg}
-            onChange={handleInput}
-            required
-            maxLength="12"
-          />
-          <TextField
-            id="password"
-            label="Senha"
-            type="password"
-            value={register.password}
-            onChange={handleInput}
-            required
-          />
+          <ContainerInput>
+            <TextField
+              style={{ flex: 1 }}
+              id="name"
+              label="Nome"
+              type="text"
+              variant="outlined"
+              value={register.name}
+              onChange={handleInput}
+              required
+            />
+          </ContainerInput>
+          <ContainerInput>
+            <TextField
+              style={{ flex: 1 }}
+              id="cpf"
+              variant="outlined"
+              label="CPF"
+              type="text"
+              value={formatCpf(register.cpf)}
+              onChange={handleInput}
+              required
+              inputProps={{ maxLength: "14" }}
+            />
+            <TextField
+              style={{ flex: 1 }}
+              id="rg"
+              variant="outlined"
+              label="RG"
+              type="text"
+              value={register.rg}
+              onChange={handleInput}
+              required
+              inputProps={{ maxLength: "12" }}
+            />
+          </ContainerInput>
+          <ContainerInput>
+            <TextField
+              id="password"
+              style={{ flex: 1 }}
+              variant="outlined"
+              label="Senha"
+              type="password"
+              value={register.password}
+              onChange={handleInput}
+              required
+            />
+          </ContainerInput>
           <Select id="role" value={register.role} handler={handleRoles}>
             <option value="">Selecione o cargo</option>
             {roles.map((g) => (
