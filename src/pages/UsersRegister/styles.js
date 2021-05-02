@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 
 export const Container = styled.div`
   width: 100vw;
@@ -40,7 +40,7 @@ export const FormRegister = styled.form`
   width: 100%;
   gap: 20px;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   text-align: center;
   overflow: hidden;
@@ -59,7 +59,11 @@ export const ContainerInput = styled.div`
 `;
 
 export const ButtonRegister = styled(Button)`
-  width: 30%;
+  width: 50%;
   margin-top: 20px;
   border-radius: 10px;
+`;
+
+export const Input = styled(TextField)`
+  flex: 1;
 `;

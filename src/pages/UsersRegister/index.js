@@ -3,6 +3,7 @@ import {
   ContainerForm,
   ContainerInput,
   FormRegister,
+  Input,
 } from "./styles";
 import Select from "../../components/Select";
 import Tag from "../../components/Tag";
@@ -169,8 +170,7 @@ function UsersRegister() {
       <ContainerForm>
         <FormRegister onSubmit={handleSubmit}>
           <ContainerInput>
-            <TextField
-              style={{ flex: 1 }}
+            <Input
               id="name"
               label="Nome"
               type="text"
@@ -181,8 +181,7 @@ function UsersRegister() {
             />
           </ContainerInput>
           <ContainerInput>
-            <TextField
-              style={{ flex: 1 }}
+            <Input
               id="cpf"
               variant="outlined"
               label="CPF"
@@ -192,8 +191,7 @@ function UsersRegister() {
               required
               inputProps={{ maxLength: "14" }}
             />
-            <TextField
-              style={{ flex: 1 }}
+            <Input
               id="rg"
               variant="outlined"
               label="RG"
@@ -205,9 +203,8 @@ function UsersRegister() {
             />
           </ContainerInput>
           <ContainerInput>
-            <TextField
+            <Input
               id="password"
-              style={{ flex: 1 }}
               variant="outlined"
               label="Senha"
               type="password"
@@ -267,7 +264,7 @@ function UsersRegister() {
               color: "var(--secondary)",
             }}
           >
-            Entrar
+            Cadastrar
           </ButtonRegister>
         </FormRegister>
       </ContainerForm>
