@@ -8,7 +8,6 @@ import {
   ButtonLogin,
 } from "./styles";
 
-import Input from "../../components/Input";
 import imgLogo from "../../assets/FTS.png";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -18,6 +17,15 @@ import { api } from "../../services/api";
 import { signIn } from "../../services/security";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  FormControl,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
+  TextField,
+} from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 function Login() {
   const history = useHistory();
@@ -26,6 +34,8 @@ function Login() {
     cpf_cnpj: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const notify = () => {
     toast.error("Usuário/senha incorretos!", {
@@ -74,27 +84,44 @@ function Login() {
             <h1>Faça o Login</h1>
           </Header>
           <Body>
-            <Input
+            <TextField
               id="cpf_cnpj"
               label="CPF/CNPJ"
+              variant="standard"
               type="text"
               value={
                 login.cpf_cnpj.length < 15
                   ? formatCpf(login.cpf_cnpj)
                   : formatCnpj(login.cpf_cnpj)
               }
-              handler={handleInput}
+              onChange={handleInput}
               required
             />
 
-            <Input
-              id="password"
-              label="Senha"
-              type="password"
-              value={login.password}
-              handler={handleInput}
-              required
-            />
+            <FormControl>
+              <InputLabel htmlFor="standard-adornment-password">
+                Senha
+              </InputLabel>
+              <Input
+                id="password"
+                label="Senha"
+                variant="standard"
+                type={showPassword ? "text" : "password"}
+                value={login.password}
+                onChange={handleInput}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                required
+              />
+            </FormControl>
 
             <ButtonLogin
               type="submit"
