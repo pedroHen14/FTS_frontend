@@ -1,27 +1,17 @@
-import NavigationMenu from "../../components/NavigationMenu";
-import imgLogo from "../../assets/FTS.png";
-import {
-  Body,
-  ButtonRegister,
-  Container,
-  ContainerForm,
-  FormRegister,
-  Header,
-} from "./styles";
-import Input from "../../components/Input";
+import { ButtonRegister, ContainerForm, FormRegister } from "./styles";
 import Select from "../../components/Select";
 import Tag from "../../components/Tag";
-import formatCpf from "@brazilian-utils/format-cpf";
 import { useState } from "react";
 import { useEffect } from "react";
 import { api } from "../../services/api";
-import { getUser, signOut } from "../../services/security";
-import { useHistory } from "react-router";
+import { getUser } from "../../services/security";
 import { useRef } from "react";
+import Dashboard from "../../layouts/Dashboard";
+import { toast, ToastContainer } from "react-toastify";
+import { TextField } from "@material-ui/core";
+import formatCpf from "@brazilian-utils/format-cpf";
 
 function UsersRegister() {
-  const history = useHistory();
-
   const user = getUser();
 
   const [register, setRegister] = useState({
@@ -108,25 +98,41 @@ function UsersRegister() {
     // else setRegister({ ...register, ["branch"]: "" });
   };
 
+  const notify = () => {
+    toast.success("Usuário cadastrado com sucesso!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const permissions = permissionsSel.reduce((s, p) => (s += p.id + ","), "");
 
     try {
-      const response = await api.post("/user", {
+      await api.post("/user", {
         user_name: register.name,
         rg: register.rg,
         cpf: register.cpf,
         user_password: register.password,
         permissions: permissions.substr(0, permissions.length - 1),
-        branch_id: parseInt(register.branch),
+        branch_id: register.branch ? register.branch : user.branch.company_id,
         role_id: register.role,
       });
 
       handleReload(e);
+
+      notify();
     } catch (error) {
       alert(error);
+
+      console.log(user);
     }
   };
 
@@ -150,115 +156,104 @@ function UsersRegister() {
     setReload(Math.random());
   };
 
-  const handleSignOut = () => {
-    signOut();
-
-    history.replace("/");
-  };
-
   console.log(permissionsSel.reduce((s, p) => (s += p.id + ","), ""));
 
   return (
-    <Container>
-      <NavigationMenu image={imgLogo} handleSignOut={() => handleSignOut()} />
-      <Body>
-        <Header>
-          <h1>Pagina de cadastro de gerentes</h1>
-        </Header>
-        <ContainerForm>
-          <FormRegister onSubmit={handleSubmit}>
-            <Input
-              id="name"
-              label="Nome"
-              type="text"
-              value={register.name}
-              handler={handleInput}
-              required
-            />
+    <Dashboard title="Cadastro de usuários">
+      <ToastContainer style={{ color: "white" }} />
+      <ContainerForm>
+        <FormRegister onSubmit={handleSubmit}>
+          <TextField
+            id="name"
+            label="Nome"
+            type="text"
+            value={register.name}
+            onChange={handleInput}
+            required
+          />
 
-            <Input
-              id="cpf"
-              label="CPF"
-              type="text"
-              value={formatCpf(register.cpf)}
-              handler={handleInput}
-              required
-              maxLength="14"
-            />
-            <Input
-              id="rg"
-              label="RG"
-              type="text"
-              value={register.rg}
-              handler={handleInput}
-              required
-              maxLength="12"
-            />
-            <Input
-              id="password"
-              label="Senha"
-              type="password"
-              value={register.password}
-              handler={handleInput}
-              required
-            />
-            <Select id="role" value={register.role} handler={handleRoles}>
-              <option value="">Selecione o cargo</option>
-              {roles.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.role_name}
-                </option>
-              ))}
-            </Select>
-            {user.branches && (
-              <Select
-                id="branch"
-                value={register.branch}
-                handler={handleBranches}
-              >
-                <option value="">Selecione a filial</option>
-                {user.branches.map((b) => (
-                  <option key={b.id} value={b.id}>
-                    {b.branch_name}
-                  </option>
-                ))}
-              </Select>
-            )}
+          <TextField
+            id="cpf"
+            label="CPF"
+            type="text"
+            value={formatCpf(register.cpf)}
+            onChange={handleInput}
+            required
+            maxLength="14"
+          />
+          <TextField
+            id="rg"
+            label="RG"
+            type="text"
+            value={register.rg}
+            onChange={handleInput}
+            required
+            maxLength="12"
+          />
+          <TextField
+            id="password"
+            label="Senha"
+            type="password"
+            value={register.password}
+            onChange={handleInput}
+            required
+          />
+          <Select id="role" value={register.role} handler={handleRoles}>
+            <option value="">Selecione o cargo</option>
+            {roles.map((g) => (
+              <option key={g.id} value={g.id}>
+                {g.role_name}
+              </option>
+            ))}
+          </Select>
+          {user.branches && (
             <Select
-              id="permissions"
-              handler={handlePermissions}
-              ref={permissionsRef}
+              id="branch"
+              value={register.branch}
+              handler={handleBranches}
             >
-              <option value="">Selecione as permissões</option>
-              {permissions.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.permission_name}
+              <option value="">Selecione a filial</option>
+              {user.branches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.branch_name}
                 </option>
               ))}
             </Select>
-            <div>
-              {permissionsSel.map((c) => (
-                <Tag
-                  key={c.id}
-                  info={c.permission_name}
-                  handleClose={() => handleUnselPermission(c.id)}
-                ></Tag>
-              ))}
-            </div>
-            <ButtonRegister
-              type="submit"
-              variant="contained"
-              style={{
-                backgroundColor: "var(--primary)",
-                color: "var(--secondary)",
-              }}
-            >
-              Entrar
-            </ButtonRegister>
-          </FormRegister>
-        </ContainerForm>
-      </Body>
-    </Container>
+          )}
+          <Select
+            id="permissions"
+            handler={handlePermissions}
+            ref={permissionsRef}
+          >
+            <option value="">Selecione as permissões</option>
+            {permissions.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.permission_name}
+              </option>
+            ))}
+          </Select>
+          <div>
+            {permissionsSel.map((c) => (
+              <Tag
+                key={c.id}
+                info={c.permission_name}
+                handleClose={() => handleUnselPermission(c.id)}
+              ></Tag>
+            ))}
+          </div>
+          <ButtonRegister
+            type="submit"
+            variant="contained"
+            style={{
+              backgroundColor: "var(--primary)",
+              color: "var(--secondary)",
+            }}
+          >
+            Entrar
+          </ButtonRegister>
+        </FormRegister>
+      </ContainerForm>
+    </Dashboard>
   );
 }
 
