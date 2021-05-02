@@ -11,7 +11,7 @@ export const Body = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   padding: 20px;
   align-items: center;
