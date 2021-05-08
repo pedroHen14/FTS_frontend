@@ -31,13 +31,19 @@ export const ImageLogo = styled.img`
 export const Content = styled.div`
   width: 100%;
   height: 85vh;
-  display: grid;
-
+  display: flex;
+  justify-content: space-around;
   padding: 20px;
   gap: 20px;
-  grid-template-areas:
-    "container-image container-screen"
-    "container-input container-screen";
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-around;
+  }
 `;
 
 export const ContainerInput = styled.div`
@@ -46,28 +52,35 @@ export const ContainerInput = styled.div`
   justify-content: center;
   color: black;
   align-items: flex-start;
-
+  font-size: 20px;
   gap: 20px;
-  background-color: blue;
-  grid-area: "container-input";
 `;
 
 export const ContainerScreen = styled.div`
   display: flex;
   align-items: center;
-
-  grid-area: "container-screen";
-  justify-items: center;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
   max-width: 700px;
-  background-color: red;
   color: black;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dark);
+    width: 100%;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+  }
 `;
 
 export const ContainerImage = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  grid-area: "container-image";
+  justify-content: flex-start;
 
   img {
     display: flex;
@@ -107,18 +120,18 @@ export const Screen = styled.div`
   }
 `;
 
-export const ScreenHeader = styled.div`
+export const TotalSub = styled.div`
   display: flex;
+  flex-direction: column;
+  border-radius: 5px;
   align-items: center;
   justify-content: center;
-  background-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid var(--dark);
   width: 100%;
-  color: white;
-  padding: 10px;
-`;
 
-export const ContainerButton = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
+  h3 {
+    font-size: 30px;
+    padding: 10px;
+  }
 `;
