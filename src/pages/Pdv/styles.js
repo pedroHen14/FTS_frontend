@@ -5,7 +5,6 @@ export const Container = styled.div`
   width: 100%;
   height: 100vh;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -37,25 +36,31 @@ export const Content = styled.div`
   padding: 20px;
   gap: 20px;
   grid-template-areas:
-    "container-image container-input"
-    "container-screen container-screen";
+    "container-image container-screen"
+    "container-input container-screen";
 `;
 
 export const ContainerInput = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
+  color: black;
   align-items: flex-start;
+
   gap: 20px;
+  background-color: blue;
   grid-area: "container-input";
 `;
 
 export const ContainerScreen = styled.div`
   display: flex;
   align-items: center;
+
   grid-area: "container-screen";
   justify-items: center;
+  max-width: 700px;
+  background-color: red;
+  color: black;
 `;
 
 export const ContainerImage = styled.div`

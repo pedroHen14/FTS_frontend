@@ -35,31 +35,10 @@ function Pdv() {
         <h1>Caixa aberto</h1>
       </Header>
       <Content>
-        <ContainerInput>
-          <FormControl>
-            <InputLabel htmlFor="code">Código do produto</InputLabel>
-            <Input
-              id="code"
-              label="Código do produto"
-              type="text"
-              variant="outlined"
-              value={code}
-              onChange={handleInput}
-              required
-            />
-          </FormControl>
-          <div className="unit-value">
-            <h3>Valor unitário</h3>
-            <p>R$ 0,00</p>
-          </div>
-          <div className="total-value">
-            <h3>Total do item</h3>
-            <p>R$ 0,00</p>
-          </div>
-        </ContainerInput>
         <ContainerImage>
           <img src={shoppingCart} />
         </ContainerImage>
+
         <ContainerScreen>
           <Screen>
             <ScreenHeader>
@@ -201,12 +180,34 @@ function Pdv() {
             </table>
           </Screen>
         </ContainerScreen>
+        <ContainerInput>
+          <FormControl>
+            <InputLabel htmlFor="code">Código do produto</InputLabel>
+            <Input
+              id="code"
+              label="Código do produto"
+              type="text"
+              variant="outlined"
+              value={code}
+              onChange={handleInput}
+              required
+            />
+          </FormControl>
+          <div className="unit-value">
+            <h3>Valor unitário</h3>
+            <p>R$ 0,00</p>
+          </div>
+          <div className="total-value">
+            <h3>Total do item</h3>
+            <p>R$ 0,00</p>
+          </div>
+        </ContainerInput>
       </Content>
-      <ContainerButton>
+      {/* <ContainerButton>
         <Button variant="contained" color="primary">
           Cadastrar cliente
         </Button>
-      </ContainerButton>
+      </ContainerButton> */}
     </Container>
   );
 }
