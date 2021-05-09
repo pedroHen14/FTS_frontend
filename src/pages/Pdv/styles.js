@@ -75,6 +75,30 @@ export const ContainerScreen = styled.div`
     border-radius: 5px;
     padding: 10px;
   }
+
+  .sub-total-discount {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light);
+    border: 1px solid var(--dark);
+    width: 100%;
+
+    h3 {
+      font-size: 30px;
+      padding: 10px;
+    }
+  }
+`;
+
+export const ContainerSubTotalDiscount = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
 `;
 
 export const ContainerImage = styled.div`
@@ -117,21 +141,5 @@ export const Screen = styled.div`
   td {
     width: 100px;
     text-align: center;
-  }
-`;
-
-export const TotalSub = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--light);
-  border: 1px solid var(--dark);
-  width: 100%;
-
-  h3 {
-    font-size: 30px;
-    padding: 10px;
   }
 `;
