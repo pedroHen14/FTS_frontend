@@ -1,12 +1,13 @@
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import { isSignedIn } from "./services/security";
+import { getUser, isSignedIn } from "./services/security";
 import UsersRegister from "./pages/UsersRegister";
 import InventoryReports from "./pages/InventoryReports";
 import PurchasesReports from "./pages/PurchasesReports";
 import SalesReports from "./pages/SalesReports";
 import Pdv from "./pages/Pdv";
+import Sales from "./pages/Sales";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -45,6 +46,10 @@ function Router() {
         </PrivateRoute>
 
         <PrivateRoute path="/sales">
+          <Sales />
+        </PrivateRoute>
+
+        <PrivateRoute path="/pdv">
           <Pdv />
         </PrivateRoute>
       </Switch>

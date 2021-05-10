@@ -19,10 +19,14 @@ import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
 import Modal from "../../components/Modal";
 import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
+import { useEffect } from "react";
+import { useFullScreenHandle } from "react-full-screen";
 
 function Pdv() {
   const [code, setCode] = useState("");
   const [openModalDiscount, setOpenModalDiscount] = useState(false);
+
+  const teste = useFullScreenHandle();
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -32,22 +36,43 @@ function Pdv() {
     console.log(code);
   };
 
-  const handlePress = (e) => {
-    e.preventDefault();
+  document.addEventListener("keydown", (e) => {
+    const key = e.key;
 
-    switch (e.which) {
-      case 100:
+    switch (key) {
+      case "d":
         setOpenModalDiscount(true);
+        break;
+      case "Escape":
+        setOpenModalDiscount(false);
         break;
       default:
         break;
     }
-  };
+  });
+
+  useEffect(() => {
+    // var elem = document.documentElement;
+    // if (elem.requestFullscreen) {
+    //   elem.requestFullscreen();
+    // } else if (elem.webkitRequestFullscreen) {
+    //   /* Safari */
+    //   elem.webkitRequestFullscreen();
+    // } else if (elem.msRequestFullscreen) {
+    //   /* IE11 */
+    //   elem.msRequestFullscreen();
+    // }
+  }, []);
 
   return (
     <>
-      {openModalDiscount && <Modal title="Desconto" />}
-      <Container onKeyPress={(e) => handlePress(e)}>
+      <Container handle={teste}>
+        {openModalDiscount && (
+          <Modal
+            title="Desconto"
+            handleClose={() => setOpenModalDiscount(false)}
+          />
+        )}
         <Header>
           <ImageLogo src={imageLogo} />
           <h1>Caixa aberto</h1>
@@ -237,6 +262,7 @@ function Pdv() {
                 </div>
               </ContainerSubTotalDiscount>
             </ContainerScreen>
+            <button onClick={teste.enter}>TESTE</button>
           </div>
         </Content>
       </Container>
