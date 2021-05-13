@@ -1,7 +1,6 @@
-import { FullScreen } from "react-full-screen";
 import styled from "styled-components";
 
-export const Container = styled(FullScreen)`
+export const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
