@@ -8,6 +8,7 @@ import PurchasesReports from "./pages/PurchasesReports";
 import SalesReports from "./pages/SalesReports";
 import Pdv from "./pages/Pdv";
 import Sales from "./pages/Sales";
+import PublicPage from "./pages/PublicPage";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -21,6 +22,10 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route exact path="/public">
+          <PublicPage />
+        </Route>
+
         <Route exact path="/">
           <Login />
         </Route>
