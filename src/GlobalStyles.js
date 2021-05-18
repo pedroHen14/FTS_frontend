@@ -19,10 +19,11 @@ export const GlobalStyles = createGlobalStyle`
         margin: 0;
         outline: 0;
         box-sizing: border-box;
+        line-height: 1.4;
+        font-family: 'Courier New', Courier, monospace; 
     }
 
     body{
-        font-family: sans-serif;
         color: white;
         user-select:none;
     }
