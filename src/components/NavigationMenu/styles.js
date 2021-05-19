@@ -9,6 +9,7 @@ export const Container = styled.div`
   height: 100vh;
   align-items: center;
   position: relative;
+  color: var(--white);
 `;
 
 export const ImageLogo = styled.div`

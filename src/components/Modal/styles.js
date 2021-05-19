@@ -31,11 +31,12 @@ export const ModalContainer = styled.section`
   max-height: calc(100vh - 20px);
   padding: 20px;
   z-index: 19;
-  background-color: var(--dark);
+  background-color: var(--secondary);
   box-shadow: 0px 0px 10px black;
   border-radius: 4px;
   position: relative;
   overflow-y: auto;
+  color: var(--white);
 
   > span {
     position: absolute;

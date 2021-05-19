@@ -1,36 +1,54 @@
 import React, { useState } from "react";
 
 import {
+  ButtonRegister,
   Container,
-  ContainerButton,
   ContainerImage,
   ContainerInput,
   ContainerScreen,
+  ContainerForm,
+  FormRegister,
   ContainerSubTotalDiscount,
   Content,
-  Footer,
   Header,
+  IconUser,
   ImageLogo,
   Screen,
-  ScreenHeader,
-  TotalSub,
 } from "./styles";
 import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
 import Modal from "../../components/Modal";
-import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
-import { useEffect } from "react";
+import { FormControl, Input, InputLabel } from "@material-ui/core";
+import { FaUserPlus } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { api } from "../../services/api";
+import formatCpf from "@brazilian-utils/format-cpf";
 
 function Pdv() {
   const [code, setCode] = useState("");
   const [openModalDiscount, setOpenModalDiscount] = useState(false);
+  const [openModalAddUser, setOpenModalAddUser] = useState(false);
+  const [register, setRegister] = useState({
+    costumer_name: "",
+    cpf: "",
+  });
 
   const handleInput = (e) => {
     e.preventDefault();
 
     setCode(e.target.value);
+  };
 
-    console.log(code);
+  const notify = () => {
+    toast.success("Usuário cadastrado com sucesso!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   document.addEventListener("keydown", (e) => {
@@ -43,10 +61,32 @@ function Pdv() {
       case "Escape":
         setOpenModalDiscount(false);
         break;
+      case "c":
+        setOpenModalAddUser(true);
+        break;
       default:
         break;
     }
   });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.post("/costumer", {
+        costumer_name: register.costumer_name,
+        cpf: register.cpf,
+      });
+
+      notify();
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleInputRegister = (e) => {
+    setRegister({ ...register, [e.target.id]: e.target.value });
+  };
 
   return (
     <>
@@ -57,9 +97,60 @@ function Pdv() {
             handleClose={() => setOpenModalDiscount(false)}
           />
         )}
+        {openModalAddUser && (
+          <Modal
+            title="Adicionar Cliente"
+            handleClose={() => setOpenModalAddUser(false)}
+          >
+            <ContainerForm>
+              <FormRegister onSubmit={handleSubmit}>
+                <FormControl>
+                  <InputLabel htmlFor="costumer_name">
+                    Código do produto
+                  </InputLabel>
+                  <Input
+                    id="costumer_name"
+                    label="Nome"
+                    type="text"
+                    variant="outlined"
+                    value={register.costumer_name}
+                    onChange={handleInputRegister}
+                    required
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel htmlFor="cpf">Código do produto</InputLabel>
+                  <Input
+                    id="cpf"
+                    variant="outlined"
+                    label="CPF"
+                    type="text"
+                    value={formatCpf(register.cpf)}
+                    onChange={handleInputRegister}
+                    required
+                    inputProps={{ maxLength: "14" }}
+                  />
+                </FormControl>
+                <ButtonRegister
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    backgroundColor: "var(--dark)",
+                    color: "var(--white)",
+                  }}
+                >
+                  Cadastrar
+                </ButtonRegister>
+              </FormRegister>
+            </ContainerForm>
+          </Modal>
+        )}
         <Header>
           <ImageLogo src={imageLogo} />
           <h1>Caixa aberto</h1>
+          <IconUser>
+            <FaUserPlus />
+          </IconUser>
         </Header>
         <Content>
           <div className="container">

@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -15,18 +16,22 @@ export const Header = styled.header`
   width: 100%;
   align-items: center;
   color: white;
-  justify-content: space-around;
-  position: relative;
+  justify-content: space-between;
   background-color: var(--primary);
+  padding: 0px 20px;
+`;
+
+export const IconUser = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
 `;
 
 export const ImageLogo = styled.img`
-  width: 100px;
+  width: 60px;
   border-radius: 50%;
-  position: absolute;
-  top: 10px;
-  left: 50px;
-  border: 2px solid var(--dark);
+  border: 2px solid var(--light);
 `;
 
 export const Content = styled.div`
@@ -47,6 +52,13 @@ export const Content = styled.div`
   }
 `;
 
+export const ButtonRegister = styled(Button)`
+  width: 50%;
+  margin-top: 20px;
+  border-radius: 10px;
+  color: var(--white);
+`;
+
 export const ContainerInput = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,6 +67,32 @@ export const ContainerInput = styled.div`
   align-items: flex-start;
   font-size: 20px;
   gap: 20px;
+`;
+
+export const ContainerForm = styled.div`
+  display: flex;
+  justify-items: flex-start;
+  height: 90%;
+  align-items: center;
+  width: 300px;
+  color: white;
+`;
+
+export const FormRegister = styled.form`
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 export const ContainerScreen = styled.div`

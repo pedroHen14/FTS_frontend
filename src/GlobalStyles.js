@@ -23,7 +23,6 @@ export const GlobalStyles = createGlobalStyle`
 
     body{
         font-family: sans-serif;
-        color: white;
         user-select:none;
     }
 
@@ -55,7 +54,7 @@ export const GlobalStyles = createGlobalStyle`
     } */
 
     a{
-        color:var(--secondary);
+        color: var(--white);
         transition:.2s;
         text-decoration:none;
         
