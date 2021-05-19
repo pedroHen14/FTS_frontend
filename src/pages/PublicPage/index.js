@@ -11,7 +11,6 @@ import {
 } from "./styles";
 
 import imageLogo from "../../assets/FTS.png";
-import vector from "../../assets/vector.svg";
 import { FaUserAlt } from "react-icons/fa";
 
 function PublicPage() {
