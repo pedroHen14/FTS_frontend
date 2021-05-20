@@ -4,6 +4,8 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
+  overflow-x: hidden;
+  background-color: var(--primary);
 `;
 
 export const Header = styled.header`
@@ -56,13 +58,13 @@ export const Body = styled.div`
 
 export const WelcomeContainer = styled.div`
   display: flex;
-  width: 65%;
+  width: 70%;
+  height: 100vh;
   justify-content: flex-end;
   align-items: center;
-  height: 600px;
   color: black;
   position: relative;
-  margin: 100px auto;
+  margin: 50px auto;
 
   div:first-child {
     position: absolute;
@@ -73,12 +75,12 @@ export const WelcomeContainer = styled.div`
     display: flex;
     position: absolute;
     justify-content: center;
-    right: 5px;
+    top: 200px;
     background-color: var(--light);
     align-items: flex-start;
     flex-direction: column;
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 10px 10px 10px 0px;
     gap: 10px;
   }
 `;
@@ -104,7 +106,7 @@ export const DescriptionContainer = styled.div`
   background-color: var(--dark);
   justify-content: center;
   align-items: center;
-  font-size: 25px;
+  font-size: 30px;
   text-align: center;
   font-style: serif;
 
