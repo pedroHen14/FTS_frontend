@@ -4,6 +4,8 @@ import {
   Body,
   Container,
   DescriptionContainer,
+  TriangleBottom,
+  TriangleTop,
   Header,
   IconUser,
   ImageContainer,
@@ -49,6 +51,7 @@ function PublicPage() {
             <h1>Venha conosco revolucionar o seu negócio</h1>
           </div>
         </WelcomeContainer>
+        <TriangleTop />
         <DescriptionContainer>
           <p>
             A Flow Tranding System é uma empresa que foi criada visando
@@ -61,6 +64,7 @@ function PublicPage() {
             muito maior.
           </p>
         </DescriptionContainer>
+        <TriangleBottom />
       </Body>
     </Container>
   );

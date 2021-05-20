@@ -13,7 +13,6 @@ export const Header = styled.header`
   justify-content: space-between;
   padding: 0px 50px;
   align-items: center;
-  background-color: var(--primary);
   position: fixed;
   z-index: 999;
 `;
@@ -84,10 +83,24 @@ export const WelcomeContainer = styled.div`
   }
 `;
 
+export const TriangleTop = styled.div`
+  width: 0;
+  height: 0;
+  border-right: 99vw solid transparent;
+  border-bottom: 100px solid var(--dark);
+`;
+
+export const TriangleBottom = styled.div`
+  width: 0;
+  height: 0;
+  border-right: 99vw solid transparent;
+  border-top: 100px solid var(--dark);
+`;
+
 export const DescriptionContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 500px;
+  height: 400px;
   background-color: var(--dark);
   justify-content: center;
   align-items: center;

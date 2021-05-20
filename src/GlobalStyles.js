@@ -26,6 +26,7 @@ export const GlobalStyles = createGlobalStyle`
     body{
         color: white;
         user-select:none;
+        background-color:var(--primary);
     }
 
     /* button{
