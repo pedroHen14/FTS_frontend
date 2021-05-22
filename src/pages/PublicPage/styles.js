@@ -106,11 +106,11 @@ export const DescriptionContainer = styled.div`
   background-color: var(--dark);
   justify-content: center;
   align-items: center;
-  font-size: 30px;
-  text-align: center;
-  font-style: serif;
 
   p {
     width: 60%;
+    font-size: 30px;
+    text-align: center;
+    font-style: serif;
   }
 `;

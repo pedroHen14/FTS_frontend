@@ -14,6 +14,8 @@ import {
   IconUser,
   ImageLogo,
   Screen,
+  ContainerFormModal,
+  FormRegisterModal,
 } from "./styles";
 import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
@@ -102,11 +104,11 @@ function Pdv() {
             title="Adicionar Cliente"
             handleClose={() => setOpenModalAddUser(false)}
           >
-            <ContainerForm>
-              <FormRegister onSubmit={handleSubmit}>
+            <ContainerFormModal>
+              <FormRegisterModal onSubmit={handleSubmit}>
                 <FormControl>
                   <InputLabel htmlFor="costumer_name">
-                    Código do produto
+                    Nome do cliente
                   </InputLabel>
                   <Input
                     id="costumer_name"
@@ -119,7 +121,7 @@ function Pdv() {
                   />
                 </FormControl>
                 <FormControl>
-                  <InputLabel htmlFor="cpf">Código do produto</InputLabel>
+                  <InputLabel htmlFor="cpf">CPF</InputLabel>
                   <Input
                     id="cpf"
                     variant="outlined"
@@ -141,8 +143,8 @@ function Pdv() {
                 >
                   Cadastrar
                 </ButtonRegister>
-              </FormRegister>
-            </ContainerForm>
+              </FormRegisterModal>
+            </ContainerFormModal>
           </Modal>
         )}
         <Header>

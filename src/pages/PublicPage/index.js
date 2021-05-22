@@ -32,7 +32,7 @@ function PublicPage() {
   }, []);
 
   const handleScroll = () => {
-    if (document.documentElement.scrollTop > 350) {
+    if (document.documentElement.scrollTop > 500) {
       setCh(true);
     } else setCh(false);
   };

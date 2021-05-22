@@ -95,6 +95,32 @@ export const FormRegister = styled.form`
   }
 `;
 
+export const ContainerFormModal = styled.div`
+  display: flex;
+  justify-items: flex-start;
+  height: 90%;
+  align-items: center;
+  width: 300px;
+  color: white;
+`;
+
+export const FormRegisterModal = styled.form`
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+`;
+
 export const ContainerScreen = styled.div`
   display: flex;
   align-items: center;
