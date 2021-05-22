@@ -107,6 +107,7 @@ export const ButtonLogin = styled(Button)`
   width: 100%;
   margin-top: 10px;
   background-color: blue;
+  color: var(--white);
 `;
 
 export const ContainerButton = styled.div`

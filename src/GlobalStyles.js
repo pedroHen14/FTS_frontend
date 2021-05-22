@@ -3,12 +3,15 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 
     :root{
-        --dark: #6c85cc;
+        --dark: #3A4F6B;
         --darkGray: #3a4f6b;
-        --light: #d1e6ff;
+        --light: #D1E6FF;
+        --white: #FFFFFF;
         --primary: #9EB4FF;
-        --secondary: #ffffff;
-        --text: #000000;
+        --secondary: #6C85CC;
+        --black: #000000;
+        --green: #27AE60;
+        --red: #EB5757;
     }
 
     *{
@@ -16,10 +19,10 @@ export const GlobalStyles = createGlobalStyle`
         margin: 0;
         outline: 0;
         box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif; 
     }
 
     body{
-        font-family: sans-serif;
         color: white;
         user-select:none;
     }
@@ -52,7 +55,7 @@ export const GlobalStyles = createGlobalStyle`
     } */
 
     a{
-        color:var(--secondary);
+        color: var(--white);
         transition:.2s;
         text-decoration:none;
         
