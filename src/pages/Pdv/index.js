@@ -25,6 +25,7 @@ import { FaUserPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { api } from "../../services/api";
 import formatCpf from "@brazilian-utils/format-cpf";
+import { useEffect } from "react";
 
 function Pdv() {
   const [code, setCode] = useState("");
@@ -34,6 +35,87 @@ function Pdv() {
     costumer_name: "",
     cpf: "",
   });
+
+  const [productList, setProductList] = useState([]);
+
+  const [total, setTotal] = useState(1);
+
+  useEffect(() => {
+    const handleProductList = async () => {
+      try {
+        const response = await api.get(`/product/${1}`);
+
+        console.log(response.data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    handleProductList();
+  }, []);
+
+  const products = [
+    {
+      id: 1,
+      product_name: "notebook",
+      cost_per_item: "100",
+    },
+    {
+      id: 2,
+      product_name: "mouse",
+      cost_per_item: "100",
+    },
+    {
+      id: 3,
+      product_name: "teclado",
+      cost_per_item: "100",
+    },
+    {
+      id: 4,
+      product_name: "TV",
+      cost_per_item: "100",
+    },
+    {
+      id: 5,
+      product_name: "monitor",
+      cost_per_item: "100",
+    },
+    {
+      id: 6,
+      product_name: "echo dot",
+      cost_per_item: "100",
+    },
+    {
+      id: 7,
+      product_name: "PC",
+      cost_per_item: "100",
+    },
+  ];
+
+  const handleProducts = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await api.get(`/product/${code}`);
+
+      const arrayProductList = [];
+
+      arrayProductList.push(...productList, response.data);
+
+      let totalQuantity = 1;
+
+      if (productList.find((a) => a.id == code) === undefined)
+        setProductList(arrayProductList);
+      else {
+        setTotal(total + 1);
+
+        productList.total = total;
+      }
+      console.log(productList.total);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -156,7 +238,7 @@ function Pdv() {
         </Header>
         <Content>
           <div className="container">
-            <ContainerInput>
+            <ContainerInput onSubmit={handleProducts}>
               <FormControl>
                 <InputLabel htmlFor="code">Código do produto</InputLabel>
                 <Input
@@ -210,118 +292,18 @@ function Pdv() {
                       <h4>Total</h4>
                     </td>
                   </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>372513</td>
-                    <td>Coca cola 350ml</td>
-                    <td>10</td>
-                    <td>R$ 5,00</td>
-                    <td>R$ 50,00</td>
-                  </tr>
+                  {productList.map((p, index) => (
+                    <tr key={index}>
+                      <td>{p.id}</td>
+                      <td>372513</td>
+                      <td>{p.product_name}</td>
+                      <td>
+                        {productList.total ? total : (productList.total = 1)}
+                      </td>
+                      <td>R$ {p.cost_per_item}</td>
+                      <td>R$ 50,00</td>
+                    </tr>
+                  ))}
                 </table>
               </Screen>
               <ContainerSubTotalDiscount>
@@ -329,7 +311,7 @@ function Pdv() {
                   <header className="header">
                     <h2>SubTotal</h2>
                   </header>
-                  <h3>R$ 180,00</h3>
+                  <h3>R$ 100,00</h3>
                 </div>
                 <div className="sub-total-discount">
                   <header className="header">
