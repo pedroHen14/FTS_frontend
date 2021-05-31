@@ -1,4 +1,16 @@
 import styled from "styled-components";
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  ListItemIcon,
+} from "@material-ui/core";
 
 export const Container = styled.div`
   display: flex;
@@ -29,10 +41,10 @@ export const MenuContainer = styled.div`
 
 export const ImageContainer = styled.div`
   display: flex;
-  margin-top: 50px;
   align-items: center;
   flex: 1;
   justify-content: center;
+  margin-top: 30px;
 
   img {
     width: 100px;
@@ -54,6 +66,14 @@ export const Body = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
+  align-items: center;
+  gap: 100px;
+`;
+
+export const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
 
 export const WelcomeContainer = styled.div`
@@ -99,7 +119,7 @@ export const TriangleBottom = styled.div`
   border-top: 100px solid var(--dark);
 `;
 
-export const DescriptionContainer = styled.div`
+export const DescriptionContent = styled.div`
   display: flex;
   width: 100%;
   height: 400px;
@@ -115,7 +135,7 @@ export const DescriptionContainer = styled.div`
   }
 `;
 
-export const MvvContainer = styled.div`
+export const FeaturesContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -123,7 +143,7 @@ export const MvvContainer = styled.div`
   flex-direction: column;
 `;
 
-export const MvvHeader = styled.div`
+export const FeaturesHeader = styled.div`
   display: flex;
   width: 100%;
   height: 100px;
@@ -135,7 +155,7 @@ export const MvvHeader = styled.div`
   }
 `;
 
-export const MvvContent = styled.div`
+export const FeaturesContent = styled.div`
   display: flex;
   width: 100%;
   height: 200px;
@@ -144,12 +164,16 @@ export const MvvContent = styled.div`
   .mvv-container-card {
     height: 300px;
     width: 100%;
-    background-color: aliceblue;
+    background-color: var(--white);
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 100px;
     padding-bottom: 100px;
+  }
+
+  .mvv-card-content {
+    display: flex;
+    gap: 100px;
   }
 
   .mvv-card {
@@ -166,5 +190,116 @@ export const MvvContent = styled.div`
     font-size: 20px;
     color: var(--dark);
     border: 5px solid var(--secondary);
+  }
+`;
+
+export const InfosContainer = styled.div`
+  display: flex;
+  width: 60%;
+  height: 500px;
+  flex-direction: column;
+  padding: 10px 0px;
+  margin-top: 50px;
+`;
+
+export const InfosHeader = styled.div`
+  display: flex;
+  width: 100%;
+  border-bottom: 5px solid var(--white);
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    margin: 5px 0px;
+  }
+`;
+
+export const InfosContent = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  align-items: center;
+`;
+
+export const InfosCardContainer = styled.div`
+  display: flex;
+  width: 50%;
+  height: 70%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const InfosCard = styled.div`
+  display: flex;
+  width: 60%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: var(--light);
+  text-align: center;
+  font-size: 20px;
+  padding: 20px;
+  color: var(--dark);
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 5px solid var(--secondary);
+`;
+
+export const PlansContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+`;
+
+export const PlansCard = styled(Card)`
+  width: 345px;
+  height: auto;
+`;
+
+export const PlansCardHeader = styled(CardHeader)``;
+
+export const PlansCardMedia = styled(CardMedia)`
+  height: 0;
+  padding-top: 56.25%;
+`;
+
+export const PlansCardContent = styled(CardContent)``;
+
+export const PlansCardFooter = styled(CardActions)`
+  border-bottom: 5px solid var(--dark);
+  justify-content: space-between;
+  display: flex;
+`;
+
+export const PlansCardList = styled(List)`
+  width: 100%;
+`;
+
+export const PlansCardListItem = styled(ListItem)``;
+
+export const PlansCardListItemIcon = styled(ListItemIcon)``;
+
+export const PlansCardListItemText = styled(ListItemText)``;
+
+export const FooterInfoContainer = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: var(--secondary);
+  height: 30vh;
+`;
+
+export const FooterContainer = styled.footer`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  div:last-child {
+    display: flex;
+    width: 100%;
+    height: 5vh;
+    background-color: var(--dark);
   }
 `;

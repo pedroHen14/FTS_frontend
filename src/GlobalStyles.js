@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle`
         margin: 0;
         outline: 0;
         box-sizing: border-box;
-        font-family: Arial, Helvetica, sans-serif; 
+        font-family: 'PT Sans'
     }
 
     body{
