@@ -38,80 +38,30 @@ function Pdv() {
 
   const [productList, setProductList] = useState([]);
 
-  const [total, setTotal] = useState(1);
-
-  useEffect(() => {
-    const handleProductList = async () => {
-      try {
-        const response = await api.get(`/product/${1}`);
-
-        console.log(response.data);
-      } catch (error) {
-        alert(error);
-      }
-    };
-
-    handleProductList();
-  }, []);
-
-  const products = [
-    {
-      id: 1,
-      product_name: "notebook",
-      cost_per_item: "100",
-    },
-    {
-      id: 2,
-      product_name: "mouse",
-      cost_per_item: "100",
-    },
-    {
-      id: 3,
-      product_name: "teclado",
-      cost_per_item: "100",
-    },
-    {
-      id: 4,
-      product_name: "TV",
-      cost_per_item: "100",
-    },
-    {
-      id: 5,
-      product_name: "monitor",
-      cost_per_item: "100",
-    },
-    {
-      id: 6,
-      product_name: "echo dot",
-      cost_per_item: "100",
-    },
-    {
-      id: 7,
-      product_name: "PC",
-      cost_per_item: "100",
-    },
-  ];
-
   const handleProducts = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await api.get(`/product/${code}`);
+      const response = await api.get(`/product/barCode/${code}`);
 
-      const arrayProductList = [];
+      if (productList.find((p) => p.bar_code == code)) {
+        setProductList(
+          productList.map((p) => {
+            if (p.bar_code == code) {
+              p.total += 1;
+              p.cost_total = p.cost_per_item * p.total;
+            }
+            return p;
+          })
+        );
+      } else {
+        const product = response.data;
 
-      arrayProductList.push(...productList, response.data);
+        product.total = 1;
+        product.cost_total = product.cost_per_item;
 
-      let totalQuantity = 1;
-
-      if (productList.find((a) => a.id == code) === undefined)
-        setProductList(arrayProductList);
-      else {
-        setTotal(total + 1);
-
-        productList.total = total;
+        setProductList([...productList, product]);
       }
-      console.log(productList.total);
     } catch (error) {
       alert(error);
     }
@@ -171,6 +121,8 @@ function Pdv() {
   const handleInputRegister = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
   };
+
+  const arrayTotal = [];
 
   return (
     <>
@@ -292,18 +244,33 @@ function Pdv() {
                       <h4>Total</h4>
                     </td>
                   </tr>
-                  {productList.map((p, index) => (
-                    <tr key={index}>
-                      <td>{p.id}</td>
-                      <td>372513</td>
-                      <td>{p.product_name}</td>
-                      <td>
-                        {productList.total ? total : (productList.total = 1)}
-                      </td>
-                      <td>R$ {p.cost_per_item}</td>
-                      <td>R$ 50,00</td>
-                    </tr>
-                  ))}
+                  {productList &&
+                    productList.map((p, index) => {
+                      arrayTotal.push(parseInt(p.cost_total));
+
+                      return (
+                        <tr key={index}>
+                          <td>{p.id}</td>
+                          <td>{p.bar_code}</td>
+                          <td>{p.product_name}</td>
+                          <td>{p.total ? p.total : 1}</td>
+                          <td>
+                            R${" "}
+                            {parseInt(p.cost_per_item)
+                              .toFixed(2)
+                              .replace(".", ",")}
+                          </td>
+                          <td>
+                            R${" "}
+                            {p.cost_total
+                              ? parseInt(p.cost_total)
+                                  .toFixed(2)
+                                  .replace(".", ",")
+                              : 0.0}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </table>
               </Screen>
               <ContainerSubTotalDiscount>
@@ -311,7 +278,18 @@ function Pdv() {
                   <header className="header">
                     <h2>SubTotal</h2>
                   </header>
-                  <h3>R$ 100,00</h3>
+                  <h3>
+                    R${" "}
+                    {arrayTotal.length === 0
+                      ? "0,00"
+                      : parseInt(
+                          arrayTotal.reduce(
+                            (total, currentElement) => total + currentElement
+                          )
+                        )
+                          .toFixed(2)
+                          .replace(".", ",")}
+                  </h3>
                 </div>
                 <div className="sub-total-discount">
                   <header className="header">

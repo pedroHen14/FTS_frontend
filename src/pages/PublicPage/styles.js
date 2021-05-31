@@ -114,3 +114,57 @@ export const DescriptionContainer = styled.div`
     font-style: serif;
   }
 `;
+
+export const MvvContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  height: 600px;
+  flex-direction: column;
+`;
+
+export const MvvHeader = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+
+  strong {
+    color: var(--secondary);
+  }
+`;
+
+export const MvvContent = styled.div`
+  display: flex;
+  width: 100%;
+  height: 200px;
+  gap: 20px;
+
+  .mvv-container-card {
+    height: 300px;
+    width: 100%;
+    background-color: aliceblue;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 100px;
+    padding-bottom: 100px;
+  }
+
+  .mvv-card {
+    height: 400px;
+    width: 300px;
+    border-radius: 10px;
+    background-color: var(--light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: var(--dark);
+    border: 5px solid var(--secondary);
+  }
+`;

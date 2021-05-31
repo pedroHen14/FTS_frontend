@@ -11,10 +11,14 @@ import {
   ImageContainer,
   MenuContainer,
   WelcomeContainer,
+  MvvContainer,
+  MvvHeader,
+  MvvContent,
 } from "./styles";
 
 import imageLogo from "../../assets/FTS.png";
 import { FaUserAlt, FaWindows } from "react-icons/fa";
+import { BiBarcodeReader, BiDollarCircle, BiStar } from "react-icons/bi";
 import Lottie from "react-lottie";
 import animationData from "../../assets/business_2.json";
 import { Grow, Slide } from "@material-ui/core";
@@ -91,6 +95,41 @@ function PublicPage() {
           </Grow>
         </DescriptionContainer>
         <TriangleBottom />
+        <MvvContainer>
+          <MvvHeader>
+            <h1>
+              Veja no que o <strong>FTS</strong> pode ajudar sua empresa
+            </h1>
+          </MvvHeader>
+          <MvvContent>
+            <div className="mvv-container-card">
+              <div className="mvv-card">
+                <BiBarcodeReader size="100px" color="var(--dark)" />
+                <p>
+                  Temos um sistema de vendas rápidas pelo celular do seu
+                  vendedor, melhorando e priorizando o atendimento rápido ao
+                  cliente sem filas para atrapalhar
+                </p>
+              </div>
+              <div className="mvv-card">
+                <BiStar size="100px" color="var(--dark)" />
+                <p>
+                  Se você adquirir o nosso plano premium, terá acesso a um site
+                  que iremos disponbilizar com todos os produtos da sua loja
+                  disponíveis para o cliente visualizar
+                </p>
+              </div>
+              <div className="mvv-card">
+                <BiDollarCircle size="100px" color="var(--dark)" />
+                <p>
+                  Vamos trazer a tecnologia para o seu negócio, será uma grande
+                  evolução em questão de produtividade e também financeira
+                </p>
+              </div>
+            </div>
+          </MvvContent>
+        </MvvContainer>
+        <div style={{ width: "100%", height: "400px" }}></div>
       </Body>
     </Container>
   );
