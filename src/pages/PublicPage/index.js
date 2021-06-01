@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import {
   Body,
@@ -49,11 +49,15 @@ import { useState } from "react";
 import { useEffect } from "react";
 import imageTeste from "../../assets/bg.jpg";
 import { ExpandMore } from "@material-ui/icons";
+import { Anchor } from "antd";
+
+const { Link } = Anchor;
 
 function PublicPage() {
   const [inReloadPage, setInReloadPage] = useState(false);
   const [inScrollFadeFeatures, setInScrollFadeFeatures] = useState(false);
   const [inScrollFadeDescription, setInScrollFadeDescription] = useState(false);
+  const [inScrollFadeHeader, setInScrollFadeHeader] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -67,6 +71,12 @@ function PublicPage() {
     } else setInScrollFadeDescription(false);
   };
 
+  const handleScrollFadeHeader = () => {
+    if (document.documentElement.scrollTop > 100) {
+      setInScrollFadeHeader(true);
+    } else setInScrollFadeHeader(false);
+  };
+
   const handleScrollFadeFeatures = () => {
     if (document.documentElement.scrollTop > 1500) {
       setInScrollFadeFeatures(true);
@@ -76,6 +86,7 @@ function PublicPage() {
   window.onscroll = () => {
     handleScrollFadeDescription();
     handleScrollFadeFeatures();
+    handleScrollFadeHeader();
   };
 
   const lottieBusinessOptions = {
@@ -89,21 +100,37 @@ function PublicPage() {
 
   return (
     <Container>
-      <Header>
+      <Header
+        style={
+          inScrollFadeHeader
+            ? {
+                backgroundColor: "var(--darkGray)",
+                color: "var(--white)",
+                boxShadow: "3px 3px 3px var(--lightTransparent)",
+                borderRadius: "0px 0px 10px 10px",
+              }
+            : { backgroundColor: "transparent" }
+        }
+      >
         <ImageContainer>
           <img src={imageLogo} alt="logo" />
         </ImageContainer>
-        <MenuContainer>
-          <h2>Home</h2>
-          <h2>Planos</h2>
-          <h2>Valores</h2>
-        </MenuContainer>
+        <Anchor targetOffset="150">
+          <MenuContainer>
+            <Link href="#home" title="Home" />
+            <Link href="#description" title="Descrição" />
+            <Link href="#features" title="Funcionalidades" />
+            <Link href="#infos" title="Infos" />
+            <Link href="#plans" title="Planos" />
+            <Link href="#footer" title="Contato" />
+          </MenuContainer>
+        </Anchor>
         <IconUser>
           <FaUserAlt />
         </IconUser>
       </Header>
       <Body>
-        <WelcomeContainer>
+        <WelcomeContainer id="home">
           <Lottie options={lottieBusinessOptions} width={700} height={700} />
           <Slide direction="left" in={inReloadPage} timeout={1000}>
             <div>
@@ -114,7 +141,7 @@ function PublicPage() {
         </WelcomeContainer>
         <DescriptionContainer>
           <TriangleTop />
-          <DescriptionContent>
+          <DescriptionContent id="description">
             <Grow in={inScrollFadeDescription} timeout={1000}>
               <p>
                 A Flow Tranding System é uma empresa que foi criada visando
@@ -131,7 +158,7 @@ function PublicPage() {
           <TriangleBottom />
         </DescriptionContainer>
 
-        <FeaturesContainer>
+        <FeaturesContainer id="features">
           <FeaturesHeader>
             <h1>
               Veja no que o <strong>FTS</strong> pode ajudar sua empresa
@@ -170,7 +197,7 @@ function PublicPage() {
             </div>
           </FeaturesContent>
         </FeaturesContainer>
-        <InfosContainer>
+        <InfosContainer id="infos">
           <InfosHeader>
             <h1>Missão</h1>
           </InfosHeader>
@@ -180,8 +207,9 @@ function PublicPage() {
               <InfosCard>
                 <p>
                   A razão para darmos início a esse sistema foi oferecer um
-                  excelente Sistema de Gerenciamento Comercial para o mercado
-                  atual, ajudando micro, pequenas e médias empresas.
+                  excelente <strong>Sistema de Gerenciamento Comercial</strong>{" "}
+                  para o mercado atual, ajudando micro, pequenas e médias
+                  empresas.
                 </p>
               </InfosCard>
             </InfosCardContainer>
@@ -228,7 +256,7 @@ function PublicPage() {
             </InfosCardContainer>
           </InfosContent>
         </InfosContainer>
-        <PlansContainer>
+        <PlansContainer id="plans">
           <PlansCard>
             <PlansCardHeader title="Plano 1" />
             <PlansCardMedia title="image 1" image={imageTeste} />
@@ -314,7 +342,7 @@ function PublicPage() {
             </PlansCardFooter>
           </PlansCard>
         </PlansContainer>
-        <FooterContainer>
+        <FooterContainer id="footer">
           <FooterInfoContainer></FooterInfoContainer>
           <div></div>
         </FooterContainer>

@@ -23,12 +23,22 @@ export const Container = styled.div`
 export const Header = styled.header`
   display: flex;
   height: 100px;
+  transition: 0.4s all;
   width: 100%;
   justify-content: space-between;
   padding: 0px 50px;
   align-items: center;
   position: fixed;
   z-index: 999;
+
+  a {
+    font-weight: bold;
+    font-size: 20px;
+
+    :hover {
+      color: var(--secondary);
+    }
+  }
 `;
 
 export const MenuContainer = styled.div`
@@ -232,18 +242,22 @@ export const InfosCardContainer = styled.div`
 
 export const InfosCard = styled.div`
   display: flex;
-  width: 60%;
+  width: 100%;
   height: 100%;
   border-radius: 10px;
   background-color: var(--light);
   text-align: center;
-  font-size: 20px;
+  font-size: 25px;
   padding: 20px;
   color: var(--dark);
   align-items: center;
   justify-content: center;
   font-weight: bold;
   border: 5px solid var(--secondary);
+
+  strong {
+    color: var(--secondary);
+  }
 `;
 
 export const PlansContainer = styled.div`
