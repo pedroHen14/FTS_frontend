@@ -187,10 +187,9 @@ export const Screen = styled.div`
   background-color: var(--light);
   border-radius: 10px;
   border: 1px solid var(--dark);
-
   width: 100%;
   gap: 20px;
-  min-height: 300px;
+  height: 400px;
 
   table {
     width: 100%;

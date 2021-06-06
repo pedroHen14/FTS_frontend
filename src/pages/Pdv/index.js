@@ -20,7 +20,7 @@ import {
 import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
 import Modal from "../../components/Modal";
-import { FormControl, Input, InputLabel } from "@material-ui/core";
+import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
 import { FaUserPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { api } from "../../services/api";
@@ -118,6 +118,25 @@ function Pdv() {
     }
   };
 
+  const handleSale = async (e) => {
+    e.preventDefault();
+    const items = {
+      product_id: productList.id,
+      quantity: productList.total,
+    };
+
+    console.log(items);
+    try {
+      await api.post("/sale", {
+        payment_method_id: 1,
+        branch_id: 1,
+        itens: [items],
+      });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const handleInputRegister = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
   };
@@ -190,7 +209,7 @@ function Pdv() {
         </Header>
         <Content>
           <div className="container">
-            <ContainerInput onSubmit={handleProducts}>
+            <ContainerInput onSubmit={handleSale}>
               <FormControl>
                 <InputLabel htmlFor="code">Código do produto</InputLabel>
                 <Input
@@ -298,6 +317,17 @@ function Pdv() {
                   <h3>10%</h3>
                 </div>
               </ContainerSubTotalDiscount>
+              <Button
+                variant="contained"
+                style={{
+                  color: "var(--white)",
+                  backgroundColor: "var(--green)",
+                  fontWeight: "bold",
+                }}
+                onClick={() => handleSale()}
+              >
+                Finalizar venda
+              </Button>
             </ContainerScreen>
           </div>
         </Content>
