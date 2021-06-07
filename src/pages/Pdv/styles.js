@@ -59,7 +59,7 @@ export const ButtonRegister = styled(Button)`
   color: var(--white);
 `;
 
-export const ContainerInput = styled.div`
+export const ContainerInput = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -183,7 +183,7 @@ export const Screen = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   background-color: var(--light);
   border-radius: 10px;
   border: 1px solid var(--dark);

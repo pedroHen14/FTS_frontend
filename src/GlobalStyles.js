@@ -4,8 +4,9 @@ export const GlobalStyles = createGlobalStyle`
 
     :root{
         --dark: #3A4F6B;
-        --darkGray: #3a4f6b;
+        --darkGray: #3a4f6bCC;
         --light: #D1E6FF;
+        --lightTransparent: #D1E6FFCC;
         --white: #FFFFFF;
         --primary: #9EB4FF;
         --secondary: #6C85CC;
@@ -19,7 +20,7 @@ export const GlobalStyles = createGlobalStyle`
         margin: 0;
         outline: 0;
         box-sizing: border-box;
-        font-family: Arial, Helvetica, sans-serif; 
+        font-family: 'PT Sans'
     }
 
     body{
