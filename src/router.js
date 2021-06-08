@@ -23,11 +23,11 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/public">
+        <Route exact path="/">
           <PublicPage />
         </Route>
 
-        <Route exact path="/">
+        <Route exact path="/login">
           <Login />
         </Route>
 
