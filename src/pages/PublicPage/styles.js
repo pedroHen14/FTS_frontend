@@ -298,22 +298,34 @@ export const PlansCardListItemIcon = styled(ListItemIcon)``;
 
 export const PlansCardListItemText = styled(ListItemText)``;
 
-export const FooterInfoContainer = styled.div`
-  display: flex;
-  width: 100%;
-  background-color: var(--secondary);
-  height: 30vh;
-`;
-
 export const FooterContainer = styled.footer`
   display: flex;
   width: 100%;
   flex-direction: column;
 
-  div:last-child {
+  .info-footer {
     display: flex;
     width: 100%;
     height: 5vh;
     background-color: var(--dark);
+
+    align-items: center;
+    justify-content: center;
   }
+`;
+
+export const FooterInfoContainer = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: var(--secondary);
+  height: 30vh;
+  padding: 20px;
+  justify-content: space-evenly;
+  align-items: flex-start;
+`;
+
+export const FooterInfos = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
