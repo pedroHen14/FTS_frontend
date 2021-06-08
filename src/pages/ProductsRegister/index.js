@@ -14,13 +14,15 @@ import { getUser } from "../../services/security";
 import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
+import { TextareaAutosize } from "@material-ui/core";
 
 function ProductsRegister() {
   const user = getUser();
 
   const [register, setRegister] = useState({
     product_name: "",
-    total_quantity: "",
+    description: "",
+    bar_code: "",
     cost_per_item: "",
     unit_of_measurement_id: "",
     product_type_id: "",
@@ -96,7 +98,8 @@ function ProductsRegister() {
     try {
       await api.post("/product", {
         product_name: register.product_name,
-        total_quantity: register.total_quantity,
+        description: register.description,
+        bar_code: register.bar_code,
         cost_per_item: register.cost_per_item,
         unit_of_measurement_id: register.unit_of_measurement_id,
         product_type_id: register.product_type_id,
@@ -120,7 +123,8 @@ function ProductsRegister() {
   const handleReload = (e) => {
     setRegister({
       product_name: "",
-      total_quantity: "",
+      description: "",
+      bar_code: "",
       cost_per_item: "",
       unit_of_measurement_id: "",
       product_type_id: "",
@@ -131,7 +135,7 @@ function ProductsRegister() {
   };
 
   return (
-    <Dashboard title="Cadastro de usuários">
+    <Dashboard title="Cadastro de produtos">
       <ToastContainer style={{ color: "white" }} />
       <ContainerForm>
         <FormRegister onSubmit={handleSubmit}>
@@ -148,11 +152,11 @@ function ProductsRegister() {
           </ContainerInput>
           <ContainerInput>
             <Input
-              id="total_quantity"
+              id="bar_code"
               variant="outlined"
-              label="Quantidade total"
+              label="Código de barras"
               type="decimal"
-              value={register.total_quantity}
+              value={register.bar_code}
               onChange={handleInput}
               required
             />
@@ -160,8 +164,19 @@ function ProductsRegister() {
               id="cost_per_item"
               variant="outlined"
               label="Valor unitário"
-              type="decimal"
+              type="text"
               value={register.cost_per_item}
+              onChange={handleInput}
+              required
+            />
+          </ContainerInput>
+          <ContainerInput>
+            <TextareaAutosize
+              id="description"
+              style={{ flex: 1, resize: "none" }}
+              rowsMin={5}
+              rowsMax={10}
+              value={register.description}
               onChange={handleInput}
               required
             />
