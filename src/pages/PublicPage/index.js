@@ -31,6 +31,7 @@ import {
   PlansCardListItemText,
   FooterInfoContainer,
   FooterContainer,
+  FooterInfos,
   DescriptionContainer,
 } from "./styles";
 
@@ -50,10 +51,12 @@ import { useEffect } from "react";
 import imageTeste from "../../assets/bg.jpg";
 import { ExpandMore } from "@material-ui/icons";
 import { Anchor } from "antd";
+import { useHistory } from "react-router";
 
 const { Link } = Anchor;
 
 function PublicPage() {
+  const history = useHistory();
   const [inReloadPage, setInReloadPage] = useState(false);
   const [inScrollFadeFeatures, setInScrollFadeFeatures] = useState(false);
   const [inScrollFadeDescription, setInScrollFadeDescription] = useState(false);
@@ -98,6 +101,10 @@ function PublicPage() {
     },
   };
 
+  const handleRedirectLogin = () => {
+    history.push("/login");
+  };
+
   return (
     <Container>
       <Header
@@ -125,7 +132,7 @@ function PublicPage() {
             <Link href="#footer" title="Contato" />
           </MenuContainer>
         </Anchor>
-        <IconUser>
+        <IconUser onClick={() => handleRedirectLogin()}>
           <FaUserAlt />
         </IconUser>
       </Header>
@@ -343,8 +350,29 @@ function PublicPage() {
           </PlansCard>
         </PlansContainer>
         <FooterContainer id="footer">
-          <FooterInfoContainer></FooterInfoContainer>
-          <div></div>
+          <FooterInfoContainer>
+            <FooterInfos>
+              <h3>Contato</h3>
+              <span>4002-8922</span>
+              <span>4002-8922</span>
+              <span>4002-8922</span>
+            </FooterInfos>
+            <FooterInfos>
+              <h3>Contato</h3>
+              <span>4002-8922</span>
+              <span>4002-8922</span>
+              <span>4002-8922</span>
+            </FooterInfos>
+            <FooterInfos>
+              <h3>Contato</h3>
+              <span>4002-8922</span>
+              <span>4002-8922</span>
+              <span>4002-8922</span>
+            </FooterInfos>
+          </FooterInfoContainer>
+          <div className="info-footer">
+            <p>Flow Trading System | 2021</p>
+          </div>
         </FooterContainer>
       </Body>
     </Container>

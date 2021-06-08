@@ -10,6 +10,7 @@ import Pdv from "./pages/Pdv";
 import Sales from "./pages/Sales";
 import PublicPage from "./pages/PublicPage";
 import ProductsRegister from "./pages/ProductsRegister";
+import Inventory from './pages/Inventory';
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -23,11 +24,11 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/public">
+        <Route exact path="/">
           <PublicPage />
         </Route>
 
-        <Route exact path="/">
+        <Route exact path="/login">
           <Login />
         </Route>
 
@@ -47,6 +48,10 @@ function Router() {
           <InventoryReports />
         </PrivateRoute>
 
+        <PrivateRoute path="/inventory">
+          <Inventory />
+        </PrivateRoute>
+        
         <PrivateRoute path="/salesReports">
           <SalesReports />
         </PrivateRoute>

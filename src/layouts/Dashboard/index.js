@@ -3,7 +3,6 @@ import NavigationMenu from "../../components/NavigationMenu";
 import imageLogo from "../../assets/FTS.png";
 
 import { Container, Header, Content, Body, Footer } from "./styles";
-import { signOut } from "../../services/security";
 
 function Dashboard({ title, children }) {
   return (

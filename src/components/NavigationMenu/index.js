@@ -11,7 +11,7 @@ function NavigationMenu({ image }) {
   const handleSignOut = () => {
     signOut();
 
-    history.replace("/");
+    history.replace("/login");
   };
 
   return (
