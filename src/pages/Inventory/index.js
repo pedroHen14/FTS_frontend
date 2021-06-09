@@ -35,15 +35,13 @@ function Inventory() {
 
   const [product, setProduct] = useState([]);
 
-  const [unit, setUnit] = useState([]);
-
   const [logbook, setLogbook] = useState([]);
 
   useEffect(() => {
     const loadProduct = async () => {
       try {
         const response = await api.get(
-          `/product/company/${user.branches.map((b) => b.company_id)}`
+          `/company/${user.branches.map((b) => b.company_id)}/product`
         );
 
         setProduct(response.data);
@@ -56,7 +54,9 @@ function Inventory() {
 
     const loadLogbooks = async () => {
       try {
-        const response = await api.get("/logbook");
+        const response = await api.get(
+          `/branch/${user.branches.map((b) => b.company_id)}/logbook`
+        );
 
         setLogbook(response.data);
       } catch (error) {
@@ -66,14 +66,6 @@ function Inventory() {
 
     loadLogbooks();
   }, [reload]);
-
-  const handleUnit = (e) => {
-    const idSel = e.target.value;
-
-    const unitSel = unit.find((u) => u.id.toString() === idSel);
-
-    setRegister({ ...register, ["unit_of_measurement_id"]: unitSel?.id });
-  };
 
   const handleProduct = (e) => {
     const idSel = e.target.value;
@@ -101,7 +93,7 @@ function Inventory() {
     const company_id = user.branches.map((u) => u.company_id);
 
     try {
-      await api.post("/logbook", {
+      const response = await api.post("/logbook", {
         date_of_acquisition: register.date_of_acquisition,
         quantity_acquired: register.quantity_acquired,
         branch_id: parseInt(company_id),
@@ -118,8 +110,6 @@ function Inventory() {
       notify();
     } catch (error) {
       alert(error);
-
-      console.log(user);
     }
   };
 
@@ -147,7 +137,7 @@ function Inventory() {
         <ContainerForm>
           <FormRegister onSubmit={handleSubmit}>
             <ContainerInput>
-              <TextField
+              <Input
                 id="date_of_acquisition"
                 label="Data de aquisição"
                 type="date"
@@ -158,7 +148,7 @@ function Inventory() {
                   shrink: true,
                 }}
               />
-              <TextField
+              <Input
                 id="manufacture_date"
                 label="Data de expedição"
                 type="date"
@@ -169,7 +159,7 @@ function Inventory() {
                   shrink: true,
                 }}
               />
-              <TextField
+              <Input
                 id="expiration_date"
                 label="Data de validade"
                 type="date"
@@ -240,6 +230,9 @@ function Inventory() {
                 <h4>Número do lote</h4>
               </td>
               <td>
+                <h4>Cód. barras</h4>
+              </td>
+              <td>
                 <h4>Produto</h4>
               </td>
               <td>
@@ -248,11 +241,13 @@ function Inventory() {
             </tr>
             {logbook &&
               logbook.map((p, index) => {
+                console.log(p);
                 return (
                   <tr key={index}>
                     <td>{p.quantity_acquired}</td>
                     <td>{p.Lot.lot_number}</td>
-                    <td>Mouse</td>
+                    <td>{p.Product.bar_code}</td>
+                    <td>{p.Product.product_name}</td>
                     <td>
                       {format(new Date(p.date_of_acquisition), "dd/MM/yyyy")}
                     </td>

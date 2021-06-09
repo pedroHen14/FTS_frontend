@@ -26,8 +26,11 @@ import { toast } from "react-toastify";
 import { api } from "../../services/api";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { useEffect } from "react";
+import { getUser } from "../../services/security";
 
 function Pdv() {
+  const user = getUser();
+
   const [code, setCode] = useState("");
   const [openModalDiscount, setOpenModalDiscount] = useState(false);
   const [openModalAddUser, setOpenModalAddUser] = useState(false);
@@ -35,6 +38,7 @@ function Pdv() {
     costumer_name: "",
     cpf: "",
   });
+  const [reload, setReload] = useState(null);
 
   const [productList, setProductList] = useState([]);
 
@@ -73,8 +77,8 @@ function Pdv() {
     setCode(e.target.value);
   };
 
-  const notify = () => {
-    toast.success("Usuário cadastrado com sucesso!", {
+  const notify = (message) => {
+    toast.success(`${message} !`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -112,26 +116,32 @@ function Pdv() {
         cpf: register.cpf,
       });
 
-      notify();
+      notify("Usuário cadastrado com sucesso");
     } catch (error) {
       alert(error);
     }
   };
 
   const handleSale = async (e) => {
-    e.preventDefault();
-    const items = {
-      product_id: productList.id,
-      quantity: productList.total,
-    };
+    const productsSale = productList.map((p) => {
+      const items = {
+        product_id: p.id,
+        quantity: p.total,
+      };
+      return items;
+    });
 
-    console.log(items);
+    const company_id = user.branches.map((u) => u.company_id);
+
     try {
       await api.post("/sale", {
         payment_method_id: 1,
-        branch_id: 1,
-        itens: [items],
+        branch_id: parseInt(company_id),
+        items: productsSale,
       });
+
+      handleReload(e);
+      notify("Venda realizada com sucesso");
     } catch (error) {
       alert(error);
     }
@@ -139,6 +149,13 @@ function Pdv() {
 
   const handleInputRegister = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
+  };
+
+  const handleReload = (e) => {
+    setProductList([]);
+    setCode("");
+
+    setReload(Math.random());
   };
 
   const arrayTotal = [];
@@ -209,7 +226,7 @@ function Pdv() {
         </Header>
         <Content>
           <div className="container">
-            <ContainerInput onSubmit={handleSale}>
+            <ContainerInput onSubmit={handleProducts}>
               <FormControl>
                 <InputLabel htmlFor="code">Código do produto</InputLabel>
                 <Input
