@@ -20,14 +20,17 @@ import {
 import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
 import Modal from "../../components/Modal";
-import { FormControl, Input, InputLabel } from "@material-ui/core";
+import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
 import { FaUserPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { api } from "../../services/api";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { useEffect } from "react";
+import { getUser } from "../../services/security";
 
 function Pdv() {
+  const user = getUser();
+
   const [code, setCode] = useState("");
   const [openModalDiscount, setOpenModalDiscount] = useState(false);
   const [openModalAddUser, setOpenModalAddUser] = useState(false);
@@ -35,6 +38,7 @@ function Pdv() {
     costumer_name: "",
     cpf: "",
   });
+  const [reload, setReload] = useState(null);
 
   const [productList, setProductList] = useState([]);
 
@@ -73,8 +77,8 @@ function Pdv() {
     setCode(e.target.value);
   };
 
-  const notify = () => {
-    toast.success("Usuário cadastrado com sucesso!", {
+  const notify = (message) => {
+    toast.success(`${message} !`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -112,7 +116,32 @@ function Pdv() {
         cpf: register.cpf,
       });
 
-      notify();
+      notify("Usuário cadastrado com sucesso");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleSale = async (e) => {
+    const productsSale = productList.map((p) => {
+      const items = {
+        product_id: p.id,
+        quantity: p.total,
+      };
+      return items;
+    });
+
+    const company_id = user.branches.map((u) => u.company_id);
+
+    try {
+      await api.post("/sale", {
+        payment_method_id: 1,
+        branch_id: parseInt(company_id),
+        items: productsSale,
+      });
+
+      handleReload(e);
+      notify("Venda realizada com sucesso");
     } catch (error) {
       alert(error);
     }
@@ -120,6 +149,13 @@ function Pdv() {
 
   const handleInputRegister = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
+  };
+
+  const handleReload = (e) => {
+    setProductList([]);
+    setCode("");
+
+    setReload(Math.random());
   };
 
   const arrayTotal = [];
@@ -298,6 +334,17 @@ function Pdv() {
                   <h3>10%</h3>
                 </div>
               </ContainerSubTotalDiscount>
+              <Button
+                variant="contained"
+                style={{
+                  color: "var(--white)",
+                  backgroundColor: "var(--green)",
+                  fontWeight: "bold",
+                }}
+                onClick={() => handleSale()}
+              >
+                Finalizar venda
+              </Button>
             </ContainerScreen>
           </div>
         </Content>
