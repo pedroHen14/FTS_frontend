@@ -36,7 +36,13 @@ import {
 } from "./styles";
 
 import imageLogo from "../../assets/FTS.png";
-import { FaUserAlt, FaEye, FaHandHoldingUsd, FaCheck } from "react-icons/fa";
+import {
+  FaUserAlt,
+  FaEye,
+  FaHandHoldingUsd,
+  FaCheck,
+  FaTimesCircle,
+} from "react-icons/fa";
 import {
   BiBarcodeReader,
   BiDollarCircle,
@@ -52,6 +58,8 @@ import imageTeste from "../../assets/bg.jpg";
 import { ExpandMore } from "@material-ui/icons";
 import { Anchor } from "antd";
 import { useHistory } from "react-router";
+import { api } from "../../services/api";
+import { notify } from "../../utils";
 
 const { Link } = Anchor;
 
@@ -61,11 +69,26 @@ function PublicPage() {
   const [inScrollFadeFeatures, setInScrollFadeFeatures] = useState(false);
   const [inScrollFadeDescription, setInScrollFadeDescription] = useState(false);
   const [inScrollFadeHeader, setInScrollFadeHeader] = useState(false);
+  const [plans, setPlans] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
       setInReloadPage(true);
     }, 500);
+  }, []);
+
+  useEffect(() => {
+    const loadPlans = async () => {
+      try {
+        const response = await api.get("/plan");
+
+        setPlans(response.data);
+      } catch (error) {
+        notify("Erro ao encontrar os planos", "error");
+      }
+    };
+
+    loadPlans();
   }, []);
 
   const handleScrollFadeDescription = () => {
@@ -264,90 +287,61 @@ function PublicPage() {
           </InfosContent>
         </InfosContainer>
         <PlansContainer id="plans">
-          <PlansCard>
-            <PlansCardHeader title="Plano 1" />
-            <PlansCardMedia title="image 1" image={imageTeste} />
-            <PlansCardContent>
-              <PlansCardList>
-                <PlansCardListItem>
-                  <PlansCardListItemIcon>
-                    <FaCheck color="green" />
-                  </PlansCardListItemIcon>
-                  <PlansCardListItemText primary="Tem isso ai" />
-                </PlansCardListItem>
-                <PlansCardListItem>
-                  <PlansCardListItemIcon>
-                    <FaCheck color="green" />
-                  </PlansCardListItemIcon>
-                  <PlansCardListItemText primary="Tem isso ai" />
-                </PlansCardListItem>
-                <PlansCardListItem>
-                  <PlansCardListItemIcon>
-                    <FaCheck color="green" />
-                  </PlansCardListItemIcon>
-                  <PlansCardListItemText primary="Tem isso ai" />
-                </PlansCardListItem>
-              </PlansCardList>
-            </PlansCardContent>
-            <PlansCardFooter disableSpacing>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "green",
-                  color: "var(--white)",
-                  fontWeight: "bold",
-                }}
-              >
-                Comprar
-              </Button>
-              <h3>R$ 1,99</h3>
-              <IconButton aria-label="show more">
-                <ExpandMore />
-              </IconButton>
-            </PlansCardFooter>
-          </PlansCard>
-          <PlansCard>
-            <PlansCardHeader title="Plano 1" />
-            <PlansCardMedia title="image 1" image={imageTeste} />
-            <PlansCardContent>
-              <PlansCardList>
-                <PlansCardListItem>
-                  <PlansCardListItemIcon>
-                    <FaCheck color="green" />
-                  </PlansCardListItemIcon>
-                  <PlansCardListItemText primary="Tem isso ai" />
-                </PlansCardListItem>
-                <PlansCardListItem>
-                  <PlansCardListItemIcon>
-                    <FaCheck color="green" />
-                  </PlansCardListItemIcon>
-                  <PlansCardListItemText primary="Tem isso ai" />
-                </PlansCardListItem>
-                <PlansCardListItem>
-                  <PlansCardListItemIcon>
-                    <FaCheck color="green" />
-                  </PlansCardListItemIcon>
-                  <PlansCardListItemText primary="Tem isso ai" />
-                </PlansCardListItem>
-              </PlansCardList>
-            </PlansCardContent>
-            <PlansCardFooter disableSpacing>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "green",
-                  color: "var(--white)",
-                  fontWeight: "bold",
-                }}
-              >
-                Comprar
-              </Button>
-              <h3>R$ 1,99</h3>
-              <IconButton aria-label="show more">
-                <ExpandMore />
-              </IconButton>
-            </PlansCardFooter>
-          </PlansCard>
+          {plans &&
+            plans.map((p) => {
+              return (
+                <PlansCard>
+                  <PlansCardHeader title={p.plan_name} />
+                  <PlansCardMedia title="image 1" image={imageTeste} />
+                  <PlansCardContent>
+                    <PlansCardList>
+                      <PlansCardListItem>
+                        <PlansCardListItemIcon>
+                          <FaCheck color="green" />
+                        </PlansCardListItemIcon>
+                        <PlansCardListItemText
+                          primary={`Limite de ${p.branch_limit} filiais`}
+                        />
+                      </PlansCardListItem>
+                      <PlansCardListItem>
+                        <PlansCardListItemIcon>
+                          <FaCheck color="green" />
+                        </PlansCardListItemIcon>
+                        <PlansCardListItemText
+                          primary={`Limite de ${p.user_limit_per_branch} usuários por filiais`}
+                        />
+                      </PlansCardListItem>
+                      <PlansCardListItem>
+                        <PlansCardListItemIcon>
+                          {p.use_phone_for_sale ? (
+                            <FaCheck color="green" />
+                          ) : (
+                            <FaTimesCircle color="red" />
+                          )}
+                        </PlansCardListItemIcon>
+                        <PlansCardListItemText primary="Função de venda pelo App" />
+                      </PlansCardListItem>
+                    </PlansCardList>
+                  </PlansCardContent>
+                  <PlansCardFooter disableSpacing>
+                    <Button
+                      variant="contained"
+                      style={{
+                        backgroundColor: "green",
+                        color: "var(--white)",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Comprar
+                    </Button>
+                    <h3>R$ {p.value.replace(".", ",")}</h3>
+                    <IconButton aria-label="show more">
+                      <ExpandMore />
+                    </IconButton>
+                  </PlansCardFooter>
+                </PlansCard>
+              );
+            })}
         </PlansContainer>
         <FooterContainer id="footer">
           <FooterInfoContainer>
