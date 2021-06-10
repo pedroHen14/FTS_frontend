@@ -21,17 +21,20 @@ import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
 import Modal from "../../components/Modal";
 import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
-import { FaUserPlus } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { FaCheck, FaUserPlus } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
 import { api } from "../../services/api";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { useEffect } from "react";
 import { getUser } from "../../services/security";
+import { notify } from "../../utils";
 
 function Pdv() {
   const user = getUser();
 
   const [code, setCode] = useState("");
+  const [cpfClient, setCpfClient] = useState("");
+  const [client, setClient] = useState("");
   const [openModalDiscount, setOpenModalDiscount] = useState(false);
   const [openModalAddUser, setOpenModalAddUser] = useState(false);
   const [register, setRegister] = useState({
@@ -66,27 +69,42 @@ function Pdv() {
 
         setProductList([...productList, product]);
       }
+
+      setCode("");
     } catch (error) {
-      alert(error);
+      notify("Este código de barras não é válido", "error");
+      setCode("");
     }
   };
 
-  const handleInput = (e) => {
+  const handleInput = async (e) => {
     e.preventDefault();
 
-    setCode(e.target.value);
-  };
+    switch (e.target.id) {
+      case "code":
+        setCode(e.target.value);
+        break;
+      case "cpfClient":
+        setCpfClient(e.target.value);
+        if (e.target.value.trim().length === 14) {
+          const clientCpf = e.target.value;
 
-  const notify = (message) => {
-    toast.success(`${message} !`, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+          try {
+            const { data } = await api.get("/costumer", {
+              params: {
+                cpf: clientCpf.replace(/\D/g, ""),
+              },
+            });
+            setClient(data);
+
+            notify("CPF encontrado com sucesso", "success");
+          } catch (error) {
+            notify("CPF ainda não tem cadastro", "error");
+          }
+        }
+      default:
+        break;
+    }
   };
 
   document.addEventListener("keydown", (e) => {
@@ -112,11 +130,10 @@ function Pdv() {
 
     try {
       await api.post("/costumer", {
-        costumer_name: register.costumer_name,
-        cpf: register.cpf,
+        cpf: register.cpf.replace(/\D/g, ""),
       });
 
-      notify("Usuário cadastrado com sucesso");
+      notify("Usuário cadastrado com sucesso", "success");
     } catch (error) {
       alert(error);
     }
@@ -133,17 +150,20 @@ function Pdv() {
 
     const company_id = user.branches.map((u) => u.company_id);
 
+    const idClient = client[0].id;
+
     try {
       await api.post("/sale", {
         payment_method_id: 1,
         branch_id: parseInt(company_id),
+        costumer_id: idClient,
         items: productsSale,
       });
 
       handleReload(e);
-      notify("Venda realizada com sucesso");
+      notify("Venda realizada com sucesso", "success");
     } catch (error) {
-      alert(error);
+      notify("A venda não foi concluída", "error");
     }
   };
 
@@ -153,6 +173,7 @@ function Pdv() {
 
   const handleReload = (e) => {
     setProductList([]);
+    setCpfClient("");
     setCode("");
 
     setReload(Math.random());
@@ -162,6 +183,7 @@ function Pdv() {
 
   return (
     <>
+      <ToastContainer style={{ color: "white" }} />
       <Container>
         {openModalDiscount && (
           <Modal
@@ -176,20 +198,6 @@ function Pdv() {
           >
             <ContainerFormModal>
               <FormRegisterModal onSubmit={handleSubmit}>
-                <FormControl>
-                  <InputLabel htmlFor="costumer_name">
-                    Nome do cliente
-                  </InputLabel>
-                  <Input
-                    id="costumer_name"
-                    label="Nome"
-                    type="text"
-                    variant="outlined"
-                    value={register.costumer_name}
-                    onChange={handleInputRegister}
-                    required
-                  />
-                </FormControl>
                 <FormControl>
                   <InputLabel htmlFor="cpf">CPF</InputLabel>
                   <Input
@@ -226,6 +234,19 @@ function Pdv() {
         </Header>
         <Content>
           <div className="container">
+            <FormControl style={{ display: "flex" }}>
+              <InputLabel htmlFor="cpfClient">CPF cliente</InputLabel>
+              <Input
+                id="cpfClient"
+                label="CPF cliente"
+                type="text"
+                variant="outlined"
+                onChange={handleInput}
+                value={formatCpf(cpfClient)}
+                inputProps={{ maxLength: "14" }}
+                required
+              />
+            </FormControl>
             <ContainerInput onSubmit={handleProducts}>
               <FormControl>
                 <InputLabel htmlFor="code">Código do produto</InputLabel>
@@ -239,13 +260,32 @@ function Pdv() {
                   required
                 />
               </FormControl>
+
               <div className="unit-value">
                 <h2>Valor unitário</h2>
-                <p>R$ 0,00</p>
+                {productList &&
+                  productList.map((p) => {
+                    return (
+                      <p>
+                        R${" "}
+                        {parseInt(p.cost_per_item).toFixed(2).replace(".", ",")}
+                      </p>
+                    );
+                  })}
               </div>
               <div className="total-value">
                 <h2>Total do item</h2>
-                <p>R$ 0,00</p>
+                {productList &&
+                  productList.map((p, index) => {
+                    return (
+                      <p key={index}>
+                        R${" "}
+                        {p.cost_total
+                          ? parseInt(p.cost_total).toFixed(2).replace(".", ",")
+                          : "0.0"}
+                      </p>
+                    );
+                  })}
               </div>
             </ContainerInput>
 
@@ -331,7 +371,7 @@ function Pdv() {
                   <header className="header">
                     <h2>Desconto</h2>
                   </header>
-                  <h3>10%</h3>
+                  <h3>0%</h3>
                 </div>
               </ContainerSubTotalDiscount>
               <Button
