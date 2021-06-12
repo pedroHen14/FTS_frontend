@@ -270,7 +270,7 @@ export const PlansContainer = styled.div`
 
 export const PlansCard = styled(Card)`
   width: 345px;
-  height: auto;
+  min-height: 50vh;
 `;
 
 export const PlansCardHeader = styled(CardHeader)``;

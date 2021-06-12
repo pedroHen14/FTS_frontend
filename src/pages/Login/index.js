@@ -54,7 +54,10 @@ function Login() {
 
     try {
       const response = await api.post("session", {
-        cnpj_ou_cpf: login.cpf_cnpj,
+        cnpj_ou_cpf:
+          login.cpf_cnpj.length < 15
+            ? login.cpf_cnpj.replace(/[^0-9]+/g, "")
+            : login.cpf_cnpj.replace(/\D/g, ""),
         password: login.password,
       });
 
