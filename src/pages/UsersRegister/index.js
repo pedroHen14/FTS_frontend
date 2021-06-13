@@ -125,7 +125,7 @@ function UsersRegister() {
       await api.post("/user", {
         user_name: register.name,
         rg: register.rg,
-        cpf: register.cpf,
+        cpf: register.cpf.replace(/\D/g, ""),
         user_password: register.password,
         permissions: permissions.substr(0, permissions.length - 1),
         branch_id: register.branch ? register.branch : user.branch.company_id,

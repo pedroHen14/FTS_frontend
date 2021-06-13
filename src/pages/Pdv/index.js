@@ -90,11 +90,9 @@ function Pdv() {
           const clientCpf = e.target.value;
 
           try {
-            const { data } = await api.get("/costumer", {
-              params: {
-                cpf: clientCpf.replace(/\D/g, ""),
-              },
-            });
+            const { data } = await api.get(
+              `/costumer/cpf/${clientCpf.replace(/\D/g, "")}`
+            );
             setClient(data);
 
             notify("CPF encontrado com sucesso", "success");

@@ -10,7 +10,8 @@ import Pdv from "./pages/Pdv";
 import Sales from "./pages/Sales";
 import PublicPage from "./pages/PublicPage";
 import ProductsRegister from "./pages/ProductsRegister";
-import Inventory from './pages/Inventory';
+import Inventory from "./pages/Inventory";
+import Purchases from "./pages/Purchases";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -51,7 +52,7 @@ function Router() {
         <PrivateRoute path="/inventory">
           <Inventory />
         </PrivateRoute>
-        
+
         <PrivateRoute path="/salesReports">
           <SalesReports />
         </PrivateRoute>
@@ -60,8 +61,8 @@ function Router() {
           <PurchasesReports />
         </PrivateRoute>
 
-        <PrivateRoute path="/sales">
-          <Sales />
+        <PrivateRoute path="/purchases">
+          <Purchases />
         </PrivateRoute>
 
         <PrivateRoute path="/pdv">
