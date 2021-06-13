@@ -1,223 +1,212 @@
 import {
-  ButtonRegister,
   ContainerForm,
-  ContainerInput,
-  FormRegister,
+  ContainerScreen,
+  ContainerSubTotalDiscount,
   Input,
+  Container,
+  Screen,
 } from "./styles";
-import Select from "../../components/Select";
-import Tag from "../../components/Tag";
 import { useState } from "react";
 import { useEffect } from "react";
 import { api } from "../../services/api";
 import { getUser } from "../../services/security";
-import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
-import { toast, ToastContainer } from "react-toastify";
-import { TextareaAutosize } from "@material-ui/core";
+import { ToastContainer } from "react-toastify";
+import { Button } from "@material-ui/core";
+import { notify } from "../../utils";
 
 function Purchases() {
   const user = getUser();
 
-  const [register, setRegister] = useState({
-    product_name: "",
-    description: "",
-    bar_code: "",
-    cost_per_item: "",
-    unit_of_measurement_id: "",
-    product_type_id: "",
-  });
+  const [code, setCode] = useState("");
+  const [productList, setProductList] = useState([]);
 
   const [reload, setReload] = useState(null);
 
-  const [productType, setProductType] = useState([]);
-
-  const [unit, setUnit] = useState([]);
-
   useEffect(() => {
-    const loadProductType = async () => {
-      try {
-        const response = await api.get("/productType");
-
-        setProductType(response.data);
-      } catch (error) {
-        alert(error);
-      }
-    };
-
-    loadProductType();
-
-    const loadUnits = async () => {
-      try {
-        const response = await api.get("/unit");
-
-        setUnit(response.data);
-      } catch (error) {
-        alert(error);
-      }
-    };
-
-    loadUnits();
-
     console.log(user);
   }, [reload]);
 
-  const handleUnit = (e) => {
-    const idSel = e.target.value;
-
-    const unitSel = unit.find((u) => u.id.toString() === idSel);
-
-    setRegister({ ...register, ["unit_of_measurement_id"]: unitSel?.id });
-  };
-
-  const handleProductType = (e) => {
-    const idSel = e.target.value;
-
-    const productTypeSel = productType.find((p) => p.id.toString() === idSel);
-
-    setRegister({ ...register, ["product_type_id"]: productTypeSel?.id });
-  };
-
-  const notify = () => {
-    toast.success("Usuário cadastrado com sucesso!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleInput = (e) => {
     e.preventDefault();
 
-    const company_id = user.branches.map((u) => u.CompanyId);
-
-    try {
-      await api.post("/product", {
-        product_name: register.product_name,
-        description: register.description,
-        bar_code: register.bar_code,
-        cost_per_item: register.cost_per_item,
-        unit_of_measurement_id: register.unit_of_measurement_id,
-        product_type_id: register.product_type_id,
-        company_id: company_id[0],
-      });
-
-      handleReload(e);
-
-      notify();
-    } catch (error) {
-      alert(error);
-
-      console.log(user);
-    }
-  };
-
-  const handleInput = (e) => {
-    setRegister({ ...register, [e.target.id]: e.target.value });
+    setCode(e.target.value);
   };
 
   const handleReload = (e) => {
-    setRegister({
-      product_name: "",
-      description: "",
-      bar_code: "",
-      cost_per_item: "",
-      unit_of_measurement_id: "",
-      product_type_id: "",
-      company_id: "",
-    });
+    setProductList([]);
 
     setReload(Math.random());
   };
 
-  return (
-    <Dashboard title="Cadastro de produtos">
-      <ToastContainer style={{ color: "white" }} />
-      <ContainerForm>
-        <FormRegister onSubmit={handleSubmit}>
-          <ContainerInput>
-            <Input
-              id="product_name"
-              label="Nome do produto"
-              type="text"
-              variant="outlined"
-              value={register.product_name}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
-          <ContainerInput>
-            <Input
-              id="bar_code"
-              variant="outlined"
-              label="Código de barras"
-              type="decimal"
-              value={register.bar_code}
-              onChange={handleInput}
-              required
-            />
-            <Input
-              id="cost_per_item"
-              variant="outlined"
-              label="Valor unitário"
-              type="text"
-              value={register.cost_per_item}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
-          <ContainerInput>
-            <TextareaAutosize
-              id="description"
-              style={{ flex: 1, resize: "none" }}
-              rowsMin={5}
-              rowsMax={10}
-              value={register.description}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
+  const handleProducts = async (e) => {
+    e.preventDefault();
 
-          <Select
-            id="unit_of_measurement_id"
-            value={register.unit_of_measurement_id}
-            handler={handleUnit}
-          >
-            <option value="">Selecione a unidade de medida</option>
-            {unit.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.unit_name}
-              </option>
-            ))}
-          </Select>
-          <Select
-            id="product_type_id"
-            value={register.product_type_id}
-            handler={handleProductType}
-          >
-            <option value="">Selecione o tipo do produto</option>
-            {productType.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.type}
-              </option>
-            ))}
-          </Select>
-          <ButtonRegister
-            type="submit"
-            variant="contained"
-            style={{
-              backgroundColor: "var(--primary)",
-              color: "var(--white)",
-            }}
-          >
-            Cadastrar
-          </ButtonRegister>
-        </FormRegister>
-      </ContainerForm>
+    try {
+      const response = await api.get(`/product/barCode/${code}`);
+
+      if (productList.find((p) => p.bar_code == code)) {
+        setProductList(
+          productList.map((p) => {
+            if (p.bar_code == code) {
+              p.total += 1;
+              p.cost_total = p.cost_per_item * p.total;
+            }
+            return p;
+          })
+        );
+      } else {
+        const product = response.data;
+
+        product.total = 1;
+        product.cost_total = product.cost_per_item;
+
+        setProductList([...productList, product]);
+      }
+
+      setCode("");
+    } catch (error) {
+      notify("Este código de barras não é válido", "error");
+      setCode("");
+    }
+  };
+  const handleSale = async (e) => {
+    const productsSale = productList.map((p) => {
+      const items = {
+        product_id: p.id,
+        quantity: p.total,
+      };
+      return items;
+    });
+
+    const company_id = user.branch.company_id;
+
+    try {
+      await api.post("/purchase", {
+        payment_method_id: 1,
+        branch_id: parseInt(company_id),
+        items: productsSale,
+      });
+
+      handleReload(e);
+      notify("Compra realizada com sucesso", "success");
+    } catch (error) {
+      notify("A compra não foi concluída", "error");
+    }
+  };
+  const arrayTotal = [];
+
+  return (
+    <Dashboard title="Compras">
+      <ToastContainer style={{ color: "white" }} />
+      <Container>
+        <ContainerForm onSubmit={handleProducts}>
+          <Input
+            id="code"
+            label="Código do produto"
+            type="text"
+            variant="outlined"
+            value={code}
+            onChange={handleInput}
+            required
+          />
+        </ContainerForm>
+
+        <div className="container">
+          <ContainerScreen>
+            <Screen>
+              <header className="header">
+                <h2>Lista de produtos</h2>
+              </header>
+              <table>
+                <tr>
+                  <td>
+                    <h4>N° item</h4>
+                  </td>
+                  <td>
+                    <h4>Código</h4>
+                  </td>
+                  <td>
+                    <h4>Descrição</h4>
+                  </td>
+                  <td>
+                    <h4>Qtd</h4>
+                  </td>
+                  <td>
+                    <h4>Vlr. unit.</h4>
+                  </td>
+                  <td>
+                    <h4>Total</h4>
+                  </td>
+                </tr>
+                {productList &&
+                  productList.map((p, index) => {
+                    arrayTotal.push(parseInt(p.cost_total));
+
+                    return (
+                      <tr key={index}>
+                        <td>{p.id}</td>
+                        <td>{p.bar_code}</td>
+                        <td>{p.product_name}</td>
+                        <td>{p.total ? p.total : 1}</td>
+                        <td>
+                          R${" "}
+                          {parseInt(p.cost_per_item)
+                            .toFixed(2)
+                            .replace(".", ",")}
+                        </td>
+                        <td>
+                          R${" "}
+                          {p.cost_total
+                            ? parseInt(p.cost_total)
+                                .toFixed(2)
+                                .replace(".", ",")
+                            : 0.0}
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </table>
+            </Screen>
+            <ContainerSubTotalDiscount>
+              <div className="sub-total-discount">
+                <header className="header">
+                  <h2>SubTotal</h2>
+                </header>
+                <h3>
+                  R${" "}
+                  {arrayTotal.length === 0
+                    ? "0,00"
+                    : parseInt(
+                        arrayTotal.reduce(
+                          (total, currentElement) => total + currentElement
+                        )
+                      )
+                        .toFixed(2)
+                        .replace(".", ",")}
+                </h3>
+              </div>
+              <div className="sub-total-discount">
+                <header className="header">
+                  <h2>Desconto</h2>
+                </header>
+                <h3>0%</h3>
+              </div>
+            </ContainerSubTotalDiscount>
+            <Button
+              variant="contained"
+              style={{
+                color: "var(--white)",
+                backgroundColor: "var(--green)",
+                fontWeight: "bold",
+              }}
+              onClick={() => handleSale()}
+            >
+              Finalizar venda
+            </Button>
+          </ContainerScreen>
+        </div>
+      </Container>
     </Dashboard>
   );
 }
