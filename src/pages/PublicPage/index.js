@@ -417,7 +417,12 @@ function CardPlans({ plans }) {
         >
           Comprar
         </Button>
-        <h3>R$ {plans.value.replace(".", ",")}</h3>
+        <h3>
+          {parseInt(plans.value).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </h3>
 
         <IconButton
           onClick={handleExpandClick}
