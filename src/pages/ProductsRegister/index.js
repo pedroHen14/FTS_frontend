@@ -15,6 +15,7 @@ import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
 import { TextareaAutosize } from "@material-ui/core";
+import { notify } from "../../utils";
 
 function ProductsRegister() {
   const user = getUser();
@@ -78,22 +79,12 @@ function ProductsRegister() {
     setRegister({ ...register, ["product_type_id"]: productTypeSel?.id });
   };
 
-  const notify = () => {
-    toast.success("Usuário cadastrado com sucesso!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const company_id = user.branches.map((u) => u.CompanyId);
+    console.log(user);
+
+    const company_id = user.branch.map((u) => u.CompanyId);
 
     try {
       await api.post("/product", {
@@ -108,11 +99,9 @@ function ProductsRegister() {
 
       handleReload(e);
 
-      notify();
+      notify("Usuário cadastrado com sucesso!", "success");
     } catch (error) {
-      alert(error);
-
-      console.log(user);
+      notify("Falha ao cadastrar o usuário!", "error");
     }
   };
 

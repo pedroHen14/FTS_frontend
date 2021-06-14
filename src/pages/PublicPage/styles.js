@@ -18,6 +18,10 @@ export const Container = styled.div`
   flex-direction: column;
   overflow-x: hidden;
   background-color: var(--primary);
+
+  .expandedOpen {
+    transform: rotate(180deg);
+  }
 `;
 
 export const Header = styled.header`
@@ -280,7 +284,13 @@ export const PlansCardMedia = styled(CardMedia)`
   padding-top: 56.25%;
 `;
 
-export const PlansCardContent = styled(CardContent)``;
+export const PlansCardContent = styled(CardContent)`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const PlansCardFooter = styled(CardActions)`
   border-bottom: 5px solid var(--dark);

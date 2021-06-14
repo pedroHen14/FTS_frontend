@@ -98,7 +98,7 @@ function UsersRegister() {
   const handleBranches = (e) => {
     const idSel = e.target.value;
 
-    const branchSel = user.branches.find((b) => b.id.toString() === idSel);
+    const branchSel = user.branch.find((b) => b.id.toString() === idSel);
 
     setRegister({ ...register, ["branch"]: branchSel?.id });
     // else setRegister({ ...register, ["branch"]: "" });
@@ -221,14 +221,14 @@ function UsersRegister() {
               </option>
             ))}
           </Select>
-          {user.branches && (
+          {user.branch && (
             <Select
               id="branch"
               value={register.branch}
               handler={handleBranches}
             >
               <option value="">Selecione a filial</option>
-              {user.branches.map((b) => (
+              {user.branch.map((b) => (
                 <option key={b.id} value={b.id}>
                   {b.branch_name}
                 </option>

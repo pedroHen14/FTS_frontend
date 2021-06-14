@@ -60,6 +60,9 @@ import {
   CardActions,
   Typography,
   Collapse,
+  Input,
+  FormControl,
+  InputLabel,
 } from "@material-ui/core";
 import Modal from "../../components/Modal";
 import { useState } from "react";
@@ -83,8 +86,9 @@ function PublicPage() {
   const [plans, setPlans] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [modalContent, setModalContent] = useState([]);
-  const [openModalRegisterCompany, setOpenModalRegisterCompany] =
-    useState(false);
+  const [openModalRegisterCompany, setOpenModalRegisterCompany] = useState(
+    false
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -115,10 +119,6 @@ function PublicPage() {
     } catch (error) {
       notify("Plano não encontrado", "error");
     }
-  };
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
   };
 
   const handleScrollFadeDescription = () => {
@@ -330,73 +330,7 @@ function PublicPage() {
           <PlansContainer id="plans">
             {plans &&
               plans.map((p) => {
-                return (
-                  <PlansCard>
-                    <PlansCardHeader title={p.plan_name} />
-                    <PlansCardMedia title="image 1" image={imageTeste} />
-                    <PlansCardContent>
-                      <PlansCardList>
-                        <PlansCardListItem>
-                          <PlansCardListItemIcon>
-                            <FaCheck color="green" />
-                          </PlansCardListItemIcon>
-                          <PlansCardListItemText
-                            primary={`Limite de ${p.branch_limit} filiais`}
-                          />
-                        </PlansCardListItem>
-                        <PlansCardListItem>
-                          <PlansCardListItemIcon>
-                            <FaCheck color="green" />
-                          </PlansCardListItemIcon>
-                          <PlansCardListItemText
-                            primary={`${p.user_limit_per_branch} usuários por filiais`}
-                          />
-                        </PlansCardListItem>
-                        <PlansCardListItem>
-                          <PlansCardListItemIcon>
-                            {p.use_phone_for_sale ? (
-                              <FaCheck color="green" />
-                            ) : (
-                              <FaTimesCircle color="red" />
-                            )}
-                          </PlansCardListItemIcon>
-                          <PlansCardListItemText primary="Função de venda pelo App" />
-                        </PlansCardListItem>
-                      </PlansCardList>
-                    </PlansCardContent>
-                    <PlansCardFooter disableSpacing>
-                      <Button
-                        variant="contained"
-                        style={{
-                          backgroundColor: "green",
-                          color: "var(--white)",
-                          fontWeight: "bold",
-                        }}
-                        onClick={() => handleModalRegisterCompany(p.id)}
-                      >
-                        Comprar
-                      </Button>
-                      <h3>R$ {p.value.replace(".", ",")}</h3>
-
-                      <IconButton
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                      >
-                        <ExpandMore />
-                      </IconButton>
-                    </PlansCardFooter>
-                    <Collapse in={expanded} timeout="auto" unmountOnExit>
-                      <PlansCardContent>
-                        <Typography paragraph>Method:</Typography>
-                        <Typography paragraph>
-                          Heat 1/2 cup of the broth in a pot until simmering,
-                          add saffron and set aside for 10 minutes.
-                        </Typography>
-                      </PlansCardContent>
-                    </Collapse>
-                  </PlansCard>
-                );
+                return <CardPlans plans={p} />;
               })}
           </PlansContainer>
           <FooterContainer id="footer">
@@ -427,6 +361,179 @@ function PublicPage() {
         </Body>
       </Container>
     </>
+  );
+}
+
+function CardPlans({ plans }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  return (
+    <PlansCard>
+      <PlansCardHeader title={plans.plan_name} />
+      <PlansCardMedia title="image 1" image={imageTeste} />
+      <PlansCardContent>
+        <PlansCardList>
+          <PlansCardListItem>
+            <PlansCardListItemIcon>
+              <FaCheck color="green" />
+            </PlansCardListItemIcon>
+            <PlansCardListItemText
+              primary={`Limite de ${plans.branch_limit} filiais`}
+            />
+          </PlansCardListItem>
+          <PlansCardListItem>
+            <PlansCardListItemIcon>
+              <FaCheck color="green" />
+            </PlansCardListItemIcon>
+            <PlansCardListItemText
+              primary={`${plans.user_limit_per_branch} usuários por filiais`}
+            />
+          </PlansCardListItem>
+          <PlansCardListItem>
+            <PlansCardListItemIcon>
+              {plans.use_phone_for_sale ? (
+                <FaCheck color="green" />
+              ) : (
+                <FaTimesCircle color="red" />
+              )}
+            </PlansCardListItemIcon>
+            <PlansCardListItemText primary="Função de venda pelo App" />
+          </PlansCardListItem>
+        </PlansCardList>
+      </PlansCardContent>
+      <PlansCardFooter disableSpacing>
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "green",
+            color: "var(--white)",
+            fontWeight: "bold",
+          }}
+          // onClick={() => handleModalRegisterCompany(plans.id)}
+        >
+          Comprar
+        </Button>
+        <h3>R$ {plans.value.replace(".", ",")}</h3>
+
+        <IconButton
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          className={!expanded ? "" : "expandedOpen"}
+          aria-label="show more"
+          style={{ transition: "all .4s" }}
+        >
+          <ExpandMore />
+        </IconButton>
+      </PlansCardFooter>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <PlansCardContent>
+          <FormControl>
+            <InputLabel htmlFor="cnpj">CNPJ</InputLabel>
+            <Input
+              id="cnpj"
+              variant="outlined"
+              label="CNPJ"
+              type="text"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+              inputProps={{ maxLength: "14" }}
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor="fantasy_name">Nome Fantasia</InputLabel>
+            <Input
+              id="fantasy_name"
+              variant="outlined"
+              label="Nome Fantasia"
+              type="text"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+              inputProps={{ maxLength: "14" }}
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor="social_reason">Razão Social</InputLabel>
+            <Input
+              id="social_reason"
+              variant="outlined"
+              label="Razão Social"
+              type="text"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor="place_number">Número</InputLabel>
+            <Input
+              id="place_number"
+              variant="outlined"
+              label="Razão Social"
+              type="number"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor="cep">CEP</InputLabel>
+            <Input
+              id="cep"
+              variant="outlined"
+              label="CEP"
+              type="text"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor="state">Estado</InputLabel>
+            <Input
+              id="state"
+              variant="outlined"
+              label="Estado"
+              type="text"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor="nature_of_the_business">
+              Natureza da empresa
+            </InputLabel>
+            <Input
+              id="nature_of_the_business"
+              variant="outlined"
+              label="Natureza da empresa"
+              type="text"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor="commercial_email">E-mail comercial</InputLabel>
+            <Input
+              id="commercial_email"
+              variant="outlined"
+              label="E-mail comercial"
+              type="text"
+              // value={formatCpf(register.cpf)}
+              // onChange={handleInputRegister}
+              required
+            />
+          </FormControl>
+        </PlansCardContent>
+      </Collapse>
+    </PlansCard>
   );
 }
 

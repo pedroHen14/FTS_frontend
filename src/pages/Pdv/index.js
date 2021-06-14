@@ -146,7 +146,7 @@ function Pdv() {
       return items;
     });
 
-    const company_id = user.branches.map((u) => u.company_id);
+    const company_id = user.branch.map((u) => u.company_id);
 
     const idClient = client[0].id;
 
