@@ -150,18 +150,21 @@ function Purchases() {
                         <td>{p.product_name}</td>
                         <td>{p.total ? p.total : 1}</td>
                         <td>
-                          R${" "}
-                          {parseInt(p.cost_per_item)
-                            .toFixed(2)
-                            .replace(".", ",")}
+                          {parseInt(p.cost_per_item).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
                         </td>
                         <td>
-                          R${" "}
                           {p.cost_total
-                            ? parseInt(p.cost_total)
-                                .toFixed(2)
-                                .replace(".", ",")
-                            : 0.0}
+                            ? parseInt(p.cost_total).toLocaleString("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              })
+                            : (0.0).toLocaleString("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              })}
                         </td>
                       </tr>
                     );
@@ -174,16 +177,19 @@ function Purchases() {
                   <h2>SubTotal</h2>
                 </header>
                 <h3>
-                  R${" "}
                   {arrayTotal.length === 0
-                    ? "0,00"
+                    ? (0.0).toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })
                     : parseInt(
                         arrayTotal.reduce(
                           (total, currentElement) => total + currentElement
                         )
-                      )
-                        .toFixed(2)
-                        .replace(".", ",")}
+                      ).toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                 </h3>
               </div>
               <div className="sub-total-discount">
