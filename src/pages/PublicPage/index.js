@@ -193,7 +193,7 @@ function PublicPage() {
             </MenuContainer>
           </Anchor>
           <IconUser onClick={() => handleRedirectLogin()}>
-            <FaUserAlt />
+            <FaUserAlt style={{ cursor: "pointer" }} />
           </IconUser>
         </Header>
         <Body>
@@ -294,9 +294,9 @@ function PublicPage() {
               <InfosCardContainer>
                 <InfosCard>
                   <p>
-                    A Flow Trading System busca se aprofundar no mercado
-                    tecnológico gerencial para se tornar uma das empresas mais
-                    conhecidas nacionalmente e internacionalmente.
+                    A <strong>Flow Trading System</strong> busca se aprofundar
+                    no mercado tecnológico gerencial para se tornar uma das
+                    empresas mais conhecidas nacionalmente e internacionalmente.
                   </p>
                 </InfosCard>
               </InfosCardContainer>
@@ -376,7 +376,12 @@ function PublicPage() {
                       >
                         Comprar
                       </Button>
-                      <h3>R$ {p.value.replace(".", ",")}</h3>
+                      <h3>
+                        {parseInt(p.value).toLocaleString("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        })}
+                      </h3>
 
                       <IconButton
                         onClick={handleExpandClick}
