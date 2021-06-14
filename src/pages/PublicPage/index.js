@@ -33,6 +33,7 @@ import {
   FooterContainer,
   FooterInfos,
   DescriptionContainer,
+  CardFormContainer,
 } from "./styles";
 
 import imageLogo from "../../assets/FTS.png";
@@ -71,9 +72,11 @@ import imageTeste from "../../assets/bg.jpg";
 import { ExpandMore } from "@material-ui/icons";
 import { Anchor } from "antd";
 import { useHistory } from "react-router";
-import { api } from "../../services/api";
+import { api, apiCep } from "../../services/api";
 import { notify } from "../../utils";
 import ModalRegisterCompany from "../../components/ModalRegisterCompany";
+import formatCnpj from "@brazilian-utils/format-cnpj";
+import { ToastContainer } from "react-toastify";
 
 const { Link } = Anchor;
 
@@ -84,11 +87,21 @@ function PublicPage() {
   const [inScrollFadeDescription, setInScrollFadeDescription] = useState(false);
   const [inScrollFadeHeader, setInScrollFadeHeader] = useState(false);
   const [plans, setPlans] = useState([]);
-  const [expanded, setExpanded] = useState(false);
-  const [modalContent, setModalContent] = useState([]);
-  const [openModalRegisterCompany, setOpenModalRegisterCompany] = useState(
-    false
-  );
+
+  const [register, setRegister] = useState({
+    cnpj: "",
+    fantasy_name: "",
+    social_reason: " ",
+    place_number: "",
+    companie_password: "",
+    cep: "",
+    district: "",
+    city: "",
+    street: "",
+    state: "",
+    nature_of_the_business: "",
+    commercial_email: "",
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -109,17 +122,6 @@ function PublicPage() {
 
     loadPlans();
   }, []);
-
-  const handleModalRegisterCompany = async (idPlan) => {
-    try {
-      const { data } = await api.get(`/plan/find/${idPlan}`);
-
-      setModalContent(data);
-      setOpenModalRegisterCompany(true);
-    } catch (error) {
-      notify("Plano não encontrado", "error");
-    }
-  };
 
   const handleScrollFadeDescription = () => {
     if (document.documentElement.scrollTop > 500) {
@@ -158,14 +160,39 @@ function PublicPage() {
     history.push("/login");
   };
 
+  const handleInput = (e) => {
+    setRegister({ ...register, [e.target.id]: e.target.value });
+
+    if (e.target.id === "cep") {
+      const { cep } = { cep: e.target.value };
+
+      if (cep.length >= 9) {
+        handleCep(cep);
+      }
+    }
+  };
+
+  const handleCep = async (cep) => {
+    cep.replace("-", "");
+
+    try {
+      const { data } = await apiCep.get(`${cep}/json`);
+
+      setRegister({
+        ...register,
+        cep: data.cep,
+        district: data.bairro,
+        city: data.localidade,
+        street: data.logradouro,
+        state: data.uf,
+      });
+    } catch (error) {
+      notify("CEP não é válido", "error");
+    }
+  };
   return (
     <>
-      {/* {openModalRegisterCompany && (
-        <ModalRegisterCompany
-          idPlan={modalContent.id}
-          planName={modalContent.plan_name}
-        />
-      )} */}
+      <ToastContainer style={{ color: "white" }} />
       <Container>
         <Header
           style={
@@ -330,7 +357,13 @@ function PublicPage() {
           <PlansContainer id="plans">
             {plans &&
               plans.map((p) => {
-                return <CardPlans plans={p} />;
+                return (
+                  <CardPlans
+                    plans={p}
+                    handleInput={handleInput}
+                    stateRegister={register}
+                  />
+                );
               })}
           </PlansContainer>
           <FooterContainer id="footer">
@@ -364,11 +397,30 @@ function PublicPage() {
   );
 }
 
-function CardPlans({ plans }) {
+function CardPlans({ plans, handleInput, stateRegister }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await api.get("company", {
+        cnpj: "",
+        fantasy_name: "",
+        social_reason: "",
+        place_number: "",
+        companie_password: "",
+        cep: "",
+        plan_id: "",
+        state: "",
+        nature_of_the_business: "",
+        commercial_email: "",
+      });
+    } catch (error) {}
   };
 
   return (
@@ -436,106 +488,160 @@ function CardPlans({ plans }) {
       </PlansCardFooter>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <PlansCardContent>
-          <FormControl>
-            <InputLabel htmlFor="cnpj">CNPJ</InputLabel>
-            <Input
-              id="cnpj"
-              variant="outlined"
-              label="CNPJ"
-              type="text"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-              inputProps={{ maxLength: "14" }}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="fantasy_name">Nome Fantasia</InputLabel>
-            <Input
-              id="fantasy_name"
-              variant="outlined"
-              label="Nome Fantasia"
-              type="text"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-              inputProps={{ maxLength: "14" }}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="social_reason">Razão Social</InputLabel>
-            <Input
-              id="social_reason"
-              variant="outlined"
-              label="Razão Social"
-              type="text"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="place_number">Número</InputLabel>
-            <Input
-              id="place_number"
-              variant="outlined"
-              label="Razão Social"
-              type="number"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="cep">CEP</InputLabel>
-            <Input
-              id="cep"
-              variant="outlined"
-              label="CEP"
-              type="text"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="state">Estado</InputLabel>
-            <Input
-              id="state"
-              variant="outlined"
-              label="Estado"
-              type="text"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="nature_of_the_business">
-              Natureza da empresa
-            </InputLabel>
-            <Input
-              id="nature_of_the_business"
-              variant="outlined"
-              label="Natureza da empresa"
-              type="text"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="commercial_email">E-mail comercial</InputLabel>
-            <Input
-              id="commercial_email"
-              variant="outlined"
-              label="E-mail comercial"
-              type="text"
-              // value={formatCpf(register.cpf)}
-              // onChange={handleInputRegister}
-              required
-            />
-          </FormControl>
+          <CardFormContainer onSubmit={handleSubmit}>
+            <FormControl>
+              <InputLabel htmlFor="cnpj">CNPJ</InputLabel>
+              <Input
+                id="cnpj"
+                variant="outlined"
+                label="CNPJ"
+                type="text"
+                value={formatCnpj(stateRegister.cnpj)}
+                onChange={handleInput}
+                required
+                inputProps={{ maxLength: "18" }}
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="fantasy_name">Nome Fantasia</InputLabel>
+              <Input
+                id="fantasy_name"
+                variant="outlined"
+                label="Nome Fantasia"
+                type="text"
+                value={stateRegister.fantasy_name}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="social_reason">Razão Social</InputLabel>
+              <Input
+                id="social_reason"
+                variant="outlined"
+                label="Razão Social"
+                type="text"
+                value={stateRegister.social_reason}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="place_number">Número</InputLabel>
+              <Input
+                id="place_number"
+                variant="outlined"
+                label="Razão Social"
+                type="number"
+                value={stateRegister.place_number}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="companie_password">Senha</InputLabel>
+              <Input
+                id="companie_password"
+                variant="outlined"
+                label="Senha"
+                type="password"
+                value={stateRegister.companie_password}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="cep">CEP</InputLabel>
+              <Input
+                id="cep"
+                variant="outlined"
+                label="CEP"
+                type="text"
+                value={stateRegister.cep
+                  .replace(/(\d{5})(\d)/, "$1-$2")
+                  .replace(/(\d{3})$/, "$1")}
+                onChange={handleInput}
+                inputProps={{ maxLength: "9" }}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="street">Rua</InputLabel>
+              <Input
+                id="street"
+                variant="outlined"
+                label="Rua"
+                type="text"
+                value={stateRegister.street}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="district">Bairro</InputLabel>
+              <Input
+                id="district"
+                variant="outlined"
+                label="Estado"
+                type="text"
+                value={stateRegister.district}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="city">Cidade</InputLabel>
+              <Input
+                id="city"
+                variant="outlined"
+                label="Cidade"
+                type="text"
+                value={stateRegister.city}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="state">Estado</InputLabel>
+              <Input
+                id="state"
+                variant="outlined"
+                label="Estado"
+                type="text"
+                value={stateRegister.state}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="nature_of_the_business">
+                Natureza da empresa
+              </InputLabel>
+              <Input
+                id="nature_of_the_business"
+                variant="outlined"
+                label="Natureza da empresa"
+                type="text"
+                value={stateRegister.nature_of_the_business}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="commercial_email">
+                E-mail comercial
+              </InputLabel>
+              <Input
+                id="commercial_email"
+                variant="outlined"
+                label="E-mail comercial"
+                type="text"
+                value={stateRegister.commercial_email}
+                onChange={handleInput}
+                required
+              />
+            </FormControl>
+          </CardFormContainer>
         </PlansCardContent>
       </Collapse>
     </PlansCard>

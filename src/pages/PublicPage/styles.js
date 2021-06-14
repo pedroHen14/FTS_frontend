@@ -284,13 +284,7 @@ export const PlansCardMedia = styled(CardMedia)`
   padding-top: 56.25%;
 `;
 
-export const PlansCardContent = styled(CardContent)`
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+export const PlansCardContent = styled(CardContent)``;
 
 export const PlansCardFooter = styled(CardActions)`
   border-bottom: 5px solid var(--dark);
@@ -338,4 +332,12 @@ export const FooterInfos = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+export const CardFormContainer = styled.form`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

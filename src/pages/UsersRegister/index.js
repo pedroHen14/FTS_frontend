@@ -16,6 +16,7 @@ import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
 import { FormControl, TextField } from "@material-ui/core";
 import formatCpf from "@brazilian-utils/format-cpf";
+import { notify } from "../../utils";
 
 function UsersRegister() {
   const user = getUser();
@@ -104,18 +105,6 @@ function UsersRegister() {
     // else setRegister({ ...register, ["branch"]: "" });
   };
 
-  const notify = () => {
-    toast.success("Usuário cadastrado com sucesso!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -134,11 +123,9 @@ function UsersRegister() {
 
       handleReload(e);
 
-      notify();
+      notify("Usuário cadastrado com sucesso!", "success");
     } catch (error) {
-      alert(error);
-
-      console.log(user);
+      notify("Falha ao cadastrar o usuário!", "error");
     }
   };
 
