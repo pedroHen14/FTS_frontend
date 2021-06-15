@@ -34,6 +34,9 @@ import {
   FooterInfos,
   DescriptionContainer,
   CardFormContainer,
+  PlansCardNada,
+  ContainerInput,
+  Input,
 } from "./styles";
 
 import imageLogo from "../../assets/FTS.png";
@@ -61,8 +64,6 @@ import {
   CardActions,
   Typography,
   Collapse,
-  Input,
-  FormControl,
   InputLabel,
 } from "@material-ui/core";
 import Modal from "../../components/Modal";
@@ -87,11 +88,12 @@ function PublicPage() {
   const [inScrollFadeDescription, setInScrollFadeDescription] = useState(false);
   const [inScrollFadeHeader, setInScrollFadeHeader] = useState(false);
   const [plans, setPlans] = useState([]);
+  const [reload, setReload] = useState(0);
 
   const [register, setRegister] = useState({
     cnpj: "",
     fantasy_name: "",
-    social_reason: " ",
+    social_reason: "",
     place_number: "",
     companie_password: "",
     cep: "",
@@ -190,6 +192,26 @@ function PublicPage() {
       notify("CEP não é válido", "error");
     }
   };
+
+  const handleReload = (e) => {
+    setRegister({
+      cnpj: "",
+      fantasy_name: "",
+      social_reason: "",
+      place_number: "",
+      companie_password: "",
+      cep: "",
+      district: "",
+      city: "",
+      street: "",
+      state: "",
+      nature_of_the_business: "",
+      commercial_email: "",
+    });
+
+    setReload(Math.random());
+  };
+
   return (
     <>
       <ToastContainer style={{ color: "white" }} />
@@ -362,6 +384,7 @@ function PublicPage() {
                     plans={p}
                     handleInput={handleInput}
                     stateRegister={register}
+                    reload={handleReload}
                   />
                 );
               })}
@@ -397,7 +420,7 @@ function PublicPage() {
   );
 }
 
-function CardPlans({ plans, handleInput, stateRegister }) {
+function CardPlans({ plans, handleInput, stateRegister, reload }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -408,89 +431,96 @@ function CardPlans({ plans, handleInput, stateRegister }) {
     e.preventDefault();
 
     try {
-      const { data } = await api.get("company", {
-        cnpj: "",
-        fantasy_name: "",
-        social_reason: "",
-        place_number: "",
-        companie_password: "",
-        cep: "",
-        plan_id: "",
-        state: "",
-        nature_of_the_business: "",
-        commercial_email: "",
+      await api.post("company", {
+        cnpj: stateRegister.cnpj.replace(/\D/g, ""),
+        fantasy_name: stateRegister.fantasy_name,
+        social_reason: stateRegister.social_reason,
+        place_number: stateRegister.place_number,
+        companie_password: stateRegister.companie_password,
+        cep: stateRegister.cep.replace("-", ""),
+        plan_id: plans.id,
+        state: stateRegister.state,
+        nature_of_the_business: stateRegister.nature_of_the_business,
+        commercial_email: stateRegister.commercial_email,
       });
-    } catch (error) {}
+
+      reload();
+      notify("Sua empresa foi cadastrada com sucesso!", "success");
+    } catch (error) {
+      notify("Falha ao cadastrar a empresa!", "error");
+    }
   };
 
   return (
     <PlansCard>
-      <PlansCardHeader title={plans.plan_name} />
-      <PlansCardMedia title="image 1" image={imageTeste} />
-      <PlansCardContent>
-        <PlansCardList>
-          <PlansCardListItem>
-            <PlansCardListItemIcon>
-              <FaCheck color="green" />
-            </PlansCardListItemIcon>
-            <PlansCardListItemText
-              primary={`Limite de ${plans.branch_limit} filiais`}
-            />
-          </PlansCardListItem>
-          <PlansCardListItem>
-            <PlansCardListItemIcon>
-              <FaCheck color="green" />
-            </PlansCardListItemIcon>
-            <PlansCardListItemText
-              primary={`${plans.user_limit_per_branch} usuários por filiais`}
-            />
-          </PlansCardListItem>
-          <PlansCardListItem>
-            <PlansCardListItemIcon>
-              {plans.use_phone_for_sale ? (
-                <FaCheck color="green" />
-              ) : (
-                <FaTimesCircle color="red" />
-              )}
-            </PlansCardListItemIcon>
-            <PlansCardListItemText primary="Função de venda pelo App" />
-          </PlansCardListItem>
-        </PlansCardList>
-      </PlansCardContent>
-      <PlansCardFooter disableSpacing>
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: "green",
-            color: "var(--white)",
-            fontWeight: "bold",
-          }}
-          // onClick={() => handleModalRegisterCompany(plans.id)}
-        >
-          Comprar
-        </Button>
-        <h3>
-          {parseInt(plans.value).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          })}
-        </h3>
-
-        <IconButton
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          className={!expanded ? "" : "expandedOpen"}
-          aria-label="show more"
-          style={{ transition: "all .4s" }}
-        >
-          <ExpandMore />
-        </IconButton>
-      </PlansCardFooter>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <PlansCardNada>
+        <PlansCardHeader title={plans.plan_name} />
+        <PlansCardMedia title="image 1" image={imageTeste} />
         <PlansCardContent>
-          <CardFormContainer onSubmit={handleSubmit}>
-            <FormControl>
-              <InputLabel htmlFor="cnpj">CNPJ</InputLabel>
+          <PlansCardList>
+            <PlansCardListItem>
+              <PlansCardListItemIcon>
+                <FaCheck color="green" />
+              </PlansCardListItemIcon>
+              <PlansCardListItemText
+                primary={`Limite de ${plans.branch_limit} filiais`}
+              />
+            </PlansCardListItem>
+            <PlansCardListItem>
+              <PlansCardListItemIcon>
+                <FaCheck color="green" />
+              </PlansCardListItemIcon>
+              <PlansCardListItemText
+                primary={`${plans.user_limit_per_branch} usuários por filiais`}
+              />
+            </PlansCardListItem>
+            <PlansCardListItem>
+              <PlansCardListItemIcon>
+                {plans.use_phone_for_sale ? (
+                  <FaCheck color="green" />
+                ) : (
+                  <FaTimesCircle color="red" />
+                )}
+              </PlansCardListItemIcon>
+              <PlansCardListItemText primary="Função de venda pelo App" />
+            </PlansCardListItem>
+          </PlansCardList>
+        </PlansCardContent>
+        <PlansCardFooter disableSpacing>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "green",
+              color: "var(--white)",
+              fontWeight: "bold",
+            }}
+            onClick={handleSubmit}
+          >
+            Comprar
+          </Button>
+          <h3>
+            {parseInt(plans.value).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </h3>
+
+          <IconButton
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            className={!expanded ? "expandedClose" : "expandedOpen"}
+            aria-label="show more"
+            style={{ transition: "all .4s" }}
+          >
+            <ExpandMore />
+          </IconButton>
+        </PlansCardFooter>
+      </PlansCardNada>
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <PlansCardContent className="aberto">
+          <CardFormContainer>
+            <ContainerInput>
               <Input
                 id="cnpj"
                 variant="outlined"
@@ -501,57 +531,17 @@ function CardPlans({ plans, handleInput, stateRegister }) {
                 required
                 inputProps={{ maxLength: "18" }}
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="fantasy_name">Nome Fantasia</InputLabel>
-              <Input
-                id="fantasy_name"
-                variant="outlined"
-                label="Nome Fantasia"
-                type="text"
-                value={stateRegister.fantasy_name}
-                onChange={handleInput}
-                required
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="social_reason">Razão Social</InputLabel>
-              <Input
-                id="social_reason"
-                variant="outlined"
-                label="Razão Social"
-                type="text"
-                value={stateRegister.social_reason}
-                onChange={handleInput}
-                required
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="place_number">Número</InputLabel>
+
               <Input
                 id="place_number"
                 variant="outlined"
-                label="Razão Social"
+                label="Número"
                 type="number"
                 value={stateRegister.place_number}
                 onChange={handleInput}
                 required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="companie_password">Senha</InputLabel>
-              <Input
-                id="companie_password"
-                variant="outlined"
-                label="Senha"
-                type="password"
-                value={stateRegister.companie_password}
-                onChange={handleInput}
-                required
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="cep">CEP</InputLabel>
+
               <Input
                 id="cep"
                 variant="outlined"
@@ -564,9 +554,41 @@ function CardPlans({ plans, handleInput, stateRegister }) {
                 inputProps={{ maxLength: "9" }}
                 required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="street">Rua</InputLabel>
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="fantasy_name"
+                variant="outlined"
+                label="Nome Fantasia"
+                type="text"
+                value={stateRegister.fantasy_name}
+                onChange={handleInput}
+                required
+              />
+
+              <Input
+                id="companie_password"
+                variant="outlined"
+                label="Senha"
+                type="password"
+                value={stateRegister.companie_password}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="social_reason"
+                variant="outlined"
+                label="Razão Social"
+                type="text"
+                value={stateRegister.social_reason}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+
+            <ContainerInput>
               <Input
                 id="street"
                 variant="outlined"
@@ -576,9 +598,8 @@ function CardPlans({ plans, handleInput, stateRegister }) {
                 onChange={handleInput}
                 required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="district">Bairro</InputLabel>
+            </ContainerInput>
+            <ContainerInput>
               <Input
                 id="district"
                 variant="outlined"
@@ -588,9 +609,7 @@ function CardPlans({ plans, handleInput, stateRegister }) {
                 onChange={handleInput}
                 required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="city">Cidade</InputLabel>
+
               <Input
                 id="city"
                 variant="outlined"
@@ -600,9 +619,6 @@ function CardPlans({ plans, handleInput, stateRegister }) {
                 onChange={handleInput}
                 required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="state">Estado</InputLabel>
               <Input
                 id="state"
                 variant="outlined"
@@ -612,11 +628,8 @@ function CardPlans({ plans, handleInput, stateRegister }) {
                 onChange={handleInput}
                 required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="nature_of_the_business">
-                Natureza da empresa
-              </InputLabel>
+            </ContainerInput>
+            <ContainerInput>
               <Input
                 id="nature_of_the_business"
                 variant="outlined"
@@ -626,21 +639,17 @@ function CardPlans({ plans, handleInput, stateRegister }) {
                 onChange={handleInput}
                 required
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="commercial_email">
-                E-mail comercial
-              </InputLabel>
+
               <Input
                 id="commercial_email"
                 variant="outlined"
                 label="E-mail comercial"
-                type="text"
+                type="email"
                 value={stateRegister.commercial_email}
                 onChange={handleInput}
                 required
               />
-            </FormControl>
+            </ContainerInput>
           </CardFormContainer>
         </PlansCardContent>
       </Collapse>

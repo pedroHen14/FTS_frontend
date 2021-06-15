@@ -10,6 +10,7 @@ import {
   ListItemAvatar,
   ListItemText,
   ListItemIcon,
+  TextField,
 } from "@material-ui/core";
 
 export const Container = styled.div`
@@ -19,8 +20,12 @@ export const Container = styled.div`
   overflow-x: hidden;
   background-color: var(--primary);
 
+  .expandedClose {
+    transform: rotate(270deg);
+  }
+
   .expandedOpen {
-    transform: rotate(180deg);
+    transform: rotate(90deg);
   }
 `;
 
@@ -270,11 +275,35 @@ export const PlansContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 50px;
+  flex-wrap: wrap;
 `;
 
 export const PlansCard = styled(Card)`
-  width: 345px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .aberto {
+    height: 50vh;
+    width: 40vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+export const PlansCardNada = styled(Card)`
+  min-width: 345px;
+
   min-height: 50vh;
+`;
+
+export const ContainerInput = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const PlansCardHeader = styled(CardHeader)``;
@@ -284,7 +313,9 @@ export const PlansCardMedia = styled(CardMedia)`
   padding-top: 56.25%;
 `;
 
-export const PlansCardContent = styled(CardContent)``;
+export const PlansCardContent = styled(CardContent)`
+  height: inherit;
+`;
 
 export const PlansCardFooter = styled(CardActions)`
   border-bottom: 5px solid var(--dark);
@@ -336,8 +367,15 @@ export const FooterInfos = styled.div`
 
 export const CardFormContainer = styled.form`
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 50vh;
+  width: 100%;
+  padding: 10px;
+`;
+
+export const Input = styled(TextField)`
+  flex: 1;
 `;
