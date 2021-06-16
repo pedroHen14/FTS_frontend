@@ -78,6 +78,7 @@ import { notify } from "../../utils";
 import ModalRegisterCompany from "../../components/ModalRegisterCompany";
 import formatCnpj from "@brazilian-utils/format-cnpj";
 import { ToastContainer } from "react-toastify";
+import CardProductClient from "../../components/CardProductClient";
 
 const { Link } = Anchor;
 
