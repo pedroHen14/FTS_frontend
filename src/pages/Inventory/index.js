@@ -18,6 +18,7 @@ import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
 import { TextField } from "@material-ui/core";
 import { format } from "date-fns";
+import { notify } from "../../utils";
 
 function Inventory() {
   const user = getUser();
@@ -41,7 +42,7 @@ function Inventory() {
     const loadProduct = async () => {
       try {
         const response = await api.get(
-          `/company/${user.branches.map((b) => b.company_id)}/product`
+          `/company/${user.branch.map((b) => b.company_id)}/product`
         );
 
         setProduct(response.data);
@@ -55,7 +56,7 @@ function Inventory() {
     const loadLogbooks = async () => {
       try {
         const response = await api.get(
-          `/branch/${user.branches.map((b) => b.company_id)}/logbook`
+          `/branch/${user.branch.map((b) => b.company_id)}/logbook`
         );
 
         setLogbook(response.data);
@@ -75,22 +76,12 @@ function Inventory() {
     setRegister({ ...register, ["product_id"]: productSel?.id });
   };
 
-  const notify = () => {
-    toast.success("Usuário cadastrado com sucesso!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const company_id = user.branches.map((u) => u.company_id);
+    const company_id = user.branch.map((u) => u.company_id);
+
+    console.log(register.manufacture_date, register.expiration_date);
 
     try {
       const response = await api.post("/logbook", {
@@ -107,9 +98,9 @@ function Inventory() {
 
       handleReload(e);
 
-      notify();
+      notify("Estoque cadastrado com sucesso", "success");
     } catch (error) {
-      alert(error);
+      notify("Erro ao cadastrar o estoque", "error");
     }
   };
 

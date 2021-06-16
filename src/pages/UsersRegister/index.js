@@ -16,6 +16,7 @@ import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
 import { FormControl, TextField } from "@material-ui/core";
 import formatCpf from "@brazilian-utils/format-cpf";
+import { notify } from "../../utils";
 
 function UsersRegister() {
   const user = getUser();
@@ -98,22 +99,10 @@ function UsersRegister() {
   const handleBranches = (e) => {
     const idSel = e.target.value;
 
-    const branchSel = user.branches.find((b) => b.id.toString() === idSel);
+    const branchSel = user.branch.find((b) => b.id.toString() === idSel);
 
     setRegister({ ...register, ["branch"]: branchSel?.id });
     // else setRegister({ ...register, ["branch"]: "" });
-  };
-
-  const notify = () => {
-    toast.success("Usuário cadastrado com sucesso!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
   };
 
   const handleSubmit = async (e) => {
@@ -134,11 +123,9 @@ function UsersRegister() {
 
       handleReload(e);
 
-      notify();
+      notify("Usuário cadastrado com sucesso!", "success");
     } catch (error) {
-      alert(error);
-
-      console.log(user);
+      notify("Falha ao cadastrar o usuário!", "error");
     }
   };
 
@@ -221,14 +208,14 @@ function UsersRegister() {
               </option>
             ))}
           </Select>
-          {user.branches && (
+          {user.branch && (
             <Select
               id="branch"
               value={register.branch}
               handler={handleBranches}
             >
               <option value="">Selecione a filial</option>
-              {user.branches.map((b) => (
+              {user.branch.map((b) => (
                 <option key={b.id} value={b.id}>
                   {b.branch_name}
                 </option>

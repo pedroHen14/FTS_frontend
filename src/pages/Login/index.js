@@ -26,6 +26,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { notify } from "../../utils";
 
 function Login() {
   const history = useHistory();
@@ -36,18 +37,6 @@ function Login() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const notify = () => {
-    toast.error("Usuário/senha incorretos!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +54,7 @@ function Login() {
 
       history.push("/home");
     } catch (error) {
-      notify();
+      notify("Usuário/Senha incorretos", "error");
       console.error(error);
     }
   };

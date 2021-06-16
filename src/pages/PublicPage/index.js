@@ -33,6 +33,10 @@ import {
   FooterContainer,
   FooterInfos,
   DescriptionContainer,
+  CardFormContainer,
+  PlansCardNada,
+  ContainerInput,
+  Input,
 } from "./styles";
 
 import imageLogo from "../../assets/FTS.png";
@@ -60,6 +64,7 @@ import {
   CardActions,
   Typography,
   Collapse,
+  InputLabel,
 } from "@material-ui/core";
 import Modal from "../../components/Modal";
 import { useState } from "react";
@@ -68,9 +73,12 @@ import imageTeste from "../../assets/bg.jpg";
 import { ExpandMore } from "@material-ui/icons";
 import { Anchor } from "antd";
 import { useHistory } from "react-router";
-import { api } from "../../services/api";
+import { api, apiCep } from "../../services/api";
 import { notify } from "../../utils";
 import ModalRegisterCompany from "../../components/ModalRegisterCompany";
+import formatCnpj from "@brazilian-utils/format-cnpj";
+import { ToastContainer } from "react-toastify";
+import CardProductClient from "../../components/CardProductClient";
 
 const { Link } = Anchor;
 
@@ -81,10 +89,22 @@ function PublicPage() {
   const [inScrollFadeDescription, setInScrollFadeDescription] = useState(false);
   const [inScrollFadeHeader, setInScrollFadeHeader] = useState(false);
   const [plans, setPlans] = useState([]);
-  const [expanded, setExpanded] = useState(false);
-  const [modalContent, setModalContent] = useState([]);
-  const [openModalRegisterCompany, setOpenModalRegisterCompany] =
-    useState(false);
+  const [reload, setReload] = useState(0);
+
+  const [register, setRegister] = useState({
+    cnpj: "",
+    fantasy_name: "",
+    social_reason: "",
+    place_number: "",
+    companie_password: "",
+    cep: "",
+    district: "",
+    city: "",
+    street: "",
+    state: "",
+    nature_of_the_business: "",
+    commercial_email: "",
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -105,21 +125,6 @@ function PublicPage() {
 
     loadPlans();
   }, []);
-
-  const handleModalRegisterCompany = async (idPlan) => {
-    try {
-      const { data } = await api.get(`/plan/find/${idPlan}`);
-
-      setModalContent(data);
-      setOpenModalRegisterCompany(true);
-    } catch (error) {
-      notify("Plano não encontrado", "error");
-    }
-  };
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const handleScrollFadeDescription = () => {
     if (document.documentElement.scrollTop > 500) {
@@ -158,14 +163,59 @@ function PublicPage() {
     history.push("/login");
   };
 
+  const handleInput = (e) => {
+    setRegister({ ...register, [e.target.id]: e.target.value });
+
+    if (e.target.id === "cep") {
+      const { cep } = { cep: e.target.value };
+
+      if (cep.length >= 9) {
+        handleCep(cep);
+      }
+    }
+  };
+
+  const handleCep = async (cep) => {
+    cep.replace("-", "");
+
+    try {
+      const { data } = await apiCep.get(`${cep}/json`);
+
+      setRegister({
+        ...register,
+        cep: data.cep,
+        district: data.bairro,
+        city: data.localidade,
+        street: data.logradouro,
+        state: data.uf,
+      });
+    } catch (error) {
+      notify("CEP não é válido", "error");
+    }
+  };
+
+  const handleReload = (e) => {
+    setRegister({
+      cnpj: "",
+      fantasy_name: "",
+      social_reason: "",
+      place_number: "",
+      companie_password: "",
+      cep: "",
+      district: "",
+      city: "",
+      street: "",
+      state: "",
+      nature_of_the_business: "",
+      commercial_email: "",
+    });
+
+    setReload(Math.random());
+  };
+
   return (
     <>
-      {/* {openModalRegisterCompany && (
-        <ModalRegisterCompany
-          idPlan={modalContent.id}
-          planName={modalContent.plan_name}
-        />
-      )} */}
+      <ToastContainer style={{ color: "white" }} />
       <Container>
         <Header
           style={
@@ -193,7 +243,7 @@ function PublicPage() {
             </MenuContainer>
           </Anchor>
           <IconUser onClick={() => handleRedirectLogin()}>
-            <FaUserAlt />
+            <FaUserAlt style={{ cursor: "pointer" }} />
           </IconUser>
         </Header>
         <Body>
@@ -294,9 +344,9 @@ function PublicPage() {
               <InfosCardContainer>
                 <InfosCard>
                   <p>
-                    A Flow Trading System busca se aprofundar no mercado
-                    tecnológico gerencial para se tornar uma das empresas mais
-                    conhecidas nacionalmente e internacionalmente.
+                    A <strong>Flow Trading System</strong> busca se aprofundar
+                    no mercado tecnológico gerencial para se tornar uma das
+                    empresas mais conhecidas nacionalmente e internacionalmente.
                   </p>
                 </InfosCard>
               </InfosCardContainer>
@@ -331,71 +381,12 @@ function PublicPage() {
             {plans &&
               plans.map((p) => {
                 return (
-                  <PlansCard>
-                    <PlansCardHeader title={p.plan_name} />
-                    <PlansCardMedia title="image 1" image={imageTeste} />
-                    <PlansCardContent>
-                      <PlansCardList>
-                        <PlansCardListItem>
-                          <PlansCardListItemIcon>
-                            <FaCheck color="green" />
-                          </PlansCardListItemIcon>
-                          <PlansCardListItemText
-                            primary={`Limite de ${p.branch_limit} filiais`}
-                          />
-                        </PlansCardListItem>
-                        <PlansCardListItem>
-                          <PlansCardListItemIcon>
-                            <FaCheck color="green" />
-                          </PlansCardListItemIcon>
-                          <PlansCardListItemText
-                            primary={`${p.user_limit_per_branch} usuários por filiais`}
-                          />
-                        </PlansCardListItem>
-                        <PlansCardListItem>
-                          <PlansCardListItemIcon>
-                            {p.use_phone_for_sale ? (
-                              <FaCheck color="green" />
-                            ) : (
-                              <FaTimesCircle color="red" />
-                            )}
-                          </PlansCardListItemIcon>
-                          <PlansCardListItemText primary="Função de venda pelo App" />
-                        </PlansCardListItem>
-                      </PlansCardList>
-                    </PlansCardContent>
-                    <PlansCardFooter disableSpacing>
-                      <Button
-                        variant="contained"
-                        style={{
-                          backgroundColor: "green",
-                          color: "var(--white)",
-                          fontWeight: "bold",
-                        }}
-                        onClick={() => handleModalRegisterCompany(p.id)}
-                      >
-                        Comprar
-                      </Button>
-                      <h3>R$ {p.value.replace(".", ",")}</h3>
-
-                      <IconButton
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                      >
-                        <ExpandMore />
-                      </IconButton>
-                    </PlansCardFooter>
-                    <Collapse in={expanded} timeout="auto" unmountOnExit>
-                      <PlansCardContent>
-                        <Typography paragraph>Method:</Typography>
-                        <Typography paragraph>
-                          Heat 1/2 cup of the broth in a pot until simmering,
-                          add saffron and set aside for 10 minutes.
-                        </Typography>
-                      </PlansCardContent>
-                    </Collapse>
-                  </PlansCard>
+                  <CardPlans
+                    plans={p}
+                    handleInput={handleInput}
+                    stateRegister={register}
+                    reload={handleReload}
+                  />
                 );
               })}
           </PlansContainer>
@@ -427,6 +418,243 @@ function PublicPage() {
         </Body>
       </Container>
     </>
+  );
+}
+
+function CardPlans({ plans, handleInput, stateRegister, reload }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.post("company", {
+        cnpj: stateRegister.cnpj.replace(/\D/g, ""),
+        fantasy_name: stateRegister.fantasy_name,
+        social_reason: stateRegister.social_reason,
+        place_number: stateRegister.place_number,
+        companie_password: stateRegister.companie_password,
+        cep: stateRegister.cep.replace("-", ""),
+        plan_id: plans.id,
+        state: stateRegister.state,
+        nature_of_the_business: stateRegister.nature_of_the_business,
+        commercial_email: stateRegister.commercial_email,
+      });
+
+      reload();
+      notify("Sua empresa foi cadastrada com sucesso!", "success");
+    } catch (error) {
+      notify("Falha ao cadastrar a empresa!", "error");
+    }
+  };
+
+  return (
+    <PlansCard>
+      <PlansCardNada>
+        <PlansCardHeader title={plans.plan_name} />
+        <PlansCardMedia title="image 1" image={imageTeste} />
+        <PlansCardContent>
+          <PlansCardList>
+            <PlansCardListItem>
+              <PlansCardListItemIcon>
+                <FaCheck color="green" />
+              </PlansCardListItemIcon>
+              <PlansCardListItemText
+                primary={`Limite de ${plans.branch_limit} filiais`}
+              />
+            </PlansCardListItem>
+            <PlansCardListItem>
+              <PlansCardListItemIcon>
+                <FaCheck color="green" />
+              </PlansCardListItemIcon>
+              <PlansCardListItemText
+                primary={`${plans.user_limit_per_branch} usuários por filiais`}
+              />
+            </PlansCardListItem>
+            <PlansCardListItem>
+              <PlansCardListItemIcon>
+                {plans.use_phone_for_sale ? (
+                  <FaCheck color="green" />
+                ) : (
+                  <FaTimesCircle color="red" />
+                )}
+              </PlansCardListItemIcon>
+              <PlansCardListItemText primary="Função de venda pelo App" />
+            </PlansCardListItem>
+          </PlansCardList>
+        </PlansCardContent>
+        <PlansCardFooter disableSpacing>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "green",
+              color: "var(--white)",
+              fontWeight: "bold",
+            }}
+            onClick={handleSubmit}
+          >
+            Comprar
+          </Button>
+          <h3>
+            {parseInt(plans.value).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </h3>
+
+          <IconButton
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            className={!expanded ? "expandedClose" : "expandedOpen"}
+            aria-label="show more"
+            style={{ transition: "all .4s" }}
+          >
+            <ExpandMore />
+          </IconButton>
+        </PlansCardFooter>
+      </PlansCardNada>
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <PlansCardContent className="aberto">
+          <CardFormContainer>
+            <ContainerInput>
+              <Input
+                id="cnpj"
+                variant="outlined"
+                label="CNPJ"
+                type="text"
+                value={formatCnpj(stateRegister.cnpj)}
+                onChange={handleInput}
+                required
+                inputProps={{ maxLength: "18" }}
+              />
+
+              <Input
+                id="place_number"
+                variant="outlined"
+                label="Número"
+                type="number"
+                value={stateRegister.place_number}
+                onChange={handleInput}
+                required
+              />
+
+              <Input
+                id="cep"
+                variant="outlined"
+                label="CEP"
+                type="text"
+                value={stateRegister.cep
+                  .replace(/(\d{5})(\d)/, "$1-$2")
+                  .replace(/(\d{3})$/, "$1")}
+                onChange={handleInput}
+                inputProps={{ maxLength: "9" }}
+                required
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="fantasy_name"
+                variant="outlined"
+                label="Nome Fantasia"
+                type="text"
+                value={stateRegister.fantasy_name}
+                onChange={handleInput}
+                required
+              />
+
+              <Input
+                id="companie_password"
+                variant="outlined"
+                label="Senha"
+                type="password"
+                value={stateRegister.companie_password}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="social_reason"
+                variant="outlined"
+                label="Razão Social"
+                type="text"
+                value={stateRegister.social_reason}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+
+            <ContainerInput>
+              <Input
+                id="street"
+                variant="outlined"
+                label="Rua"
+                type="text"
+                value={stateRegister.street}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="district"
+                variant="outlined"
+                label="Estado"
+                type="text"
+                value={stateRegister.district}
+                onChange={handleInput}
+                required
+              />
+
+              <Input
+                id="city"
+                variant="outlined"
+                label="Cidade"
+                type="text"
+                value={stateRegister.city}
+                onChange={handleInput}
+                required
+              />
+              <Input
+                id="state"
+                variant="outlined"
+                label="Estado"
+                type="text"
+                value={stateRegister.state}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="nature_of_the_business"
+                variant="outlined"
+                label="Natureza da empresa"
+                type="text"
+                value={stateRegister.nature_of_the_business}
+                onChange={handleInput}
+                required
+              />
+
+              <Input
+                id="commercial_email"
+                variant="outlined"
+                label="E-mail comercial"
+                type="email"
+                value={stateRegister.commercial_email}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+          </CardFormContainer>
+        </PlansCardContent>
+      </Collapse>
+    </PlansCard>
   );
 }
 
