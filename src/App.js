@@ -1,4 +1,5 @@
 import { GlobalStyles } from "./GlobalStyles";
+import ClientPage from "./pages/ClientPage";
 import Router from "./router";
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
         href="https://fonts.googleapis.com/css?family=PT+Sans"
       ></link>
       <GlobalStyles />
-      <Router />
+      {/* <Router /> */}
+      <ClientPage />
     </>
   );
 }
