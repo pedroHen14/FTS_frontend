@@ -28,6 +28,7 @@ import {
   PopularProductsContainer,
   PopularProductsContent,
   PopularProductsHeader,
+  ProductsContainer,
 } from "./styles";
 
 import { RiWhatsappLine } from "react-icons/ri";
@@ -97,25 +98,9 @@ function ClientPage() {
             <h1>Nome da empresa</h1>
           </CompanyContent>
         </CompanyContainer>
-        <DescriptionContainer>
-          <h1>Quem Somos</h1>
-          <p>
-            Et tempor minim magna eiusmod est ut cupidatat id. Cillum eu anim
-            aliquip Lorem laborum enim labore duis qui. Ad eu aliqua nulla ut
-            anim eu laboris fugiat Lorem mollit. Non velit quis minim esse
-            consequat ipsum est incididunt minim anim ex. Veniam irure in irure
-            aliqua ad ipsum sint ea. Enim mollit sint laborum ullamco aute qui
-            tempor sunt cupidatat eiusmod adipisicing. Non dolor nisi aute culpa
-            labore amet do elit nisi. Tempor laborum cupidatat amet voluptate eu
-            incididunt non veniam ut eu aute. Labore non id et dolor dolore sunt
-            ex culpa fugiat aliqua eu amet ipsum. Minim deserunt aliqua labore
-            excepteur sunt. Quis nisi fugiat cillum aliquip tempor amet est
-            tempor adipisicing nulla ex non aliqua. Culpa dolor sunt ut fugiat
-            esse labore duis officia culpa commodo esse dolor. Nulla nisi Lorem
-            sunt culpa commodo veniam ullamco sunt laboris nulla ea deserunt
-            velit adipisicing.
-          </p>
-        </DescriptionContainer>
+        <ProductsContainer>
+          <h1>Nossos Produtos</h1>
+        </ProductsContainer>
         <PopularProductsContainer>
           <PopularProductsHeader>
             <h1>Produtos populares</h1>

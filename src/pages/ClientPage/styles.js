@@ -76,15 +76,17 @@ export const CompanyContent = styled.div`
   border-radius: 20px;
 `;
 
-export const DescriptionContainer = styled.div`
+export const ProductsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
   justify-content: center;
   align-items: center;
 
-  p {
+ 
+  h1 {
     width: 70%;
+    border-bottom: 1px solid black;
     text-align: center;
   }
 `;
@@ -114,7 +116,7 @@ export const PopularProductsContent = styled.div`
   display: flex;
   width: 100%;
   height: 30vh;
-  background-color: var(--dark);
+  background-color: var(--grayLight);
   align-items: center;
   justify-content: center;
 `;
@@ -139,7 +141,7 @@ export const OtherProductsHeader = styled.div`
 export const OtherProductsContent = styled.div`
   display: flex;
   width: 100%;
-  background-color: var(--dark);
+  background-color: var(--grayLight);
   height: 40vh;
   align-items: center;
   justify-content: center;
@@ -163,8 +165,10 @@ export const OtherProductsContent = styled.div`
     flex-direction: column;
     gap: 20px;
     align-items: center;
-
+    color: var(--black);
+    
     div {
+      box-shadow: 5px 5px 5px var(--dark);
       width: 250px;
       height: 300px;
       background-color: white;

@@ -1,4 +1,9 @@
 import { createGlobalStyle } from "styled-components";
+import { getUser } from './services/security';
+
+// const user = getUser();
+
+// console.log(user);
 
 export const GlobalStyles = createGlobalStyle`
 
@@ -7,6 +12,7 @@ export const GlobalStyles = createGlobalStyle`
         --darkGray: #3a4f6bCC;
         --light: #D1E6FF;
         --lightTransparent: #D1E6FFCC;
+        --grayLight: #82828240;
         --white: #FFFFFF;
         --primary: #9EB4FF;
         --secondary: #6C85CC;
