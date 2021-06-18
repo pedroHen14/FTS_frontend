@@ -13,9 +13,29 @@ import ProductsRegister from "./pages/ProductsRegister";
 import Inventory from "./pages/Inventory";
 import Purchases from "./pages/Purchases";
 import ClientPage from "./pages/ClientPage";
+import { useLocation } from "react-router-dom";
 
 function PrivateRoute({ children, ...rest }) {
-  if (isSignedIn()) {
+  const user = getUser();
+
+  const location = useLocation();
+
+  const path = location.pathname;
+
+  const array = [];
+
+  const hasAccess = () => {
+    user.permissions.map((p) =>
+      p.Screens.forEach((s) => {
+        array.push(s.route);
+      })
+    );
+
+    if (array.indexOf(path, 0) === -1) return false;
+    else return true;
+  };
+
+  if (isSignedIn() && hasAccess()) {
     return <Route {...rest}>{children}</Route>;
   } else {
     return <Redirect to="/" />;
