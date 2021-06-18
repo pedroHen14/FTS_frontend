@@ -12,6 +12,7 @@ import PublicPage from "./pages/PublicPage";
 import ProductsRegister from "./pages/ProductsRegister";
 import Inventory from "./pages/Inventory";
 import Purchases from "./pages/Purchases";
+import ClientPage from "./pages/ClientPage";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -35,6 +36,10 @@ function Router() {
 
         <PrivateRoute path="/home">
           <Home />
+        </PrivateRoute>
+
+        <PrivateRoute path="/clientPage">
+          <ClientPage />
         </PrivateRoute>
 
         <PrivateRoute path="/usersRegister">
