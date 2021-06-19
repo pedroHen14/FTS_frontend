@@ -30,6 +30,8 @@ function UsersRegister() {
     password: "",
   });
 
+  const [branches, setBranches] = useState([]);
+
   const [permissions, setPermissions] = useState([]);
 
   const [permissionsSel, setPermissionsSel] = useState([]);
@@ -64,6 +66,22 @@ function UsersRegister() {
     };
 
     loadPermissions();
+
+    const loadBranches = async () => {
+      const company_id = user.id;
+
+      try {
+        const { data } = await api.get(`/company/${company_id}/branch`);
+
+        setBranches(data);
+      } catch (error) {
+        notify("Não foi possível localizar as filiais para listagem", "error");
+      }
+    };
+
+    loadBranches();
+
+    console.log(user);
   }, [reload]);
 
   const handlePermissions = (e) => {
@@ -99,10 +117,9 @@ function UsersRegister() {
   const handleBranches = (e) => {
     const idSel = e.target.value;
 
-    const branchSel = user.branch.find((b) => b.id.toString() === idSel);
+    const branchSel = branches.find((b) => b.id.toString() === idSel);
 
     setRegister({ ...register, ["branch"]: branchSel?.id });
-    // else setRegister({ ...register, ["branch"]: "" });
   };
 
   const handleSubmit = async (e) => {
@@ -148,8 +165,6 @@ function UsersRegister() {
 
     setReload(Math.random());
   };
-
-  console.log(permissionsSel.reduce((s, p) => (s += p.id + ","), ""));
 
   return (
     <Dashboard title="Cadastro de usuários">
@@ -208,14 +223,14 @@ function UsersRegister() {
               </option>
             ))}
           </Select>
-          {user.branch && (
+          {branches && (
             <Select
               id="branch"
               value={register.branch}
               handler={handleBranches}
             >
               <option value="">Selecione a filial</option>
-              {user.branch.map((b) => (
+              {branches.map((b) => (
                 <option key={b.id} value={b.id}>
                   {b.branch_name}
                 </option>

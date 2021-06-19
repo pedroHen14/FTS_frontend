@@ -436,13 +436,19 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
         cnpj: stateRegister.cnpj.replace(/\D/g, ""),
         fantasy_name: stateRegister.fantasy_name,
         social_reason: stateRegister.social_reason,
-        place_number: stateRegister.place_number,
         companie_password: stateRegister.companie_password,
-        cep: stateRegister.cep.replace("-", ""),
+        place_number: parseInt(stateRegister.place_number),
         plan_id: plans.id,
-        state: stateRegister.state,
         nature_of_the_business: stateRegister.nature_of_the_business,
         commercial_email: stateRegister.commercial_email,
+        address: {
+          cep: stateRegister.cep.replace("-", ""),
+          street: stateRegister.street,
+          complement: "nandandnandna",
+          district: stateRegister.district,
+          city: stateRegister.city,
+          uf: stateRegister.state,
+        },
       });
 
       reload();
