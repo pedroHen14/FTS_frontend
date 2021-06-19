@@ -8,7 +8,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 `;
 
 export const InfoContainer = styled.div`

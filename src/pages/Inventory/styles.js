@@ -7,6 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 50px;
 `;
 
 export const ContainerForm = styled.div`
@@ -14,6 +15,7 @@ export const ContainerForm = styled.div`
   justify-items: center;
   height: 50%;
   align-items: center;
+  border-bottom: 2px solid var(--black);
   width: 70%;
 `;
 

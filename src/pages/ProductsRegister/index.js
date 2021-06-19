@@ -84,7 +84,7 @@ function ProductsRegister() {
 
     console.log(user);
 
-    const company_id = user.branch.map((u) => u.CompanyId);
+    const company_id = user.branch.company_id;
 
     try {
       await api.post("/product", {
@@ -94,14 +94,14 @@ function ProductsRegister() {
         cost_per_item: register.cost_per_item,
         unit_of_measurement_id: register.unit_of_measurement_id,
         product_type_id: register.product_type_id,
-        company_id: company_id[0],
+        company_id: company_id,
       });
 
       handleReload(e);
 
-      notify("Usuário cadastrado com sucesso!", "success");
+      notify("Produto cadastrado com sucesso!", "success");
     } catch (error) {
-      notify("Falha ao cadastrar o usuário!", "error");
+      notify("Falha ao cadastrar o produto!", "error");
     }
   };
 

@@ -13,11 +13,19 @@ import { Chart } from "react-google-charts";
 function Home() {
   const user = getUser();
 
-  console.log(user);
-
+  const user_permission = user.permissions.map((p) => p.permission_name);
   return (
     <Dashboard title="Home">
       <Container>
+        {user_permission == "Caixa" ? (
+          <strong style={{ textAlign: "center", width: "70%" }}>
+            Para você ter uma melhor experiência com a tela de caixa,
+            recomendamos que baixe o atalho para a área de trabalho que irá
+            redirecionar você diretamente para a tela de PDV
+          </strong>
+        ) : (
+          ""
+        )}
         <InfoContainer>
           <InfoCard>
             <InfoCardHeader>

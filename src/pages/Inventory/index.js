@@ -19,6 +19,15 @@ import { toast, ToastContainer } from "react-toastify";
 import { TextField } from "@material-ui/core";
 import { format } from "date-fns";
 import { notify } from "../../utils";
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TablePagination,
+  TableHead,
+} from "@material-ui/core";
 
 function Inventory() {
   const user = getUser();
@@ -38,11 +47,19 @@ function Inventory() {
 
   const [logbook, setLogbook] = useState([]);
 
+  const columns = [
+    { id: "quantity_acquired", label: "Quantidade", minWidth: 150 },
+    { id: "lot_number", label: "Número do lote", minWidth: 150 },
+    { id: "bar_code", label: "Cód. barras", minWidth: 150 },
+    { id: "product", label: "Produto", minWidth: 150 },
+    { id: "date_of_acquisition", label: "Data de Aquis.", minWidth: 150 },
+  ];
+
   useEffect(() => {
     const loadProduct = async () => {
       try {
         const response = await api.get(
-          `/company/${user.branch.map((b) => b.company_id)}/product`
+          `/company/${user.branch.company_id}/product`
         );
 
         setProduct(response.data);
@@ -56,7 +73,7 @@ function Inventory() {
     const loadLogbooks = async () => {
       try {
         const response = await api.get(
-          `/branch/${user.branch.map((b) => b.company_id)}/logbook`
+          `/branch/${user.branch.company_id}/logbook`
         );
 
         setLogbook(response.data);
@@ -79,7 +96,9 @@ function Inventory() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const company_id = user.branch.map((u) => u.company_id);
+    console.log(user);
+
+    const company_id = user.branch.id;
 
     console.log(register.manufacture_date, register.expiration_date);
 
@@ -208,45 +227,43 @@ function Inventory() {
             </ButtonRegister>
           </FormRegister>
         </ContainerForm>
-        <ContainerListLogbook>
-          <header className="header">
-            <h2>Lista de Estoque</h2>
-          </header>
-          <table>
-            <tr>
-              <td>
-                <h4>Quantidade</h4>
-              </td>
-              <td>
-                <h4>Número do lote</h4>
-              </td>
-              <td>
-                <h4>Cód. barras</h4>
-              </td>
-              <td>
-                <h4>Produto</h4>
-              </td>
-              <td>
-                <h4>Data de Aquis.</h4>
-              </td>
-            </tr>
-            {logbook &&
-              logbook.map((p, index) => {
-                console.log(p);
-                return (
-                  <tr key={index}>
-                    <td>{p.quantity_acquired}</td>
-                    <td>{p.Lot.lot_number}</td>
-                    <td>{p.Product.bar_code}</td>
-                    <td>{p.Product.product_name}</td>
-                    <td>
-                      {format(new Date(p.date_of_acquisition), "dd/MM/yyyy")}
-                    </td>
-                  </tr>
-                );
-              })}
-          </table>
-        </ContainerListLogbook>
+        <TableContainer
+          style={{
+            width: "80%",
+            borderRadius: "10px",
+            border: "1px solid var(--light)",
+          }}
+        >
+          <Table stickyHeader aria-label="">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {logbook &&
+                logbook.map((p, index) => {
+                  console.log(p);
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell>{p.quantity_acquired}</TableCell>
+                      <TableCell>{p.Lot.lot_number}</TableCell>
+                      <TableCell>{p.Product.bar_code}</TableCell>
+                      <TableCell>{p.Product.product_name}</TableCell>
+                      <TableCell>{p.date_of_acquisition}</TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Container>
     </Dashboard>
   );

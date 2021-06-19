@@ -1,0 +1,45 @@
+import { Button, TextField } from "@material-ui/core";
+import styled from "styled-components";
+
+export const Container = styled.div``;
+
+export const ContainerForm = styled.div`
+  display: flex;
+  justify-items: flex-start;
+  height: 90%;
+  align-items: center;
+  width: 70%;
+`;
+
+export const FormRegister = styled.form`
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+`;
+
+export const ContainerInput = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+`;
+
+export const Input = styled(TextField)`
+  flex: 1;
+`;
+
+export const ButtonRegister = styled(Button)`
+  width: 50%;
+  margin-top: 20px;
+  border-radius: 10px;
+`;
