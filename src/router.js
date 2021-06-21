@@ -23,7 +23,7 @@ function PrivateRoute({ children, ...rest }) {
 
   const path = location.pathname;
 
-  const array = [];
+  const array = ["/home"];
 
   const hasAccess = () => {
     user.permissions.map((p) =>

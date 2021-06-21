@@ -3,8 +3,20 @@ import { Button, TextField } from "@material-ui/core";
 
 export const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+`;
+
+export const ContainerForm = styled.div`
+  display: flex;
+  justify-items: flex-start;
+  height: 60%;
+  align-items: center;
+  border-bottom: 2px solid var(--black);
+  width: 70%;
 `;
 
 export const Body = styled.div`
@@ -25,14 +37,6 @@ export const Header = styled.header`
   justify-content: center;
   border-bottom: 1px solid black;
   width: 100%;
-`;
-
-export const ContainerForm = styled.div`
-  display: flex;
-  justify-items: flex-start;
-  height: 90%;
-  align-items: center;
-  width: 70%;
 `;
 
 export const FormRegister = styled.form`

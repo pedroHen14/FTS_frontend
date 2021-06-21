@@ -79,7 +79,7 @@ function Purchases() {
       return items;
     });
 
-    const company_id = user.branch.company_id;
+    const company_id = user.branch[0].company_id;
 
     try {
       await api.post("/purchase", {

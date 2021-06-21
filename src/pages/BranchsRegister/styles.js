@@ -1,4 +1,4 @@
-import { Button, TextField } from "@material-ui/core";
+import { Button, Table, TextField } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -50,4 +50,13 @@ export const ButtonRegister = styled(Button)`
   width: 50%;
   margin-top: 20px;
   border-radius: 10px;
+`;
+
+export const TableList = styled(Table)`
+  border: solid 2px var(--dark);
+
+  th {
+    background-color: var(--dark);
+    color: var(--white);
+  }
 `;

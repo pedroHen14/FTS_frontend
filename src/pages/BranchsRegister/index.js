@@ -12,6 +12,7 @@ import {
   ContainerInput,
   FormRegister,
   ButtonRegister,
+  TableList,
 } from "./styles";
 
 import formatCnpj from "@brazilian-utils/format-cnpj";
@@ -253,7 +254,7 @@ function BranchsRegister() {
             border: "1px solid var(--light)",
           }}
         >
-          <Table stickyHeader aria-label="">
+          <TableList stickyHeader aria-label="">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -278,7 +279,7 @@ function BranchsRegister() {
                   );
                 })}
             </TableBody>
-          </Table>
+          </TableList>
         </TableContainer>
       </Container>
     </Dashboard>

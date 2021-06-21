@@ -4,6 +4,7 @@ import {
   ContainerInput,
   FormRegister,
   Input,
+  Container,
 } from "./styles";
 import Select from "../../components/Select";
 import Tag from "../../components/Tag";
@@ -169,107 +170,109 @@ function UsersRegister() {
   return (
     <Dashboard title="Cadastro de usuários">
       <ToastContainer style={{ color: "white" }} />
-      <ContainerForm>
-        <FormRegister onSubmit={handleSubmit}>
-          <ContainerInput>
-            <Input
-              id="name"
-              label="Nome"
-              type="text"
-              variant="outlined"
-              value={register.name}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
-          <ContainerInput>
-            <Input
-              id="cpf"
-              variant="outlined"
-              label="CPF"
-              type="text"
-              value={formatCpf(register.cpf)}
-              onChange={handleInput}
-              required
-              inputProps={{ maxLength: "14" }}
-            />
-            <Input
-              id="rg"
-              variant="outlined"
-              label="RG"
-              type="text"
-              value={register.rg}
-              onChange={handleInput}
-              required
-              inputProps={{ maxLength: "12" }}
-            />
-          </ContainerInput>
-          <ContainerInput>
-            <Input
-              id="password"
-              variant="outlined"
-              label="Senha"
-              type="password"
-              value={register.password}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
-          <Select id="role" value={register.role} handler={handleRoles}>
-            <option value="">Selecione o cargo</option>
-            {roles.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.role_name}
-              </option>
-            ))}
-          </Select>
-          {branches && (
-            <Select
-              id="branch"
-              value={register.branch}
-              handler={handleBranches}
-            >
-              <option value="">Selecione a filial</option>
-              {branches.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.branch_name}
+      <Container>
+        <ContainerForm>
+          <FormRegister onSubmit={handleSubmit}>
+            <ContainerInput>
+              <Input
+                id="name"
+                label="Nome"
+                type="text"
+                variant="outlined"
+                value={register.name}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="cpf"
+                variant="outlined"
+                label="CPF"
+                type="text"
+                value={formatCpf(register.cpf)}
+                onChange={handleInput}
+                required
+                inputProps={{ maxLength: "14" }}
+              />
+              <Input
+                id="rg"
+                variant="outlined"
+                label="RG"
+                type="text"
+                value={register.rg}
+                onChange={handleInput}
+                required
+                inputProps={{ maxLength: "12" }}
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="password"
+                variant="outlined"
+                label="Senha"
+                type="password"
+                value={register.password}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <Select id="role" value={register.role} handler={handleRoles}>
+              <option value="">Selecione o cargo</option>
+              {roles.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.role_name}
                 </option>
               ))}
             </Select>
-          )}
-          <Select
-            id="permissions"
-            handler={handlePermissions}
-            ref={permissionsRef}
-          >
-            <option value="">Selecione as permissões</option>
-            {permissions.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.permission_name}
-              </option>
-            ))}
-          </Select>
-          <div>
-            {permissionsSel.map((c) => (
-              <Tag
-                key={c.id}
-                info={c.permission_name}
-                handleClose={() => handleUnselPermission(c.id)}
-              ></Tag>
-            ))}
-          </div>
-          <ButtonRegister
-            type="submit"
-            variant="contained"
-            style={{
-              backgroundColor: "var(--primary)",
-              color: "var(--secondary)",
-            }}
-          >
-            Cadastrar
-          </ButtonRegister>
-        </FormRegister>
-      </ContainerForm>
+            {branches && (
+              <Select
+                id="branch"
+                value={register.branch}
+                handler={handleBranches}
+              >
+                <option value="">Selecione a filial</option>
+                {branches.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.branch_name}
+                  </option>
+                ))}
+              </Select>
+            )}
+            <Select
+              id="permissions"
+              handler={handlePermissions}
+              ref={permissionsRef}
+            >
+              <option value="">Selecione as permissões</option>
+              {permissions.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.permission_name}
+                </option>
+              ))}
+            </Select>
+            <div>
+              {permissionsSel.map((c) => (
+                <Tag
+                  key={c.id}
+                  info={c.permission_name}
+                  handleClose={() => handleUnselPermission(c.id)}
+                ></Tag>
+              ))}
+            </div>
+            <ButtonRegister
+              type="submit"
+              variant="contained"
+              style={{
+                backgroundColor: "var(--primary)",
+                color: "var(--secondary)",
+              }}
+            >
+              Cadastrar
+            </ButtonRegister>
+          </FormRegister>
+        </ContainerForm>
+      </Container>
     </Dashboard>
   );
 }

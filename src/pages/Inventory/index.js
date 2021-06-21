@@ -37,8 +37,8 @@ function Inventory() {
     quantity_acquired: "",
     product_id: "",
     lot_number: "",
-    manufacture_date: "",
-    expiration_date: "",
+    manufacture_date: null,
+    expiration_date: null,
   });
 
   const [reload, setReload] = useState(null);
@@ -257,7 +257,11 @@ function Inventory() {
                       <TableCell>{p.Lot.lot_number}</TableCell>
                       <TableCell>{p.Product.bar_code}</TableCell>
                       <TableCell>{p.Product.product_name}</TableCell>
-                      <TableCell>{p.date_of_acquisition}</TableCell>
+                      <TableCell>
+                        {new Date(
+                          p.date_of_acquisition
+                        ).toLocaleDateString("pt-BR", { timeZone: "UTC" })}
+                      </TableCell>
                     </TableRow>
                   );
                 })}

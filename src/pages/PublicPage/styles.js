@@ -271,7 +271,7 @@ export const InfosCard = styled.div`
 
 export const PlansContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 95%;
   align-items: center;
   justify-content: center;
   gap: 50px;

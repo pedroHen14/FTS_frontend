@@ -146,9 +146,9 @@ function Pdv() {
       return items;
     });
 
-    const company_id = user.branch.map((u) => u.company_id);
+    const company_id = user.branch[0].company_id;
 
-    const idClient = client[0].id;
+    const idClient = client[0]?.id;
 
     try {
       await api.post("/sale", {
