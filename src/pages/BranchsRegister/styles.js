@@ -1,13 +1,21 @@
 import { Button, TextField } from "@material-ui/core";
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+`;
 
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: flex-start;
-  height: 90%;
+  height: 60%;
   align-items: center;
+  border-bottom: 2px solid var(--black);
   width: 70%;
 `;
 

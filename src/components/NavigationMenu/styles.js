@@ -36,7 +36,7 @@ export const ImageLogo = styled.div`
 export const Items = styled.ul`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 20px;
   padding: 20px;

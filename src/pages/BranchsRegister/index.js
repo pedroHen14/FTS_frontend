@@ -17,6 +17,15 @@ import {
 import formatCnpj from "@brazilian-utils/format-cnpj";
 
 import { getUser } from "../../services/security";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@material-ui/core";
+import { useEffect } from "react";
 
 function BranchsRegister() {
   const user = getUser();
@@ -32,7 +41,31 @@ function BranchsRegister() {
     state: "",
   });
 
+  const [branches, setBranches] = useState([]);
+
   const [reload, setReload] = useState(0);
+
+  const columns = [
+    { id: "name", label: "Nome", minWidth: 150 },
+    { id: "email", label: "E-mail", minWidth: 150 },
+    { id: "address", label: "Endereço", minWidth: 150 },
+  ];
+
+  useEffect(() => {
+    const loadBranches = async () => {
+      const company_id = user.id;
+
+      try {
+        const { data } = await api.get(`/company/${company_id}/branch`);
+
+        setBranches(data);
+      } catch (error) {
+        notify("Não foi possível encontrar as filiais");
+      }
+    };
+
+    loadBranches();
+  }, [reload]);
 
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
@@ -86,7 +119,7 @@ function BranchsRegister() {
         },
       });
 
-      handleReload();
+      handleReload(e);
       notify("Sua filial foi cadastrada com sucesso!", "success");
     } catch (error) {
       notify("Falha ao cadastrar a filial!", "error");
@@ -111,107 +144,143 @@ function BranchsRegister() {
   return (
     <Dashboard title="Cadastro de Filial">
       <ToastContainer style={{ color: "white" }} />
-      <ContainerForm>
-        <FormRegister onSubmit={handleSubmit}>
-          <ContainerInput>
-            <Input
-              id="place_number"
-              variant="outlined"
-              label="Número"
-              type="number"
-              value={register.place_number}
-              onChange={handleInput}
-              required
-            />
+      <Container>
+        <ContainerForm>
+          <FormRegister onSubmit={handleSubmit}>
+            <ContainerInput>
+              <Input
+                id="place_number"
+                variant="outlined"
+                label="Número"
+                type="number"
+                value={register.place_number}
+                onChange={handleInput}
+                required
+              />
 
-            <Input
-              id="cep"
-              variant="outlined"
-              label="CEP"
-              type="text"
-              value={register.cep
-                .replace(/(\d{5})(\d)/, "$1-$2")
-                .replace(/(\d{3})$/, "$1")}
-              onChange={handleInput}
-              inputProps={{ maxLength: "9" }}
-              required
-            />
-          </ContainerInput>
+              <Input
+                id="cep"
+                variant="outlined"
+                label="CEP"
+                type="text"
+                value={register.cep
+                  .replace(/(\d{5})(\d)/, "$1-$2")
+                  .replace(/(\d{3})$/, "$1")}
+                onChange={handleInput}
+                inputProps={{ maxLength: "9" }}
+                required
+              />
+            </ContainerInput>
 
-          <ContainerInput>
-            <Input
-              id="branch_name"
-              variant="outlined"
-              label="Nome da Filial"
-              type="text"
-              value={register.branch_name}
-              onChange={handleInput}
-              required
-            />
-            <Input
-              id="branch_email"
-              variant="outlined"
-              label="Email da Filial"
-              type="email"
-              value={register.branch_email}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="branch_name"
+                variant="outlined"
+                label="Nome da Filial"
+                type="text"
+                value={register.branch_name}
+                onChange={handleInput}
+                required
+              />
+              <Input
+                id="branch_email"
+                variant="outlined"
+                label="Email da Filial"
+                type="email"
+                value={register.branch_email}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
 
-          <ContainerInput>
-            <Input
-              id="street"
-              variant="outlined"
-              label="Rua"
-              type="text"
-              value={register.street}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
-          <ContainerInput>
-            <Input
-              id="district"
-              variant="outlined"
-              label="Bairro"
-              type="text"
-              value={register.district}
-              onChange={handleInput}
-              required
-            />
+            <ContainerInput>
+              <Input
+                id="street"
+                variant="outlined"
+                label="Rua"
+                type="text"
+                value={register.street}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <ContainerInput>
+              <Input
+                id="district"
+                variant="outlined"
+                label="Bairro"
+                type="text"
+                value={register.district}
+                onChange={handleInput}
+                required
+              />
 
-            <Input
-              id="city"
-              variant="outlined"
-              label="Cidade"
-              type="text"
-              value={register.city}
-              onChange={handleInput}
-              required
-            />
-            <Input
-              id="state"
-              variant="outlined"
-              label="Estado"
-              type="text"
-              value={register.state}
-              onChange={handleInput}
-              required
-            />
-          </ContainerInput>
-          <ButtonRegister
-            type="submit"
-            variant="contained"
-            style={{
-              backgroundColor: "var(--primary)",
-              color: "var(--white)",
-            }}
-          >
-            Cadastrar
-          </ButtonRegister>
-        </FormRegister>
-      </ContainerForm>
+              <Input
+                id="city"
+                variant="outlined"
+                label="Cidade"
+                type="text"
+                value={register.city}
+                onChange={handleInput}
+                required
+              />
+              <Input
+                id="state"
+                variant="outlined"
+                label="Estado"
+                type="text"
+                value={register.state}
+                onChange={handleInput}
+                required
+              />
+            </ContainerInput>
+            <ButtonRegister
+              type="submit"
+              variant="contained"
+              style={{
+                backgroundColor: "var(--primary)",
+                color: "var(--white)",
+              }}
+            >
+              Cadastrar
+            </ButtonRegister>
+          </FormRegister>
+        </ContainerForm>
+        <TableContainer
+          style={{
+            width: "80%",
+            borderRadius: "10px",
+            border: "1px solid var(--light)",
+          }}
+        >
+          <Table stickyHeader aria-label="">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {branches &&
+                branches.map((p, index) => {
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell>{p.branch_name}</TableCell>
+                      <TableCell>{p.branch_email}</TableCell>
+                      <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
     </Dashboard>
   );
 }
