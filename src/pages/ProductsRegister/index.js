@@ -73,7 +73,7 @@ function ProductsRegister() {
     console.log(user);
 
     const loadProducts = async () => {
-      const company_id = user.branch[0].company_id;
+      const company_id = user.branch[0]?.company_id;
       try {
         const { data } = await api.get(`/company/${company_id}/product`);
 
@@ -109,7 +109,7 @@ function ProductsRegister() {
 
     console.log(user);
 
-    const company_id = user.branch[0].company_id;
+    const company_id = user.branch[0]?.company_id;
 
     try {
       await api.post("/product", {
