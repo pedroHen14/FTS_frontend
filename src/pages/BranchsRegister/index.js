@@ -249,9 +249,9 @@ function BranchsRegister() {
         </ContainerForm>
         <TableContainer
           style={{
-            width: "80%",
+            width: "70%",
             borderRadius: "10px",
-            border: "1px solid var(--light)",
+            height: "300px",
           }}
         >
           <TableList stickyHeader aria-label="">
@@ -267,6 +267,7 @@ function BranchsRegister() {
                 ))}
               </TableRow>
             </TableHead>
+
             <TableBody>
               {branches &&
                 branches.map((p, index) => {

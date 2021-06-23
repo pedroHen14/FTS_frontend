@@ -13,7 +13,7 @@ export const Container = styled.div`
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: center;
-  height: 50%;
+  height: 80%;
   align-items: center;
   border-bottom: 2px solid var(--black);
   width: 70%;

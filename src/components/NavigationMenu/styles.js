@@ -45,7 +45,6 @@ export const Items = styled.ul`
     list-style: none;
 
     h3 {
-      background-color: red;
       white-space: nowrap;
       text-overflow: ellipsis;
 

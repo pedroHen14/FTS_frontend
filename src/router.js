@@ -32,8 +32,7 @@ function PrivateRoute({ children, ...rest }) {
       })
     );
 
-    if (array.indexOf(path, 0) === -1) return false;
-    else return true;
+    return array.includes(path);
   };
 
   if (isSignedIn() && hasAccess()) {

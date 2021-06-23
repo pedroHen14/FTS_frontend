@@ -28,6 +28,7 @@ import {
   TablePagination,
   TableHead,
 } from "@material-ui/core";
+import { TableList } from "../BranchsRegister/styles";
 
 function Inventory() {
   const user = getUser();
@@ -59,7 +60,7 @@ function Inventory() {
     const loadProduct = async () => {
       try {
         const response = await api.get(
-          `/company/${user.branch.company_id}/product`
+          `/company/${user.user_cpf ? user.branch.company_id : user.id}/product`
         );
 
         setProduct(response.data);
@@ -229,12 +230,13 @@ function Inventory() {
         </ContainerForm>
         <TableContainer
           style={{
-            width: "80%",
+            width: "100%",
             borderRadius: "10px",
-            border: "1px solid var(--light)",
+            border: "1px solid var(--dark)",
+            height: "300px",
           }}
         >
-          <Table stickyHeader aria-label="">
+          <TableList stickyHeader aria-label="">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -250,7 +252,6 @@ function Inventory() {
             <TableBody>
               {logbook &&
                 logbook.map((p, index) => {
-                  console.log(p);
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell>{p.quantity_acquired}</TableCell>
@@ -258,15 +259,16 @@ function Inventory() {
                       <TableCell>{p.Product.bar_code}</TableCell>
                       <TableCell>{p.Product.product_name}</TableCell>
                       <TableCell>
-                        {new Date(
-                          p.date_of_acquisition
-                        ).toLocaleDateString("pt-BR", { timeZone: "UTC" })}
+                        {new Date(p.date_of_acquisition).toLocaleDateString(
+                          "pt-BR",
+                          { timeZone: "UTC" }
+                        )}
                       </TableCell>
                     </TableRow>
                   );
                 })}
             </TableBody>
-          </Table>
+          </TableList>
         </TableContainer>
       </Container>
     </Dashboard>

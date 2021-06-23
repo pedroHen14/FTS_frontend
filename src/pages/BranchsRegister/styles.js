@@ -2,7 +2,7 @@ import { Button, Table, TextField } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@ export const Container = styled.div`
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: flex-start;
-  height: 60%;
+  height: 80%;
   align-items: center;
   border-bottom: 2px solid var(--black);
   width: 70%;

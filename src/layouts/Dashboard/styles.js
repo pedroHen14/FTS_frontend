@@ -41,7 +41,7 @@ export const Body = styled.div`
   align-items: center;
   justify-content: center;
   transition: all 0.4s;
-  overflow: hidden;
+  overflow-y: hidden;
 `;
 
 export const Footer = styled.footer`

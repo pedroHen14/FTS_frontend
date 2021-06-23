@@ -15,9 +15,18 @@ import { getUser } from "../../services/security";
 import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
-import { FormControl, TextField } from "@material-ui/core";
+import {
+  FormControl,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@material-ui/core";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { notify } from "../../utils";
+import { TableList } from "../BranchsRegister/styles";
 
 function UsersRegister() {
   const user = getUser();
@@ -41,7 +50,15 @@ function UsersRegister() {
 
   const [roles, setRoles] = useState([]);
 
+  const [users, setUsers] = useState([]);
+
   const permissionsRef = useRef();
+
+  const columns = [
+    { id: "name", label: "Nome", minWidth: 150 },
+    { id: "email", label: "E-mail", minWidth: 150 },
+    { id: "address", label: "Endereço", minWidth: 150 },
+  ];
 
   useEffect(() => {
     const loadRoles = async () => {
@@ -82,7 +99,17 @@ function UsersRegister() {
 
     loadBranches();
 
-    console.log(user);
+    const loadUsers = async () => {
+      try {
+        const { data } = await api.get("/user");
+
+        setUsers(data);
+      } catch (error) {}
+    };
+
+    loadUsers();
+
+    console.log(users);
   }, [reload]);
 
   const handlePermissions = (e) => {
@@ -265,13 +292,51 @@ function UsersRegister() {
               variant="contained"
               style={{
                 backgroundColor: "var(--primary)",
-                color: "var(--secondary)",
+                color: "var(--white)",
               }}
             >
               Cadastrar
             </ButtonRegister>
           </FormRegister>
         </ContainerForm>
+        <TableContainer
+          style={{
+            width: "70%",
+            borderRadius: "10px",
+            height: "300px",
+          }}
+        >
+          <TableList stickyHeader aria-label="">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users &&
+                users.map((p, index) => {
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell>{p.user_name}</TableCell>
+                      <TableCell>{p.Branch.branch_name}</TableCell>
+                      <TableCell>
+                        {p.Permissions.map(
+                          (permission) => permission.permission_name
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </TableList>
+        </TableContainer>
       </Container>
     </Dashboard>
   );

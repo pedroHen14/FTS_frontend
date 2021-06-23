@@ -72,7 +72,7 @@ export const ContainerInput = styled.form`
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: flex-start;
-  height: 90%;
+  height: 80%;
   align-items: center;
   width: 300px;
   color: white;

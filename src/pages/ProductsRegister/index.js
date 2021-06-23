@@ -80,7 +80,9 @@ function ProductsRegister() {
     console.log(user);
 
     const loadProducts = async () => {
-      const company_id = user.branch.company_id;
+      const company_id = user.user_cpf
+        ? user.branch.company_id
+        : user.branch[0].company_id;
       try {
         const { data } = await api.get(`/company/${company_id}/product`);
 
@@ -116,7 +118,7 @@ function ProductsRegister() {
 
     console.log(user);
 
-    const company_id = user.branch.company_id;
+    const company_id = user.user_cpf ? user.branch.company_id : user.id;
 
     try {
       await api.post("/product", {
@@ -249,10 +251,9 @@ function ProductsRegister() {
         </ContainerForm>
         <TableContainer
           style={{
-            width: "80%",
+            width: "70%",
             borderRadius: "10px",
-            flex: "1",
-            border: "1px solid var(--light)",
+            height: "300px",
           }}
         >
           <TableList stickyHeader aria-label="">

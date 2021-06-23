@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Button, TextField } from "@material-ui/core";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -33,7 +33,7 @@ export const Header = styled.header`
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: flex-start;
-  flex: 1;
+  height: 80%;
   align-items: center;
   border-bottom: 2px solid var(--black);
   width: 70%;
