@@ -15,8 +15,16 @@ import { getUser } from "../../services/security";
 import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
 import { toast, ToastContainer } from "react-toastify";
-import { TextareaAutosize } from "@material-ui/core";
+import {
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TextareaAutosize,
+} from "@material-ui/core";
 import { notify } from "../../utils";
+import { TableList } from "../BranchsRegister/styles";
 
 function ProductsRegister() {
   const user = getUser();
@@ -39,7 +47,6 @@ function ProductsRegister() {
   const [products, setProducts] = useState([]);
 
   const columns = [
-    { id: "id", label: "ID", minWidth: 150 },
     { id: "name", label: "Nome", minWidth: 150 },
     { id: "description", label: "Descrição", minWidth: 150 },
     { id: "created_at", label: "Data de criação", minWidth: 150 },
@@ -73,7 +80,7 @@ function ProductsRegister() {
     console.log(user);
 
     const loadProducts = async () => {
-      const company_id = user.branch[0]?.company_id;
+      const company_id = user.branch.company_id;
       try {
         const { data } = await api.get(`/company/${company_id}/product`);
 
@@ -109,7 +116,7 @@ function ProductsRegister() {
 
     console.log(user);
 
-    const company_id = user.branch[0]?.company_id;
+    const company_id = user.branch.company_id;
 
     try {
       await api.post("/product", {
@@ -240,6 +247,45 @@ function ProductsRegister() {
             </ButtonRegister>
           </FormRegister>
         </ContainerForm>
+        <TableContainer
+          style={{
+            width: "80%",
+            borderRadius: "10px",
+            flex: "1",
+            border: "1px solid var(--light)",
+          }}
+        >
+          <TableList stickyHeader aria-label="">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {products &&
+                products.map((p, index) => {
+                  return (
+                    <TableRow hover tabIndex={-1} key={index}>
+                      <TableCell>{p.product_name}</TableCell>
+                      <TableCell>{p.description}</TableCell>
+                      <TableCell>
+                        {new Date(p.created_at).toLocaleDateString("pt-BR", {
+                          timeZone: "UTC",
+                        })}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </TableList>
+        </TableContainer>
       </Container>
     </Dashboard>
   );

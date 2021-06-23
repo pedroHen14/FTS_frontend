@@ -146,7 +146,7 @@ function Pdv() {
       return items;
     });
 
-    const company_id = user.branch[0]?.company_id;
+    const company_id = user.branch.company_id;
 
     const idClient = client[0]?.id;
 

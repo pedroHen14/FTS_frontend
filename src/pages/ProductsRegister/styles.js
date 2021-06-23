@@ -33,7 +33,7 @@ export const Header = styled.header`
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: flex-start;
-  height: 60%;
+  flex: 1;
   align-items: center;
   border-bottom: 2px solid var(--black);
   width: 70%;

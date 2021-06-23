@@ -43,6 +43,14 @@ export const Items = styled.ul`
 
   li {
     list-style: none;
+
+    h3 {
+      background-color: red;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      width: 100%;
+    }
   }
 `;
 
