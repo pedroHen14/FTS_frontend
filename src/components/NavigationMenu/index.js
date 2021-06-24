@@ -25,7 +25,7 @@ function NavigationMenu({ image }) {
             <h3>Home</h3>
           </Link>
         </li>
-        {user.permissions.map((p) => {
+        {user && user.permissions.map((p) => {
           return p.Screens.map((s) => (
             <li key={s.id}>
               <Link to={`${s.route}`}>

@@ -81,8 +81,8 @@ function ProductsRegister() {
 
     const loadProducts = async () => {
       const company_id = user.user_cpf
-        ? user.branch.company_id
-        : user.branch[0].company_id;
+        ? user.branch?.company_id
+        : user.branch[0]?.company_id;
       try {
         const { data } = await api.get(`/company/${company_id}/product`);
 
@@ -251,8 +251,9 @@ function ProductsRegister() {
         </ContainerForm>
         <TableContainer
           style={{
-            width: "70%",
+            width: "100%",
             borderRadius: "10px",
+            border: "1px solid var(--dark)",
             height: "300px",
           }}
         >

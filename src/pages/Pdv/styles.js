@@ -8,6 +8,58 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: white;
+
+  .keyboard_shortcut_container{
+    display:flex;
+    background-color: var(--light);
+    flex-direction: column;
+    padding:10px;
+    color: var(--dark);
+    border-radius: 10px;
+    border: 1px solid var(--dark);
+    gap:10px;
+    align-items: center;
+    justify-content:center;
+
+    .keyboard_shortcut_description_container {
+      display:flex;
+      justify-content:center;
+      text-align: center;
+      gap:10px;
+      align-items: center;
+
+      div{
+        display:flex;
+        flex-direction:column;
+        gap:5px;
+      }
+
+      p{
+        background-color: var(--dark);
+        padding:5px;
+        color:var(--white);
+        border-radius: 5px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .discount_container{
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 10px;
+
+    > div {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
 `;
 
 export const Header = styled.header`
@@ -47,8 +99,8 @@ export const Content = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    justify-content: space-around;
+    gap: 30px;
+    justify-content: center;
   }
 `;
 
@@ -66,7 +118,7 @@ export const ContainerInput = styled.form`
   color: black;
   align-items: flex-start;
   font-size: 20px;
-  gap: 20px;
+  gap: 50px;
 `;
 
 export const ContainerForm = styled.div`

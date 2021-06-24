@@ -57,6 +57,7 @@ function Inventory() {
   ];
 
   useEffect(() => {
+    console.log(user);
     const loadProduct = async () => {
       try {
         const response = await api.get(
@@ -74,7 +75,7 @@ function Inventory() {
     const loadLogbooks = async () => {
       try {
         const response = await api.get(
-          `/branch/${user.branch.company_id}/logbook`
+          `/branch/${user.user_cpf ? user.branch.company_id : user.branch[0]?.company_id}/logbook`
         );
 
         setLogbook(response.data);
@@ -82,6 +83,8 @@ function Inventory() {
         alert(error);
       }
     };
+    console.log(user);
+
 
     loadLogbooks();
   }, [reload]);
@@ -96,15 +99,13 @@ function Inventory() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     console.log(user);
 
-    const company_id = user.branch.id;
 
-    console.log(register.manufacture_date, register.expiration_date);
+    const company_id = user.user_cpf ? user.branch.id : user.branch[0].id;
 
     try {
-      const response = await api.post("/logbook", {
+      await api.post("/logbook", {
         date_of_acquisition: register.date_of_acquisition,
         quantity_acquired: register.quantity_acquired,
         branch_id: parseInt(company_id),
@@ -134,8 +135,8 @@ function Inventory() {
       quantity_acquired: "",
       product_id: "",
       lot_number: "",
-      manufacture_date: "",
-      expiration_date: "",
+      manufacture_date: null,
+      expiration_date: null,
     });
 
     setReload(Math.random());

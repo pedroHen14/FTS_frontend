@@ -56,8 +56,8 @@ function UsersRegister() {
 
   const columns = [
     { id: "name", label: "Nome", minWidth: 150 },
-    { id: "email", label: "E-mail", minWidth: 150 },
-    { id: "address", label: "Endereço", minWidth: 150 },
+    { id: "branch", label: "Filial", minWidth: 150 },
+    { id: "address", label: "Cargo", minWidth: 150 },
   ];
 
   useEffect(() => {
@@ -101,7 +101,7 @@ function UsersRegister() {
 
     const loadUsers = async () => {
       try {
-        const { data } = await api.get("/user");
+        const { data } = await api.get(`/company/${user.id}/user`);
 
         setUsers(data);
       } catch (error) {}
@@ -230,7 +230,7 @@ function UsersRegister() {
                 value={register.rg}
                 onChange={handleInput}
                 required
-                inputProps={{ maxLength: "12" }}
+                inputProps={{ maxLength: "9" }}
               />
             </ContainerInput>
             <ContainerInput>
@@ -301,8 +301,9 @@ function UsersRegister() {
         </ContainerForm>
         <TableContainer
           style={{
-            width: "70%",
+            width: "100%",
             borderRadius: "10px",
+            border: "1px solid var(--dark)",
             height: "300px",
           }}
         >

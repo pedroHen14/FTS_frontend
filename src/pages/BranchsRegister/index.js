@@ -249,8 +249,9 @@ function BranchsRegister() {
         </ContainerForm>
         <TableContainer
           style={{
-            width: "70%",
+            width: "100%",
             borderRadius: "10px",
+            border: "1px solid var(--dark)",
             height: "300px",
           }}
         >

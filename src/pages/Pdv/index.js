@@ -38,10 +38,11 @@ function Pdv() {
   const [openModalDiscount, setOpenModalDiscount] = useState(false);
   const [openModalAddUser, setOpenModalAddUser] = useState(false);
   const [register, setRegister] = useState({
-    costumer_name: "",
     cpf: "",
   });
   const [reload, setReload] = useState(null);
+
+  const [discount, setDiscount] = useState(null);
 
   const [productList, setProductList] = useState([]);
 
@@ -156,6 +157,7 @@ function Pdv() {
         branch_id: parseInt(company_id),
         costumer_id: idClient,
         items: productsSale,
+        discount: discount ? discount : null,
       });
 
       handleReload(e);
@@ -169,6 +171,10 @@ function Pdv() {
     setRegister({ ...register, [e.target.id]: e.target.value });
   };
 
+  const handleInputDiscount = (e) => {
+    setDiscount(e.target.value);
+  };
+
   const handleReload = (e) => {
     setProductList([]);
     setCpfClient("");
@@ -176,6 +182,12 @@ function Pdv() {
 
     setReload(Math.random());
   };
+
+  const handleSubmitDiscount = (e) => {
+    e.preventDefault();
+
+    setOpenModalDiscount(false);
+  }
 
   const arrayTotal = [];
 
@@ -187,7 +199,35 @@ function Pdv() {
           <Modal
             title="Desconto"
             handleClose={() => setOpenModalDiscount(false)}
-          />
+          >
+             <ContainerFormModal onSubmit={handleSubmitDiscount}>
+              <FormRegisterModal>
+                <div className="discount_container">
+                  <InputLabel htmlFor="discount">Desconto</InputLabel>
+                  <Input
+                    id="discount"
+                    variant="outlined"
+                    label="Desconto"
+                    type="number"
+                    value={discount}
+                    autoFocus={true}
+                    onChange={handleInputDiscount}
+                    required
+                  />
+                </div>
+                <ButtonRegister
+                  onClick={() => setOpenModalDiscount(false)}
+                  variant="contained"
+                  style={{
+                    backgroundColor: "var(--dark)",
+                    color: "var(--white)",
+                  }}
+                >
+                  Cadastrar
+                </ButtonRegister>
+              </FormRegisterModal>
+            </ContainerFormModal>
+          </Modal>
         )}
         {openModalAddUser && (
           <Modal
@@ -203,6 +243,7 @@ function Pdv() {
                     variant="outlined"
                     label="CPF"
                     type="text"
+                    autoFocus={true}
                     value={formatCpf(register.cpf)}
                     onChange={handleInputRegister}
                     required
@@ -241,7 +282,7 @@ function Pdv() {
                 variant="outlined"
                 onChange={handleInput}
                 value={formatCpf(cpfClient)}
-                inputProps={{ maxLength: "14" }}
+                inputProps={{ maxLength: "14"}}
                 required
               />
             </FormControl>
@@ -252,6 +293,7 @@ function Pdv() {
                   id="code"
                   label="Código do produto"
                   type="text"
+                  autoFocus={true}
                   variant="outlined"
                   value={code}
                   onChange={handleInput}
@@ -259,7 +301,7 @@ function Pdv() {
                 />
               </FormControl>
 
-              <div className="unit-value">
+              {/* <div className="unit-value">
                 <h2>Valor unitário</h2>
                 {productList &&
                   productList.map((p) => {
@@ -272,7 +314,8 @@ function Pdv() {
                       </p>
                     );
                   })}
-              </div>
+              </div> */}
+              {/*
               <div className="total-value">
                 <h2>Total do item</h2>
                 {productList &&
@@ -291,8 +334,8 @@ function Pdv() {
                       </p>
                     );
                   })}
-              </div>
-            </ContainerInput>
+                </div> */}
+            </ContainerInput> 
 
             <ContainerImage>
               <img src={shoppingCart} />
@@ -370,7 +413,13 @@ function Pdv() {
                         })
                       : parseInt(
                           arrayTotal.reduce(
-                            (total, currentElement) => total + currentElement
+                            (total, currentElement) => {
+                              const total_itens = total + currentElement;
+
+                              const teste = total_itens - (total_itens * discount / 100)
+
+                              return teste;
+                            }
                           )
                         ).toLocaleString("pt-BR", {
                           style: "currency",
@@ -382,7 +431,7 @@ function Pdv() {
                   <header className="header">
                     <h2>Desconto</h2>
                   </header>
-                  <h3>0%</h3>
+                  <h3>{discount ? discount: 0}%</h3>
                 </div>
               </ContainerSubTotalDiscount>
               <Button
@@ -397,6 +446,19 @@ function Pdv() {
                 Finalizar venda
               </Button>
             </ContainerScreen>
+            <div className="keyboard_shortcut_container">
+              <h2>Atalhos de teclado</h2>
+              <div className="keyboard_shortcut_description_container">
+                <div>
+                  <h5>Cad. cliente</h5>
+                  <p>C</p>
+                </div>
+                <div>
+                  <h5>Desconto</h5>
+                  <p>D</p>
+                </div>
+              </div>
+            </div>
           </div>
         </Content>
       </Container>

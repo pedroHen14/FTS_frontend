@@ -267,6 +267,10 @@ export const InfosCard = styled.div`
   strong {
     color: var(--secondary);
   }
+
+  @media (max-width: 1280px) {
+    font-size: 20px;
+  }
 `;
 
 export const PlansContainer = styled.div`

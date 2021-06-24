@@ -23,14 +23,25 @@ export const Container = styled.div`
 
 export const InfoContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
   width: 100%;
-  height: 50%;
+  height: 100%;
+
+  .container_graphic{
+    display:flex;
+    
+    *{
+      flex: 1;
+    }
+  }
 `;
 
 export const InfoCard = styled.div`
   display: flex;
-  width: 30%;
+  width: 80%;
   height: 100%;
   background-color: var(--secondary);
   flex-direction: column;
@@ -56,6 +67,6 @@ export const InfoCardContent = styled.div`
 `;
 
 export const GraphicChart = styled(Chart)`
-  width: 500px;
-  height: 300px;
+  width:30vw;
+  height:40vh;
 `;

@@ -30,40 +30,44 @@ function Home() {
         <InfoContainer>
           <InfoCard>
             <InfoCardHeader>
-              <h1>Header</h1>
+              <h1>Estoque</h1>
             </InfoCardHeader>
           </InfoCard>
-          <InfoCard>
-            <InfoCardHeader>
-              <h1>Header</h1>
-            </InfoCardHeader>
-          </InfoCard>
-        </InfoContainer>
-        <InfoContainer>
-          <InfoCard>
-            <InfoCardHeader>
-              <h1>Header</h1>
-            </InfoCardHeader>
-          </InfoCard>
-
-          <div className="graphic">
-            <GraphicChart
-              chartType="PieChart"
-              loader={<div>Loading Chart</div>}
-              data={[
-                ["Task", "Hours per Day"],
-                ["Work", 11],
-                ["Eat", 2],
-                ["Commute", 2],
-                ["Watch TV", 2],
-                ["Sleep", 7],
-              ]}
-              options={{
-                is3D: true,
-                backgroundColor: "transparent",
-              }}
-              rootProps={{ "data-testid": "1" }}
-            />
+          <div className="container_graphic">
+            <div className="graphic">
+              <GraphicChart
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={[
+                  ["Estoque", "Movimento"],
+                  ["Vendas", 11],
+                  ["Compras", 5]
+                ]}
+                options={{
+                  is3D: true,
+                  title: 'Gráfico de compras e vendas',
+                  backgroundColor: "transparent",
+                }}
+                rootProps={{ "data-testid": "1" }}
+              />
+            </div>
+            <div className="graphic">
+              <GraphicChart
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={[
+                  ["Estoque", "Movimento"],
+                  ["Vendas", 11],
+                  ["Compras", 5]
+                ]}
+                options={{
+                  is3D: true,
+                  title: 'Gráfico de compras e vendas',
+                  backgroundColor: "transparent",
+                }}
+                rootProps={{ "data-testid": "1" }}
+              />
+            </div>
           </div>
         </InfoContainer>
       </Container>
