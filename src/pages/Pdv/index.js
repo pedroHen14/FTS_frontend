@@ -157,7 +157,7 @@ function Pdv() {
         branch_id: parseInt(company_id),
         costumer_id: idClient,
         items: productsSale,
-        discount: discount ? discount : null,
+        discount: discount ? parseInt(discount) : null,
       });
 
       handleReload(e);
@@ -179,6 +179,7 @@ function Pdv() {
     setProductList([]);
     setCpfClient("");
     setCode("");
+    setDiscount(null);
 
     setReload(Math.random());
   };
@@ -187,7 +188,7 @@ function Pdv() {
     e.preventDefault();
 
     setOpenModalDiscount(false);
-  }
+  };
 
   const arrayTotal = [];
 
@@ -200,7 +201,7 @@ function Pdv() {
             title="Desconto"
             handleClose={() => setOpenModalDiscount(false)}
           >
-             <ContainerFormModal onSubmit={handleSubmitDiscount}>
+            <ContainerFormModal onSubmit={handleSubmitDiscount}>
               <FormRegisterModal>
                 <div className="discount_container">
                   <InputLabel htmlFor="discount">Desconto</InputLabel>
@@ -268,7 +269,7 @@ function Pdv() {
           <ImageLogo src={imageLogo} />
           <h1>Caixa aberto</h1>
           <IconUser>
-            <FaUserPlus />
+            <FaUserPlus onClick={() => setOpenModalDiscount(true)} />
           </IconUser>
         </Header>
         <Content>
@@ -282,7 +283,7 @@ function Pdv() {
                 variant="outlined"
                 onChange={handleInput}
                 value={formatCpf(cpfClient)}
-                inputProps={{ maxLength: "14"}}
+                inputProps={{ maxLength: "14" }}
                 required
               />
             </FormControl>
@@ -335,7 +336,7 @@ function Pdv() {
                     );
                   })}
                 </div> */}
-            </ContainerInput> 
+            </ContainerInput>
 
             <ContainerImage>
               <img src={shoppingCart} />
@@ -412,15 +413,14 @@ function Pdv() {
                           currency: "BRL",
                         })
                       : parseInt(
-                          arrayTotal.reduce(
-                            (total, currentElement) => {
-                              const total_itens = total + currentElement;
+                          arrayTotal.reduce((total, currentElement) => {
+                            const total_itens = total + currentElement;
 
-                              const teste = total_itens - (total_itens * discount / 100)
+                            const teste =
+                              total_itens - (total_itens * discount) / 100;
 
-                              return teste;
-                            }
-                          )
+                            return teste;
+                          })
                         ).toLocaleString("pt-BR", {
                           style: "currency",
                           currency: "BRL",
@@ -431,7 +431,7 @@ function Pdv() {
                   <header className="header">
                     <h2>Desconto</h2>
                   </header>
-                  <h3>{discount ? discount: 0}%</h3>
+                  <h3>{discount ? discount : 0}%</h3>
                 </div>
               </ContainerSubTotalDiscount>
               <Button

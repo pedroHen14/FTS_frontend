@@ -9,7 +9,7 @@ export const Container = styled.div`
   align-items: center;
   gap: 50px;
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1290px) {
     gap: 10px;
   }
 `;
@@ -38,8 +38,8 @@ export const FormRegister = styled.form`
     flex-wrap: wrap;
   }
 
-  @media (max-width: 1280px) {
-    gap:10px;
+  @media (max-width: 1290px) {
+    gap: 10px;
   }
 `;
 

@@ -75,7 +75,9 @@ function Inventory() {
     const loadLogbooks = async () => {
       try {
         const response = await api.get(
-          `/branch/${user.user_cpf ? user.branch.company_id : user.branch[0]?.company_id}/logbook`
+          `/branch/${
+            user.user_cpf ? user.branch.company_id : user.branch[0]?.company_id
+          }/logbook`
         );
 
         setLogbook(response.data);
@@ -83,8 +85,6 @@ function Inventory() {
         alert(error);
       }
     };
-    console.log(user);
-
 
     loadLogbooks();
   }, [reload]);
@@ -100,7 +100,6 @@ function Inventory() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
-
 
     const company_id = user.user_cpf ? user.branch.id : user.branch[0].id;
 
