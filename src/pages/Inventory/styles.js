@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { Button, TextField } from "@material-ui/core";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 50px;
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1290px) {
     gap: 10px;
   }
 `;
@@ -36,10 +36,6 @@ export const FormRegister = styled.form`
   > div {
     display: flex;
     flex-wrap: wrap;
-  }
-
-  @media (max-width: 1280px) {
-    gap:10px;
   }
 `;
 
