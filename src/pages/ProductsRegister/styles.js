@@ -2,9 +2,16 @@ import styled from "styled-components";
 import { Button, TextField } from "@material-ui/core";
 
 export const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+
+  @media (max-width: 1290px) {
+    gap: 10px;
+  }
 `;
 
 export const Body = styled.div`
@@ -30,7 +37,7 @@ export const Header = styled.header`
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: flex-start;
-  height: 90%;
+  height: 80%;
   align-items: center;
   width: 70%;
 `;
@@ -49,6 +56,10 @@ export const FormRegister = styled.form`
   > div {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  @media (max-width: 1290px) {
+    gap: 10px;
   }
 `;
 

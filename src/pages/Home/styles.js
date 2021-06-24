@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Chart } from "react-google-charts";
 
 export const Container = styled.div`
   color: black;
@@ -9,18 +10,38 @@ export const Container = styled.div`
   height: 100%;
   flex-direction: column;
   gap: 30px;
+
+  .graphic {
+    display: flex;
+    width: 30%;
+    height: 100%;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const InfoContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
   width: 100%;
-  height: 50%;
+  height: 100%;
+
+  .container_graphic{
+    display:flex;
+    
+    *{
+      flex: 1;
+    }
+  }
 `;
 
 export const InfoCard = styled.div`
   display: flex;
-  width: 30%;
+  width: 80%;
   height: 100%;
   background-color: var(--secondary);
   flex-direction: column;
@@ -43,4 +64,9 @@ export const InfoCardContent = styled.div`
   height: 100%;
   align-items: center;
   justify-content: center;
+`;
+
+export const GraphicChart = styled(Chart)`
+  width:30vw;
+  height:40vh;
 `;

@@ -1,12 +1,23 @@
-import { Button, TextField } from "@material-ui/core";
+import { Button, Table, TextField } from "@material-ui/core";
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+
+  @media (max-width: 1290px) {
+    gap: 10px;
+  }
+`;
 
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: flex-start;
-  height: 90%;
+  height: 80%;
   align-items: center;
   width: 70%;
 `;
@@ -26,6 +37,10 @@ export const FormRegister = styled.form`
     display: flex;
     flex-wrap: wrap;
   }
+
+  @media (max-width: 1290px) {
+    gap: 10px;
+  }
 `;
 
 export const ContainerInput = styled.div`
@@ -42,4 +57,11 @@ export const ButtonRegister = styled(Button)`
   width: 50%;
   margin-top: 20px;
   border-radius: 10px;
+`;
+
+export const TableList = styled(Table)`
+  th {
+    background-color: var(--dark);
+    color: var(--white);
+  }
 `;

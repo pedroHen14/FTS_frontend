@@ -3,12 +3,11 @@ import { useHistory } from "react-router";
 import Dashboard from "../../layouts/Dashboard";
 import {
   Container,
+  GraphicChart,
   InfoCard,
-  InfoCardContent,
   InfoCardHeader,
   InfoContainer,
 } from "./styles";
-import { Chart } from "react-google-charts";
 
 function Home() {
   const user = getUser();
@@ -29,46 +28,50 @@ function Home() {
         <InfoContainer>
           <InfoCard>
             <InfoCardHeader>
-              <h1>Header</h1>
+              <h1>Estoque</h1>
             </InfoCardHeader>
           </InfoCard>
-          <InfoCard>
-            <InfoCardHeader>
-              <h1>Header</h1>
-            </InfoCardHeader>
-          </InfoCard>
-        </InfoContainer>
-        <InfoContainer>
-          <InfoCard>
-            <InfoCardHeader>
-              <h1>Header</h1>
-            </InfoCardHeader>
-          </InfoCard>
-          <InfoCard>
-            <InfoCardHeader>
-              <h1>Header</h1>
-            </InfoCardHeader>
-            <InfoCardContent>
-              <Chart
-                width={"500px"}
-                height={"300px"}
+          <div className="container_graphic">
+            <div className="graphic">
+              <GraphicChart
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={[
-                  ["Task", "Hours per Day"],
-                  ["Work", 11],
-                  ["Eat", 2],
-                  ["Commute", 2],
-                  ["Watch TV", 2],
-                  ["Sleep", 7],
+                  ["Estoque", "Movimento"],
+                  ["Vendas", 11],
+                  ["Compras", 5],
                 ]}
                 options={{
-                  title: "My Daily Activities",
+                  is3D: true,
+                  title: "Gráfico de compras e vendas",
+                  backgroundColor: "transparent",
                 }}
                 rootProps={{ "data-testid": "1" }}
               />
-            </InfoCardContent>
-          </InfoCard>
+            </div>
+            <div className="graphic">
+              <GraphicChart
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={[
+                  ["Estoque", "Movimento"],
+                  ["Eletrônicos", 4],
+                  ["Eletrodomésticos", 1],
+                  ["Roupas", 1],
+                  ["Jogos", 2],
+                  ["Bebidas", 1],
+                  ["Comida", 1],
+                  ["Higiene", 1],
+                ]}
+                options={{
+                  is3D: true,
+                  title: "Gráfico de vendas por categoria",
+                  backgroundColor: "transparent",
+                }}
+                rootProps={{ "data-testid": "1" }}
+              />
+            </div>
+          </div>
         </InfoContainer>
       </Container>
     </Dashboard>

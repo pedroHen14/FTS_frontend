@@ -8,14 +8,17 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 50px;
+
+  @media (max-width: 1280px) {
+    gap: 10px;
+  }
 `;
 
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: center;
-  height: 50%;
+  height: 80%;
   align-items: center;
-  border-bottom: 2px solid var(--black);
   width: 70%;
 `;
 
@@ -33,6 +36,10 @@ export const FormRegister = styled.form`
   > div {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  @media (max-width: 1280px) {
+    gap:10px;
   }
 `;
 

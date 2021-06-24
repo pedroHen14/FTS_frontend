@@ -452,6 +452,7 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
       });
 
       reload();
+      setExpanded(false);
       notify("Sua empresa foi cadastrada com sucesso!", "success");
     } catch (error) {
       notify("Falha ao cadastrar a empresa!", "error");

@@ -28,6 +28,7 @@ import {
   TablePagination,
   TableHead,
 } from "@material-ui/core";
+import { TableList } from "../BranchsRegister/styles";
 
 function Inventory() {
   const user = getUser();
@@ -37,8 +38,8 @@ function Inventory() {
     quantity_acquired: "",
     product_id: "",
     lot_number: "",
-    manufacture_date: "",
-    expiration_date: "",
+    manufacture_date: null,
+    expiration_date: null,
   });
 
   const [reload, setReload] = useState(null);
@@ -56,10 +57,11 @@ function Inventory() {
   ];
 
   useEffect(() => {
+    console.log(user);
     const loadProduct = async () => {
       try {
         const response = await api.get(
-          `/company/${user.branch.company_id}/product`
+          `/company/${user.user_cpf ? user.branch.company_id : user.id}/product`
         );
 
         setProduct(response.data);
@@ -73,7 +75,9 @@ function Inventory() {
     const loadLogbooks = async () => {
       try {
         const response = await api.get(
-          `/branch/${user.branch.company_id}/logbook`
+          `/branch/${
+            user.user_cpf ? user.branch.company_id : user.branch[0]?.company_id
+          }/logbook`
         );
 
         setLogbook(response.data);
@@ -95,15 +99,12 @@ function Inventory() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     console.log(user);
 
-    const company_id = user.branch.id;
-
-    console.log(register.manufacture_date, register.expiration_date);
+    const company_id = user.user_cpf ? user.branch.id : user.branch[0].id;
 
     try {
-      const response = await api.post("/logbook", {
+      await api.post("/logbook", {
         date_of_acquisition: register.date_of_acquisition,
         quantity_acquired: register.quantity_acquired,
         branch_id: parseInt(company_id),
@@ -133,8 +134,8 @@ function Inventory() {
       quantity_acquired: "",
       product_id: "",
       lot_number: "",
-      manufacture_date: "",
-      expiration_date: "",
+      manufacture_date: null,
+      expiration_date: null,
     });
 
     setReload(Math.random());
@@ -229,12 +230,13 @@ function Inventory() {
         </ContainerForm>
         <TableContainer
           style={{
-            width: "80%",
+            width: "100%",
             borderRadius: "10px",
-            border: "1px solid var(--light)",
+            border: "1px solid var(--dark)",
+            height: "300px",
           }}
         >
-          <Table stickyHeader aria-label="">
+          <TableList stickyHeader aria-label="">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -250,19 +252,23 @@ function Inventory() {
             <TableBody>
               {logbook &&
                 logbook.map((p, index) => {
-                  console.log(p);
                   return (
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell>{p.quantity_acquired}</TableCell>
                       <TableCell>{p.Lot.lot_number}</TableCell>
                       <TableCell>{p.Product.bar_code}</TableCell>
                       <TableCell>{p.Product.product_name}</TableCell>
-                      <TableCell>{p.date_of_acquisition}</TableCell>
+                      <TableCell>
+                        {new Date(p.date_of_acquisition).toLocaleDateString(
+                          "pt-BR",
+                          { timeZone: "UTC" }
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
             </TableBody>
-          </Table>
+          </TableList>
         </TableContainer>
       </Container>
     </Dashboard>

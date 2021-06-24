@@ -79,7 +79,7 @@ function Purchases() {
       return items;
     });
 
-    const company_id = user.branch.company_id;
+    const company_id = user.user_cpf ? user.branch.id : user.branch[0].id;
 
     try {
       await api.post("/purchase", {
@@ -191,12 +191,6 @@ function Purchases() {
                         currency: "BRL",
                       })}
                 </h3>
-              </div>
-              <div className="sub-total-discount">
-                <header className="header">
-                  <h2>Desconto</h2>
-                </header>
-                <h3>0%</h3>
               </div>
             </ContainerSubTotalDiscount>
             <Button
