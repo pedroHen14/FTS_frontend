@@ -7,7 +7,6 @@ import {
   ButtonCard,
   ButtonContainer,
   ButtonContent,
-  Container,
 } from "./styles";
 
 function Sales() {

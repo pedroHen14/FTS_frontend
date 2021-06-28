@@ -1,9 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import { getUser } from './services/security';
-
-// const user = getUser();
-
-// console.log(user);
 
 export const GlobalStyles = createGlobalStyle`
 

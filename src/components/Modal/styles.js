@@ -31,7 +31,7 @@ export const ModalContainer = styled.section`
   max-height: calc(100vh - 20px);
   padding: 20px;
   z-index: 19;
-  background-color: var(--secondary);
+  background-color: var(--primary);
   box-shadow: 0px 0px 10px black;
   border-radius: 4px;
   position: relative;

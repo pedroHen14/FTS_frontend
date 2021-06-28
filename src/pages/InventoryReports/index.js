@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
-import NavigationMenu from "../../components/NavigationMenu";
-import { getUser, signOut } from "../../services/security";
+import { getUser } from "../../services/security";
 import {
-  Body,
-  ButtonActionArea,
-  ButtonCard,
   ButtonContainer,
-  ButtonContent,
-  ButtonImageContainer,
 } from "./styles";
 
 import Dashboard from "../../layouts/Dashboard";
