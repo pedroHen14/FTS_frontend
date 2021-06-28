@@ -197,7 +197,7 @@ function Purchases() {
               }}
               onClick={() => handleSale()}
             >
-              Finalizar venda
+              Finalizar Compra
             </Button>
           </ContainerScreen>
         </div>

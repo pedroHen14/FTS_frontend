@@ -25,9 +25,12 @@ import { api } from "../../services/api";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { getUser } from "../../services/security";
 import { notify } from "../../utils";
+import { useHistory } from "react-router-dom";
 
 function Pdv() {
   const user = getUser();
+
+  const history = useHistory();
 
   const [code, setCode] = useState("");
   const [cpfClient, setCpfClient] = useState("");
@@ -196,7 +199,8 @@ function Pdv() {
       <Container>
         {openModalDiscount && (
           <Modal
-            title="Desconto"
+            style={{backgroundColor: 'red'}}
+            title="Cadastrar desconto"
             handleClose={() => setOpenModalDiscount(false)}
           >
             <ContainerFormModal onSubmit={handleSubmitDiscount}>
@@ -264,7 +268,7 @@ function Pdv() {
           </Modal>
         )}
         <Header>
-          <ImageLogo src={imageLogo} />
+          <ImageLogo src={imageLogo} onClick={() => history.push('/home')}/>
           <h1>Caixa aberto</h1>
           <IconUser>
             <FaUserPlus onClick={() => setOpenModalDiscount(true)} />

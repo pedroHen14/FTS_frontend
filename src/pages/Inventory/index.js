@@ -50,7 +50,6 @@ function Inventory() {
   ];
 
   useEffect(() => {
-    console.log(user);
     const loadProduct = async () => {
       try {
         const response = await api.get(
@@ -92,7 +91,6 @@ function Inventory() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
 
     const company_id = user.user_cpf ? user.branch.id : user.branch[0].id;
 
