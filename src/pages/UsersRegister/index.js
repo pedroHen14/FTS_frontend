@@ -14,15 +14,13 @@ import { api } from "../../services/api";
 import { getUser } from "../../services/security";
 import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import {
-  FormControl,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
 } from "@material-ui/core";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { notify } from "../../utils";
@@ -109,7 +107,6 @@ function UsersRegister() {
 
     loadUsers();
 
-    console.log(users);
   }, [reload]);
 
   const handlePermissions = (e) => {

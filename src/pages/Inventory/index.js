@@ -3,29 +3,22 @@ import {
   Container,
   ContainerForm,
   ContainerInput,
-  ContainerListLogbook,
   FormRegister,
   Input,
 } from "./styles";
 import Select from "../../components/Select";
-import Tag from "../../components/Tag";
 import { useState } from "react";
 import { useEffect } from "react";
 import { api } from "../../services/api";
 import { getUser } from "../../services/security";
-import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
-import { toast, ToastContainer } from "react-toastify";
-import { TextField } from "@material-ui/core";
-import { format } from "date-fns";
+import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils";
 import {
   TableContainer,
-  Table,
   TableBody,
   TableCell,
   TableRow,
-  TablePagination,
   TableHead,
 } from "@material-ui/core";
 import { TableList } from "../BranchsRegister/styles";

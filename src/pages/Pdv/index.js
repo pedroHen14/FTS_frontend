@@ -6,8 +6,6 @@ import {
   ContainerImage,
   ContainerInput,
   ContainerScreen,
-  ContainerForm,
-  FormRegister,
   ContainerSubTotalDiscount,
   Content,
   Header,
@@ -21,11 +19,10 @@ import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
 import Modal from "../../components/Modal";
 import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
-import { FaCheck, FaUserPlus } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
+import { FaUserPlus } from "react-icons/fa";
+import { ToastContainer } from "react-toastify";
 import { api } from "../../services/api";
 import formatCpf from "@brazilian-utils/format-cpf";
-import { useEffect } from "react";
 import { getUser } from "../../services/security";
 import { notify } from "../../utils";
 
@@ -101,6 +98,7 @@ function Pdv() {
             notify("CPF ainda não tem cadastro", "error");
           }
         }
+        break;
       default:
         break;
     }

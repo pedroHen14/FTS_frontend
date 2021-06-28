@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import React, { useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 export const Container = styled.div`
   width: 50vw;

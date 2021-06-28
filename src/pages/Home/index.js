@@ -1,5 +1,4 @@
 import { getUser } from "../../services/security";
-import { useHistory } from "react-router";
 import Dashboard from "../../layouts/Dashboard";
 import {
   Container,
@@ -16,7 +15,7 @@ function Home() {
   return (
     <Dashboard title="Home">
       <Container>
-        {user_permission == "Caixa" ? (
+        {user_permission === "Caixa" ? (
           <strong style={{ textAlign: "center", width: "70%" }}>
             Para você ter uma melhor experiência com a tela de caixa,
             recomendamos que baixe o atalho para a área de trabalho que irá
