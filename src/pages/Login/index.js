@@ -15,7 +15,7 @@ import formatCpf from "@brazilian-utils/format-cpf";
 import formatCnpj from "@brazilian-utils/format-cnpj";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   FormControl,

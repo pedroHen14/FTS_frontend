@@ -58,15 +58,10 @@ import animationData from "../../assets/business_2.json";
 import {
   Grow,
   Slide,
-  Avatar,
   Button,
   IconButton,
-  CardActions,
-  Typography,
   Collapse,
-  InputLabel,
 } from "@material-ui/core";
-import Modal from "../../components/Modal";
 import { useState } from "react";
 import { useEffect } from "react";
 import imageTeste from "../../assets/bg.jpg";
@@ -75,10 +70,8 @@ import { Anchor } from "antd";
 import { useHistory } from "react-router";
 import { api, apiCep } from "../../services/api";
 import { notify } from "../../utils";
-import ModalRegisterCompany from "../../components/ModalRegisterCompany";
 import formatCnpj from "@brazilian-utils/format-cnpj";
 import { ToastContainer } from "react-toastify";
-import CardProductClient from "../../components/CardProductClient";
 
 const { Link } = Anchor;
 

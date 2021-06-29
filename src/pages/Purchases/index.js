@@ -7,7 +7,6 @@ import {
   Screen,
 } from "./styles";
 import { useState } from "react";
-import { useEffect } from "react";
 import { api } from "../../services/api";
 import { getUser } from "../../services/security";
 import Dashboard from "../../layouts/Dashboard";
@@ -22,10 +21,6 @@ function Purchases() {
   const [productList, setProductList] = useState([]);
 
   const [reload, setReload] = useState(null);
-
-  useEffect(() => {
-    console.log(user);
-  }, [reload]);
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -202,7 +197,7 @@ function Purchases() {
               }}
               onClick={() => handleSale()}
             >
-              Finalizar venda
+              Finalizar Compra
             </Button>
           </ContainerScreen>
         </div>

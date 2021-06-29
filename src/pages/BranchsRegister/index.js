@@ -15,11 +15,8 @@ import {
   TableList,
 } from "./styles";
 
-import formatCnpj from "@brazilian-utils/format-cnpj";
-
 import { getUser } from "../../services/security";
 import {
-  Table,
   TableBody,
   TableCell,
   TableContainer,
@@ -66,7 +63,7 @@ function BranchsRegister() {
     };
 
     loadBranches();
-  }, [reload]);
+  }, [user.id, reload]);
 
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
