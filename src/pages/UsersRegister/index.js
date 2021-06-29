@@ -324,9 +324,9 @@ function UsersRegister() {
                     <TableRow hover tabIndex={-1} key={index}>
                       <TableCell>{p.user_name}</TableCell>
                       <TableCell>{p.Branch.branch_name}</TableCell>
-                      <TableCell>
+                      <TableCell style={{display:'flex', gap:'10px'}}>
                         {p.Permissions.map(
-                          (permission) => permission.permission_name
+                          (permission) => {return (<span style={{display:'flex'}}>{permission.permission_name}</span>)}
                         )}
                       </TableCell>
                     </TableRow>

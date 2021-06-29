@@ -7,7 +7,6 @@ import InventoryReports from "./pages/InventoryReports";
 import PurchasesReports from "./pages/PurchasesReports";
 import SalesReports from "./pages/SalesReports";
 import Pdv from "./pages/Pdv";
-import Sales from "./pages/Sales";
 import PublicPage from "./pages/PublicPage";
 import ProductsRegister from "./pages/ProductsRegister";
 import Inventory from "./pages/Inventory";
