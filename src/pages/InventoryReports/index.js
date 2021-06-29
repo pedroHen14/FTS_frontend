@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavigationMenu from "../../components/NavigationMenu";
 import { getUser, signOut } from "../../services/security";
 import {
-  Body,
-  ButtonActionArea,
-  ButtonCard,
   ButtonContainer,
-  ButtonContent,
-  ButtonImageContainer,
 } from "./styles";
 
 import Dashboard from "../../layouts/Dashboard";
@@ -17,6 +12,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress
 } from "@material-ui/core";
 import { TableList } from "../BranchsRegister/styles";
 import { api } from "../../services/api";
