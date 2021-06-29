@@ -67,13 +67,13 @@ function Login() {
     <Container>
       <ToastContainer style={{ color: "white" }} />
       <ContainerLogin>
-        <ImageLogin>
-          <img src={imgLogo} alt="logo" />
-        </ImageLogin>
 
         <FormLogin onSubmit={handleSubmit}>
+          <ImageLogin>
+            <img src={imgLogo} alt="logo" />
+          </ImageLogin>
           <Header>
-            <h1>Faça o Login</h1>
+            <h1>Login</h1>
           </Header>
           <Body>
             <TextField
@@ -120,7 +120,7 @@ function Login() {
               variant="contained"
               style={{
                 backgroundColor: "var(--primary)",
-                color: "var(--secondary)",
+                color: 'white'
               }}
             >
               Entrar
