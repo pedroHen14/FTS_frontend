@@ -6,8 +6,6 @@ import {
   ContainerImage,
   ContainerInput,
   ContainerScreen,
-  ContainerForm,
-  FormRegister,
   ContainerSubTotalDiscount,
   Content,
   Header,
@@ -21,16 +19,18 @@ import imageLogo from "../../assets/FTS.png";
 import shoppingCart from "../../assets/shopping-cart.png";
 import Modal from "../../components/Modal";
 import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
-import { FaCheck, FaUserPlus } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
+import { FaUserPlus } from "react-icons/fa";
+import { ToastContainer } from "react-toastify";
 import { api } from "../../services/api";
 import formatCpf from "@brazilian-utils/format-cpf";
-import { useEffect } from "react";
 import { getUser } from "../../services/security";
 import { notify } from "../../utils";
+import { useHistory } from "react-router-dom";
 
 function Pdv() {
   const user = getUser();
+
+  const history = useHistory();
 
   const [code, setCode] = useState("");
   const [cpfClient, setCpfClient] = useState("");
@@ -101,6 +101,7 @@ function Pdv() {
             notify("CPF ainda não tem cadastro", "error");
           }
         }
+        break;
       default:
         break;
     }
@@ -198,7 +199,8 @@ function Pdv() {
       <Container>
         {openModalDiscount && (
           <Modal
-            title="Desconto"
+            style={{backgroundColor: 'red'}}
+            title="Cadastrar desconto"
             handleClose={() => setOpenModalDiscount(false)}
           >
             <ContainerFormModal onSubmit={handleSubmitDiscount}>
@@ -266,7 +268,7 @@ function Pdv() {
           </Modal>
         )}
         <Header>
-          <ImageLogo src={imageLogo} />
+          <ImageLogo src={imageLogo} onClick={() => history.push('/home')}/>
           <h1>Caixa aberto</h1>
           <IconUser>
             <FaUserPlus onClick={() => setOpenModalDiscount(true)} />

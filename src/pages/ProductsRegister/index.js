@@ -7,14 +7,12 @@ import {
   Container,
 } from "./styles";
 import Select from "../../components/Select";
-import Tag from "../../components/Tag";
 import { useState } from "react";
 import { useEffect } from "react";
 import { api } from "../../services/api";
 import { getUser } from "../../services/security";
-import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import {
   TableBody,
   TableContainer,
@@ -77,8 +75,6 @@ function ProductsRegister() {
 
     loadUnits();
 
-    console.log(user);
-
     const loadProducts = async () => {
       const company_id = user.user_cpf
         ? user.branch?.company_id
@@ -94,8 +90,7 @@ function ProductsRegister() {
 
     loadProducts();
 
-    console.log(products);
-  }, [reload]);
+  }, [user.branch, user.user_cpf, reload]);
 
   const handleUnit = (e) => {
     const idSel = e.target.value;
@@ -115,8 +110,6 @@ function ProductsRegister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(user);
 
     const company_id = user.user_cpf ? user.branch.company_id : user.id;
 

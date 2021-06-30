@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NavigationMenu from "../../components/NavigationMenu";
-import { getUser, signOut } from "../../services/security";
+import { getUser } from "../../services/security";
 import {
   ButtonContainer,
 } from "./styles";

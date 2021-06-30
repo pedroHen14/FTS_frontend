@@ -84,6 +84,12 @@ export const ImageLogo = styled.img`
   width: 60px;
   border-radius: 50%;
   border: 2px solid var(--light);
+  cursor: pointer;
+  transition: all .4s;
+
+  :hover{
+    transform: scale(1.1);
+  }
 `;
 
 export const Content = styled.div`

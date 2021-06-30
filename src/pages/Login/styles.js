@@ -6,6 +6,7 @@ export const Container = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -41,14 +42,22 @@ export const loginAnimation = keyframes`
 
 export const ContainerLogin = styled.div`
   animation: ${loginAnimation} 0.5s;
-  width: 40%;
-  height: 50%;
+  width: 30%;
+  height: 100%;
   min-width: 300px;
   max-width: 800px;
+  align-items: flex-start;
   display: flex;
   text-align: center;
+  padding: 30px 50px;
   border-radius: 4px;
   box-shadow: 0px 0px 10px black;
+  align-self: flex-end;
+  background-color: var(--light);
+
+  @media(max-width: 760px) {
+    width: 100%;
+  }
 `;
 
 export const ImageLogin = styled.div`
@@ -57,13 +66,11 @@ export const ImageLogin = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 20px;
-  flex: 1;
   border-radius: 4px 0px 0px 4px;
-  background-color: var(--primary);
   padding: 10px;
 
   > img {
-    width: 100px;
+    width: 200px;
     border-radius: 50%;
     box-shadow: 5px 5px 5px var(--darkGray);
   }
@@ -75,11 +82,10 @@ export const FormLogin = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  background-color: #ffffffcc;
+  text-align: left;
   border-radius: 0px 4px 4px 0px;
-  box-shadow: 0px 0px 10px black;
   overflow: hidden;
+  gap:40px;
 `;
 
 export const Header = styled.header`
@@ -87,8 +93,9 @@ export const Header = styled.header`
   padding: 20px;
 
   > h1 {
-    font-size: 24px;
+    font-size: 32px;
     text-align: center;
+    text-transform: uppercase;
     margin-bottom: 10px;
     color: black;
   }
@@ -99,13 +106,12 @@ export const Body = styled.section`
   padding-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   width: 100%;
 `;
 
 export const ButtonLogin = styled(Button)`
   width: 100%;
-  margin-top: 10px;
   background-color: blue;
   color: var(--white);
 `;
