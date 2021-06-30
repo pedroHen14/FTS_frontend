@@ -108,6 +108,24 @@ function ProductsRegister() {
     setRegister({ ...register, ["product_type_id"]: productTypeSel?.id });
   };
 
+  //TODO: ENVIAR IMAGEM JUNTO AO PRODUTO PARA A API
+
+  // const handleAddProduct = async(e) => {
+  //   e.preventDefault();
+
+
+  //   const data = new FormData();
+
+  //   data.append('product_name', );
+  //   data.append('description', );
+  //   data.append('bar_code', );
+  //   data.append('cost_per_item', );
+  //   data.append('unit_of_measurement_id', );
+  //   data.append('product_type_id', );
+
+  //   if(image) data.append('image', );
+  // }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -186,6 +204,12 @@ function ProductsRegister() {
                 onChange={handleInput}
                 required
               />
+              <Input 
+                id="image"
+                variant="outlined"
+                type="file"
+                required
+              />
             </ContainerInput>
             <ContainerInput>
               <TextareaAutosize
@@ -205,7 +229,7 @@ function ProductsRegister() {
                 required
               />
             </ContainerInput>
-
+            
             <Select
               id="unit_of_measurement_id"
               value={register.unit_of_measurement_id}
