@@ -12,6 +12,18 @@ export const Container = styled.div`
   @media (max-width: 1290px) {
     gap: 10px;
   }
+
+  .icon-edit{
+    transition: all .4s;
+
+    :hover{
+      color: var(--secondary);
+    }
+
+    :active{
+      transform: scale(0.9);
+    }
+  }
 `;
 
 export const ContainerForm = styled.div`
