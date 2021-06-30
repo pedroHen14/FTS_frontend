@@ -39,6 +39,8 @@ function BranchsRegister() {
     state: "",
   });
 
+  const [putOrPost, setPutOrPost] = useState(false);
+
   const [branches, setBranches] = useState([]);
 
   const [reload, setReload] = useState(0);
@@ -102,23 +104,44 @@ function BranchsRegister() {
     const company_id = user.id;
 
     try {
-      await api.post("branch", {
-        branch_name: register.branch_name,
-        branch_email: register.branch_email,
-        place_number: parseInt(register.place_number),
-        company_id: company_id,
-        address: {
-          street: register.street,
-          complement: "nandandnandna",
-          cep: register.cep.replace("-", ""),
-          district: register.district,
-          city: register.city,
-          uf: register.state,
-        },
-      });
+      if(!setPutOrPost) {
+        await api.post("branch", {
+          branch_name: register.branch_name,
+          branch_email: register.branch_email,
+          place_number: parseInt(register.place_number),
+          company_id: company_id,
+          address: {
+            street: register.street,
+            complement: "nandandnandna",
+            cep: register.cep.replace("-", ""),
+            district: register.district,
+            city: register.city,
+            uf: register.state,
+          },
+        });
+  
+        handleReload(e);
+        notify("Sua filial foi cadastrada com sucesso!", "success");
+      } else {
+        await api.put("branch", {
+          branch_name: register.branch_name,
+          branch_email: register.branch_email,
+          place_number: parseInt(register.place_number),
+          company_id: company_id,
+          address: {
+            street: register.street,
+            complement: "nandandnandna",
+            cep: register.cep.replace("-", ""),
+            district: register.district,
+            city: register.city,
+            uf: register.state,
+          },
+        });
+  
+        handleReload(e);
+        notify("Sua filial foi atualizada com sucesso!", "success");
+      }
 
-      handleReload(e);
-      notify("Sua filial foi cadastrada com sucesso!", "success");
     } catch (error) {
       notify("Falha ao cadastrar a filial!", "error");
     }
@@ -138,6 +161,21 @@ function BranchsRegister() {
 
     setReload(Math.random());
   };
+
+  const handleUpdateBranch = (branch) => {
+    setPutOrPost(true);
+
+    setRegister({
+      branch_email: branch.branch_email,
+      branch_name: branch.branch_name,
+      place_number: branch.place_number,
+      cep: branch.Address.cep,
+      district: branch.Address.district,
+      city: branch.Address.city,
+      street: branch.Address.street,
+      state: branch.Address.uf,
+    })
+  }
 
   return (
     <Dashboard title="Cadastro de Filial">
@@ -274,6 +312,7 @@ function BranchsRegister() {
                       <TableCell>{p.branch_name}</TableCell>
                       <TableCell>{p.branch_email}</TableCell>
                       <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
+                      <button onClick={() => handleUpdateBranch(p)}>Teste</button>
                     </TableRow>
                   );
                 })}
