@@ -16,6 +16,7 @@ import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
 import { ToastContainer } from "react-toastify";
 import {
+  Button,
   TableBody,
   TableCell,
   TableContainer,
@@ -25,6 +26,7 @@ import {
 import formatCpf from "@brazilian-utils/format-cpf";
 import { notify } from "../../utils";
 import { TableList } from "../BranchsRegister/styles";
+import Modal from "../../components/Modal";
 
 function UsersRegister() {
   const user = getUser();
@@ -49,6 +51,8 @@ function UsersRegister() {
   const [roles, setRoles] = useState([]);
 
   const [users, setUsers] = useState([]);
+
+  const [openModalList, setOpenModalList] = useState(false);
 
   const permissionsRef = useRef();
 
@@ -192,151 +196,158 @@ function UsersRegister() {
   };
 
   return (
-    <Dashboard title="Cadastro de usuários">
-      <ToastContainer style={{ color: "white" }} />
-      <Container>
-        <ContainerForm>
-          <FormRegister onSubmit={handleSubmit}>
-            <ContainerInput>
-              <Input
-                id="name"
-                label="Nome"
-                type="text"
-                variant="outlined"
-                value={register.name}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
-            <ContainerInput>
-              <Input
-                id="cpf"
-                variant="outlined"
-                label="CPF"
-                type="text"
-                value={formatCpf(register.cpf)}
-                onChange={handleInput}
-                required
-                inputProps={{ maxLength: "14" }}
-              />
-              <Input
-                id="rg"
-                variant="outlined"
-                label="RG"
-                type="text"
-                value={register.rg}
-                onChange={handleInput}
-                required
-                inputProps={{ maxLength: "9" }}
-              />
-            </ContainerInput>
-            <ContainerInput>
-              <Input
-                id="password"
-                variant="outlined"
-                label="Senha"
-                type="password"
-                value={register.password}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
-            <Select id="role" value={register.role} handler={handleRoles}>
-              <option value="">Selecione o cargo</option>
-              {roles.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.role_name}
-                </option>
-              ))}
-            </Select>
-            {branches && (
-              <Select
-                id="branch"
-                value={register.branch}
-                handler={handleBranches}
-              >
-                <option value="">Selecione a filial</option>
-                {branches.map((b) => (
-                  <option key={b.id} value={b.id}>
-                    {b.branch_name}
+    <>
+      {openModalList && (
+        <Modal>
+          <TableContainer
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              border: "1px solid var(--dark)",
+              height: "300px",
+            }}
+          >
+            <TableList stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {users &&
+                  users.map((p, index) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={index}>
+                        <TableCell>{p.user_name}</TableCell>
+                        <TableCell>{p.Branch.branch_name}</TableCell>
+                        <TableCell style={{display:'flex', gap:'10px'}}>
+                          {p.Permissions.map(
+                            (permission) => {return (<span style={{display:'flex'}}>{permission.permission_name}</span>)}
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </TableList>
+          </TableContainer>
+        </Modal>
+      )}
+      <Dashboard title="Cadastro de usuários">
+        <ToastContainer style={{ color: "white" }} />
+        <Container>
+          <ContainerForm>
+            <FormRegister onSubmit={handleSubmit}>
+              <ContainerInput>
+                <Input
+                  id="name"
+                  label="Nome"
+                  type="text"
+                  variant="outlined"
+                  value={register.name}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
+              <ContainerInput>
+                <Input
+                  id="cpf"
+                  variant="outlined"
+                  label="CPF"
+                  type="text"
+                  value={formatCpf(register.cpf)}
+                  onChange={handleInput}
+                  required
+                  inputProps={{ maxLength: "14" }}
+                />
+                <Input
+                  id="rg"
+                  variant="outlined"
+                  label="RG"
+                  type="text"
+                  value={register.rg}
+                  onChange={handleInput}
+                  required
+                  inputProps={{ maxLength: "9" }}
+                />
+              </ContainerInput>
+              <ContainerInput>
+                <Input
+                  id="password"
+                  variant="outlined"
+                  label="Senha"
+                  type="password"
+                  value={register.password}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
+              <Select id="role" value={register.role} handler={handleRoles}>
+                <option value="">Selecione o cargo</option>
+                {roles.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.role_name}
                   </option>
                 ))}
               </Select>
-            )}
-            <Select
-              id="permissions"
-              handler={handlePermissions}
-              ref={permissionsRef}
-            >
-              <option value="">Selecione as permissões</option>
-              {permissions.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.permission_name}
-                </option>
-              ))}
-            </Select>
-            <div>
-              {permissionsSel.map((c) => (
-                <Tag
-                  key={c.id}
-                  info={c.permission_name}
-                  handleClose={() => handleUnselPermission(c.id)}
-                ></Tag>
-              ))}
-            </div>
-            <ButtonRegister
-              type="submit"
-              variant="contained"
-              style={{
-                backgroundColor: "var(--primary)",
-                color: "var(--white)",
-              }}
-            >
-              Cadastrar
-            </ButtonRegister>
-          </FormRegister>
-        </ContainerForm>
-        <TableContainer
-          style={{
-            width: "100%",
-            borderRadius: "10px",
-            border: "1px solid var(--dark)",
-            height: "300px",
-          }}
-        >
-          <TableList stickyHeader aria-label="">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
+              {branches && (
+                <Select
+                  id="branch"
+                  value={register.branch}
+                  handler={handleBranches}
+                >
+                  <option value="">Selecione a filial</option>
+                  {branches.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.branch_name}
+                    </option>
+                  ))}
+                </Select>
+              )}
+              <Select
+                id="permissions"
+                handler={handlePermissions}
+                ref={permissionsRef}
+              >
+                <option value="">Selecione as permissões</option>
+                {permissions.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.permission_name}
+                  </option>
                 ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users &&
-                users.map((p, index) => {
-                  return (
-                    <TableRow hover tabIndex={-1} key={index}>
-                      <TableCell>{p.user_name}</TableCell>
-                      <TableCell>{p.Branch.branch_name}</TableCell>
-                      <TableCell style={{display:'flex', gap:'10px'}}>
-                        {p.Permissions.map(
-                          (permission) => {return (<span style={{display:'flex'}}>{permission.permission_name}</span>)}
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </TableList>
-        </TableContainer>
-      </Container>
-    </Dashboard>
+              </Select>
+              <div>
+                {permissionsSel.map((c) => (
+                  <Tag
+                    key={c.id}
+                    info={c.permission_name}
+                    handleClose={() => handleUnselPermission(c.id)}
+                  ></Tag>
+                ))}
+              </div>
+              <ButtonRegister
+                type="submit"
+                variant="contained"
+                style={{
+                  backgroundColor: "var(--primary)",
+                  color: "var(--white)",
+                }}
+              >
+                Cadastrar
+              </ButtonRegister>
+            </FormRegister>
+          </ContainerForm>
+          <Button onClick={() => setOpenModalList(true)}>Abrir</Button>
+        </Container>
+      </Dashboard>
+    </>
   );
 }
 
