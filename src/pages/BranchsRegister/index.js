@@ -27,12 +27,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@material-ui/core";
 import { useEffect } from "react";
 import { AppsOutlined } from "@material-ui/icons";
 
 function BranchsRegister() {
   const user = getUser();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [register, setRegister] = useState({
     branch_name: "",
@@ -70,6 +73,7 @@ function BranchsRegister() {
   ];
 
   useEffect(() => {
+    setIsLoading(true);
     const loadBranches = async () => {
       const company_id = user.id;
 
@@ -77,6 +81,7 @@ function BranchsRegister() {
         const { data } = await api.get(`/company/${company_id}/branch`);
 
         setBranches(data);
+        setIsLoading(false);
       } catch (error) {
         notify("Não foi possível encontrar as filiais");
       }
@@ -375,7 +380,9 @@ function BranchsRegister() {
               </TableHead>
 
               <TableBody>
-                {branches &&
+                {isLoading ? (
+                  <CircularProgress size={50} />
+                ) : (
                   branches.map((p, index) => {
                     return (
                       <TableRow hover tabIndex={-1} key={index}>
@@ -398,7 +405,8 @@ function BranchsRegister() {
                         </TableCell>
                       </TableRow>
                     );
-                  })}
+                  })
+                )}
               </TableBody>
             </TableList>
           </TableContainer>
