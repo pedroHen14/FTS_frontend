@@ -94,9 +94,7 @@ function UsersRegister() {
     const loadBranches = async () => {
       try {
         const { data } = await api.get(
-          `/company/${
-            user.user_cpf ? user.branch.id : user.branch[0].id
-          }/branch`
+          `/company/${user.user_cpf ? user.branch.companyId : user.id}/branch`
         );
 
         setBranches(data);
