@@ -22,6 +22,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@material-ui/core";
 import formatCpf from "@brazilian-utils/format-cpf";
 import { notify } from "../../utils";
@@ -53,6 +54,8 @@ function UsersRegister() {
   const [users, setUsers] = useState([]);
 
   const [openModalList, setOpenModalList] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const permissionsRef = useRef();
 
@@ -103,13 +106,17 @@ function UsersRegister() {
     loadBranches();
 
     const loadUsers = async () => {
+      setIsLoading(true);
       try {
         const { data } = await api.get(
           `/company/${user.user_cpf ? user.branch.company_id : user.id}/user`
         );
 
         setUsers(data);
-      } catch (error) {}
+        setIsLoading(false);
+      } catch (error) {
+        notify("Usuários não encontrados", "error");
+      }
     };
 
     loadUsers();
@@ -319,54 +326,61 @@ function UsersRegister() {
           >
             Cadastre
           </Button>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "100vh",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users &&
-                  users.map((p, index) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell>{p.user_name}</TableCell>
-                        <TableCell>{p.Branch.branch_name}</TableCell>
-                        <TableCell style={{ display: "flex", gap: "10px" }}>
-                          {p.Permissions.map((permission) => {
-                            return (
-                              <span style={{ display: "flex" }}>
-                                {permission.permission_name}
-                              </span>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell>
-                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
-                            timeZone: "UTC",
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </TableList>
-          </TableContainer>
+          {isLoading ? (
+            <CircularProgress size={100} />
+          ) : (
+            <TableContainer
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                border: "1px solid var(--dark)",
+                height: "100vh",
+              }}
+            >
+              <TableList stickyHeader aria-label="">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {users &&
+                    users.map((p, index) => {
+                      return (
+                        <TableRow hover tabIndex={-1} key={index}>
+                          <TableCell>{p.user_name}</TableCell>
+                          <TableCell>{p.Branch.branch_name}</TableCell>
+                          <TableCell style={{ display: "flex", gap: "10px" }}>
+                            {p.Permissions.map((permission) => {
+                              return (
+                                <span style={{ display: "flex" }}>
+                                  {permission.permission_name}
+                                </span>
+                              );
+                            })}
+                          </TableCell>
+                          <TableCell>
+                            {new Date(p.created_at).toLocaleDateString(
+                              "pt-BR",
+                              {
+                                timeZone: "UTC",
+                              }
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </TableList>
+            </TableContainer>
+          )}
         </Container>
       </Dashboard>
     </>

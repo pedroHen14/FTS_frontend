@@ -21,6 +21,7 @@ import {
   TableRow,
   TableHead,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import { TableList } from "../BranchsRegister/styles";
 import Modal from "../../components/Modal";
@@ -45,6 +46,8 @@ function Inventory() {
 
   const [openModalList, setOpenModalList] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const columns = [
     { id: "quantity_acquired", label: "Quantidade", minWidth: 150 },
     { id: "lot_number", label: "Número do lote", minWidth: 150 },
@@ -55,12 +58,14 @@ function Inventory() {
 
   useEffect(() => {
     const loadProduct = async () => {
+      setIsLoading(true);
       try {
         const response = await api.get(
           `/company/${user.user_cpf ? user.branch.company_id : user.id}/product`
         );
 
         setProduct(response.data);
+        setIsLoading(false);
       } catch (error) {
         alert(error);
       }
@@ -240,48 +245,52 @@ function Inventory() {
           >
             Cadastre
           </Button>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "100vh",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {logbook &&
-                  logbook.map((p, index) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell>{p.quantity_acquired}</TableCell>
-                        <TableCell>{p.Lot.lot_number}</TableCell>
-                        <TableCell>{p.Product.bar_code}</TableCell>
-                        <TableCell>{p.Product.product_name}</TableCell>
-                        <TableCell>
-                          {new Date(p.date_of_acquisition).toLocaleDateString(
-                            "pt-BR",
-                            { timeZone: "UTC" }
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </TableList>
-          </TableContainer>
+          {isLoading ? (
+            <CircularProgress size={100} />
+          ) : (
+            <TableContainer
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                border: "1px solid var(--dark)",
+                height: "100vh",
+              }}
+            >
+              <TableList stickyHeader aria-label="">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {logbook &&
+                    logbook.map((p, index) => {
+                      return (
+                        <TableRow hover tabIndex={-1} key={index}>
+                          <TableCell>{p.quantity_acquired}</TableCell>
+                          <TableCell>{p.Lot.lot_number}</TableCell>
+                          <TableCell>{p.Product.bar_code}</TableCell>
+                          <TableCell>{p.Product.product_name}</TableCell>
+                          <TableCell>
+                            {new Date(p.date_of_acquisition).toLocaleDateString(
+                              "pt-BR",
+                              { timeZone: "UTC" }
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </TableList>
+            </TableContainer>
+          )}
         </Container>
       </Dashboard>
     </>

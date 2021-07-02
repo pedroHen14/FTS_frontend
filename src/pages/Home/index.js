@@ -8,6 +8,7 @@ import {
   InfoContainer,
 } from "./styles";
 import {
+  CircularProgress,
   TableBody,
   TableCell,
   TableContainer,
@@ -24,6 +25,8 @@ function Home() {
 
   const [reportFinance, setReportFinance] = useState({});
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const columns = [
     { id: "sales_total_value", label: "Total de vendas", minWidth: 150 },
     { id: "purchases_total_value", label: "Total de compras", minWidth: 150 },
@@ -36,6 +39,7 @@ function Home() {
 
   useEffect(() => {
     const loadReportFinances = async () => {
+      setIsLoading(true);
       try {
         const { data } = await api.get(
           `/branch/${
@@ -44,7 +48,7 @@ function Home() {
         );
 
         setReportFinance(data);
-        console.log(data);
+        setIsLoading(false);
       } catch (error) {
         notify("Não foi possível buscar o relatório", "error");
       }
@@ -66,105 +70,109 @@ function Home() {
         ) : (
           ""
         )}
-        <InfoContainer>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "auto",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {reportFinance && (
-                  <TableRow hover tabIndex={-1}>
-                    <TableCell>
-                      {parseFloat(
-                        reportFinance.sales_total_value
-                      ).toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      })}
-                    </TableCell>
-                    <TableCell>
-                      {parseFloat(
-                        reportFinance.purchases_total_value
-                      ).toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      })}
-                    </TableCell>
-                    <TableCell>
-                      {parseFloat(reportFinance.total_balance).toLocaleString(
-                        "pt-BR",
-                        {
+        {isLoading ? (
+          <CircularProgress size={100} />
+        ) : (
+          <InfoContainer>
+            <TableContainer
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                border: "1px solid var(--dark)",
+                height: "auto",
+              }}
+            >
+              <TableList stickyHeader aria-label="">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {reportFinance && (
+                    <TableRow hover tabIndex={-1}>
+                      <TableCell>
+                        {parseFloat(
+                          reportFinance.sales_total_value
+                        ).toLocaleString("pt-BR", {
                           style: "currency",
                           currency: "BRL",
-                        }
-                      )}
-                    </TableCell>
-                    <TableCell>{reportFinance.sale_amount}</TableCell>
-                    <TableCell>{reportFinance.purchase_amount}</TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </TableList>
-          </TableContainer>
-          <div className="container_graphic">
-            <div className="graphic">
-              <GraphicChart
-                chartType="PieChart"
-                loader={<div>Loading Chart</div>}
-                data={[
-                  ["Estoque", "Movimento"],
-                  ["Vendas", 11],
-                  ["Compras", 5],
-                ]}
-                options={{
-                  is3D: true,
-                  title: "Gráfico de compras e vendas",
-                  backgroundColor: "transparent",
-                }}
-                rootProps={{ "data-testid": "1" }}
-              />
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {parseFloat(
+                          reportFinance.purchases_total_value
+                        ).toLocaleString("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {parseFloat(reportFinance.total_balance).toLocaleString(
+                          "pt-BR",
+                          {
+                            style: "currency",
+                            currency: "BRL",
+                          }
+                        )}
+                      </TableCell>
+                      <TableCell>{reportFinance.sale_amount}</TableCell>
+                      <TableCell>{reportFinance.purchase_amount}</TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </TableList>
+            </TableContainer>
+            <div className="container_graphic">
+              <div className="graphic">
+                <GraphicChart
+                  chartType="PieChart"
+                  loader={<div>Loading Chart</div>}
+                  data={[
+                    ["Estoque", "Movimento"],
+                    ["Vendas", 11],
+                    ["Compras", 5],
+                  ]}
+                  options={{
+                    is3D: true,
+                    title: "Gráfico de compras e vendas",
+                    backgroundColor: "transparent",
+                  }}
+                  rootProps={{ "data-testid": "1" }}
+                />
+              </div>
+              <div className="graphic">
+                <GraphicChart
+                  chartType="PieChart"
+                  loader={<div>Loading Chart</div>}
+                  data={[
+                    ["Estoque", "Movimento"],
+                    ["Eletrônicos", 4],
+                    ["Eletrodomésticos", 1],
+                    ["Roupas", 1],
+                    ["Jogos", 2],
+                    ["Bebidas", 1],
+                    ["Comida", 1],
+                    ["Higiene", 1],
+                  ]}
+                  options={{
+                    is3D: true,
+                    title: "Gráfico de vendas por categoria",
+                    backgroundColor: "transparent",
+                  }}
+                  rootProps={{ "data-testid": "1" }}
+                />
+              </div>
             </div>
-            <div className="graphic">
-              <GraphicChart
-                chartType="PieChart"
-                loader={<div>Loading Chart</div>}
-                data={[
-                  ["Estoque", "Movimento"],
-                  ["Eletrônicos", 4],
-                  ["Eletrodomésticos", 1],
-                  ["Roupas", 1],
-                  ["Jogos", 2],
-                  ["Bebidas", 1],
-                  ["Comida", 1],
-                  ["Higiene", 1],
-                ]}
-                options={{
-                  is3D: true,
-                  title: "Gráfico de vendas por categoria",
-                  backgroundColor: "transparent",
-                }}
-                rootProps={{ "data-testid": "1" }}
-              />
-            </div>
-          </div>
-        </InfoContainer>
+          </InfoContainer>
+        )}
       </Container>
     </Dashboard>
   );

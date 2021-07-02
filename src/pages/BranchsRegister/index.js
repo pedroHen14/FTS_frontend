@@ -357,59 +357,63 @@ function BranchsRegister() {
           >
             Cadastre
           </Button>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "100vh",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
+          {isLoading ? (
+            <CircularProgress size={100} />
+          ) : (
+            <TableContainer
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                border: "1px solid var(--dark)",
+                height: "100vh",
+              }}
+            >
+              <TableList stickyHeader aria-label="">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
 
-              <TableBody>
-                {isLoading ? (
-                  <CircularProgress size={50} />
-                ) : (
-                  branches.map((p, index) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell>{p.branch_name}</TableCell>
-                        <TableCell>{p.branch_email}</TableCell>
-                        <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
-                        <TableCell>
-                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
-                            timeZone: "UTC",
-                          })}
-                        </TableCell>
-                        <TableCell>
-                          <FaEdit
-                            onClick={() => {
-                              setIdBranch(p.id);
-                              setOpenModalEditBranch(true);
-                            }}
-                            className="icon-edit"
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                )}
-              </TableBody>
-            </TableList>
-          </TableContainer>
+                <TableBody>
+                  {branches &&
+                    branches.map((p, index) => {
+                      return (
+                        <TableRow hover tabIndex={-1} key={index}>
+                          <TableCell>{p.branch_name}</TableCell>
+                          <TableCell>{p.branch_email}</TableCell>
+                          <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
+                          <TableCell>
+                            {new Date(p.created_at).toLocaleDateString(
+                              "pt-BR",
+                              {
+                                timeZone: "UTC",
+                              }
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <FaEdit
+                              onClick={() => {
+                                setIdBranch(p.id);
+                                setOpenModalEditBranch(true);
+                              }}
+                              className="icon-edit"
+                            />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </TableList>
+            </TableContainer>
+          )}
         </Container>
       </Dashboard>
     </>
