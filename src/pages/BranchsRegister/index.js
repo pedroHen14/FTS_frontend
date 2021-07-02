@@ -15,9 +15,9 @@ import {
   TableList,
 } from "./styles";
 
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit } from "react-icons/fa";
 
-import Modal from '../../components/Modal';
+import Modal from "../../components/Modal";
 
 import { getUser } from "../../services/security";
 import {
@@ -46,12 +46,12 @@ function BranchsRegister() {
   });
 
   const [editBranch, setEditBranch] = useState({
-    branch_name: '',
-    branch_email: '',
-    place_number: '',
-  })
+    branch_name: "",
+    branch_email: "",
+    place_number: "",
+  });
 
-  const [idBranch, setIdBranch] = useState('')
+  const [idBranch, setIdBranch] = useState("");
 
   const [branches, setBranches] = useState([]);
 
@@ -156,16 +156,16 @@ function BranchsRegister() {
     });
 
     setEditBranch({
-      branch_email: '',
-      branch_name: '',
-      place_number: '',
-    })
+      branch_email: "",
+      branch_name: "",
+      place_number: "",
+    });
 
     setReload(Math.random());
   };
 
-  const handleUpdateBranch = (e) => {    
-    setEditBranch({...editBranch, [e.target.id]: e.target.value});
+  const handleUpdateBranch = (e) => {
+    setEditBranch({ ...editBranch, [e.target.id]: e.target.value });
   };
 
   const handleSubmitEdit = async (e) => {
@@ -176,51 +176,55 @@ function BranchsRegister() {
         branch_email: editBranch.branch_email,
         branch_name: editBranch.branch_name,
         place_number: editBranch.place_number,
-      })
+      });
 
       handleReload(e);
       setOpenModalEditBranch(false);
-      notify('Dados da filial atualizados com sucesso', 'success')
+      notify("Dados da filial atualizados com sucesso", "success");
     } catch (error) {
-      notify('Falha ao editar filial', 'error');
+      notify("Falha ao editar filial", "error");
     }
-  }
+  };
 
   return (
     <>
       {openModalEditBranch && (
-        <Modal title="Editar filial" handleClose={() => setOpenModalEditBranch(false)}>
+        <Modal
+          color="#f8f8f8"
+          title="Editar filial"
+          handleClose={() => setOpenModalEditBranch(false)}
+        >
           <FormRegister onSubmit={handleSubmitEdit}>
-              <Input
-                id="branch_name"
-                variant="outlined"
-                label="Nome da Filial"
-                type="text"
-                value={editBranch.branch_name}
-                onChange={handleUpdateBranch}
-                required
-              />
-              <Input
-                id="branch_email"
-                variant="outlined"
-                label="Email da Filial"
-                type="email"
-                value={editBranch.branch_email}
-                onChange={handleUpdateBranch}
-                required
-              />
-              <Input
-                id="place_number"
-                variant="outlined"
-                label="Número"
-                type="number"
-                value={editBranch.place_number}
-                onChange={handleUpdateBranch}
-                required
-              />
+            <Input
+              id="branch_name"
+              variant="outlined"
+              label="Nome da Filial"
+              type="text"
+              value={editBranch.branch_name}
+              onChange={handleUpdateBranch}
+              required
+            />
+            <Input
+              id="branch_email"
+              variant="outlined"
+              label="Email da Filial"
+              type="email"
+              value={editBranch.branch_email}
+              onChange={handleUpdateBranch}
+              required
+            />
+            <Input
+              id="place_number"
+              variant="outlined"
+              label="Número"
+              type="number"
+              value={editBranch.place_number}
+              onChange={handleUpdateBranch}
+              required
+            />
             <ButtonRegister
               type="submit"
-              style={{backgroundColor: 'var(--dark)', color: 'white'}}
+              style={{ backgroundColor: "var(--dark)", color: "white" }}
             >
               Alterar
             </ButtonRegister>
@@ -228,58 +232,7 @@ function BranchsRegister() {
         </Modal>
       )}
       {openModalList && (
-        <Modal>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "300px",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {branches &&
-                  branches.map((p, index) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell>{p.branch_name}</TableCell>
-                        <TableCell>{p.branch_email}</TableCell>
-                        <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
-                        <TableCell>
-                          <FaEdit 
-                            onClick={() => {
-                                setIdBranch(p.id);
-                                setOpenModalEditBranch(true);
-                              }
-                            }
-                            className="icon-edit"
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </TableList>
-          </TableContainer>
-        </Modal>
-      )}
-      <Dashboard title="Cadastro de Filial">
-        <ToastContainer style={{ color: "white" }} />
-        <Container>
+        <Modal color="#f8f8f8" handleClose={() => setOpenModalList(false)}>
           <ContainerForm>
             <FormRegister onSubmit={handleSubmit}>
               <ContainerInput>
@@ -381,7 +334,68 @@ function BranchsRegister() {
               </ButtonRegister>
             </FormRegister>
           </ContainerForm>
-          <Button onClick={() => setOpenModalList(true)}>Abrir</Button>
+        </Modal>
+      )}
+      <Dashboard title="Cadastro de Filial">
+        <ToastContainer style={{ color: "white" }} />
+        <Container>
+          <Button
+            style={{
+              backgroundColor: "var(--green)",
+              color: "white",
+              alignSelf: "flex-end",
+            }}
+            size="large"
+            variant="contained"
+            onClick={() => setOpenModalList(true)}
+          >
+            Cadastre
+          </Button>
+          <TableContainer
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              border: "1px solid var(--dark)",
+              height: "100vh",
+            }}
+          >
+            <TableList stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {branches &&
+                  branches.map((p, index) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={index}>
+                        <TableCell>{p.branch_name}</TableCell>
+                        <TableCell>{p.branch_email}</TableCell>
+                        <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
+                        <TableCell>
+                          <FaEdit
+                            onClick={() => {
+                              setIdBranch(p.id);
+                              setOpenModalEditBranch(true);
+                            }}
+                            className="icon-edit"
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </TableList>
+          </TableContainer>
         </Container>
       </Dashboard>
     </>

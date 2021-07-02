@@ -9,7 +9,7 @@ export const Container = styled.article`
   border-radius: 4px;
   background-color: var(--dark);
 
-  color: var(--secondary);
+  color: var(--white);
 
   margin: 0px 10px 10px 0px;
 

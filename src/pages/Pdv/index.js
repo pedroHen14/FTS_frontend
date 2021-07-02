@@ -99,6 +99,7 @@ function Pdv() {
             notify("CPF encontrado com sucesso", "success");
           } catch (error) {
             notify("CPF ainda não tem cadastro", "error");
+            setOpenModalAddUser(true);
           }
         }
         break;
@@ -133,9 +134,10 @@ function Pdv() {
         cpf: register.cpf.replace(/\D/g, ""),
       });
 
+      setOpenModalAddUser(false);
       notify("Usuário cadastrado com sucesso", "success");
     } catch (error) {
-      alert(error);
+      notify("Falha ao cadastrar o usuário", "error");
     }
   };
 
@@ -148,14 +150,14 @@ function Pdv() {
       return items;
     });
 
-    const company_id = user.branch.company_id;
+    const brandh_id = user.branch.id;
 
     const idClient = client[0]?.id;
 
     try {
       await api.post("/sale", {
         payment_method_id: 1,
-        branch_id: parseInt(company_id),
+        branch_id: parseInt(brandh_id),
         costumer_id: idClient,
         items: productsSale,
         discount: discount ? parseInt(discount) : null,
@@ -199,7 +201,7 @@ function Pdv() {
       <Container>
         {openModalDiscount && (
           <Modal
-            style={{backgroundColor: 'red'}}
+            color="#f8f8f8"
             title="Cadastrar desconto"
             handleClose={() => setOpenModalDiscount(false)}
           >
@@ -235,6 +237,7 @@ function Pdv() {
         {openModalAddUser && (
           <Modal
             title="Adicionar Cliente"
+            color="#f8f8f8"
             handleClose={() => setOpenModalAddUser(false)}
           >
             <ContainerFormModal>
@@ -268,7 +271,7 @@ function Pdv() {
           </Modal>
         )}
         <Header>
-          <ImageLogo src={imageLogo} onClick={() => history.push('/home')}/>
+          <ImageLogo src={imageLogo} onClick={() => history.push("/home")} />
           <h1>Caixa aberto</h1>
           <IconUser>
             <FaUserPlus onClick={() => setOpenModalDiscount(true)} />

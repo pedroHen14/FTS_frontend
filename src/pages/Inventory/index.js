@@ -72,7 +72,7 @@ function Inventory() {
       try {
         const response = await api.get(
           `/branch/${
-            user.user_cpf ? user.branch.company_id : user.branch[0]?.company_id
+            user.user_cpf ? user.branch.id : user.branch[0]?.id
           }/logbook`
         );
 
@@ -139,54 +139,7 @@ function Inventory() {
   return (
     <>
       {openModalList && (
-        <Modal>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "300px",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {logbook &&
-                  logbook.map((p, index) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell>{p.quantity_acquired}</TableCell>
-                        <TableCell>{p.Lot.lot_number}</TableCell>
-                        <TableCell>{p.Product.bar_code}</TableCell>
-                        <TableCell>{p.Product.product_name}</TableCell>
-                        <TableCell>
-                          {new Date(p.date_of_acquisition).toLocaleDateString(
-                            "pt-BR",
-                            { timeZone: "UTC" }
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </TableList>
-          </TableContainer>
-        </Modal>
-      )}
-      <Dashboard title="Estoque">
-        <ToastContainer style={{ color: "white" }} />
-        <Container>
+        <Modal handleClose={() => setOpenModalList(false)} color="#f8f8f8">
           <ContainerForm>
             <FormRegister onSubmit={handleSubmit}>
               <ContainerInput>
@@ -270,7 +223,65 @@ function Inventory() {
               </ButtonRegister>
             </FormRegister>
           </ContainerForm>
-          <Button onClick={() => setOpenModalList(true)}>Abrir</Button>
+        </Modal>
+      )}
+      <Dashboard title="Estoque">
+        <ToastContainer style={{ color: "white" }} />
+        <Container>
+          <Button
+            style={{
+              backgroundColor: "var(--green)",
+              color: "white",
+              alignSelf: "flex-end",
+            }}
+            variant="contained"
+            size="large"
+            onClick={() => setOpenModalList(true)}
+          >
+            Cadastre
+          </Button>
+          <TableContainer
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              border: "1px solid var(--dark)",
+              height: "100vh",
+            }}
+          >
+            <TableList stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {logbook &&
+                  logbook.map((p, index) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={index}>
+                        <TableCell>{p.quantity_acquired}</TableCell>
+                        <TableCell>{p.Lot.lot_number}</TableCell>
+                        <TableCell>{p.Product.bar_code}</TableCell>
+                        <TableCell>{p.Product.product_name}</TableCell>
+                        <TableCell>
+                          {new Date(p.date_of_acquisition).toLocaleDateString(
+                            "pt-BR",
+                            { timeZone: "UTC" }
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </TableList>
+          </TableContainer>
         </Container>
       </Dashboard>
     </>

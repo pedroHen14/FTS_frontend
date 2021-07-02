@@ -93,7 +93,6 @@ function ProductsRegister() {
     };
 
     loadProducts();
-
   }, [reload]);
 
   const handleUnit = (e) => {
@@ -157,51 +156,7 @@ function ProductsRegister() {
   return (
     <>
       {openModalList && (
-        <Modal>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "300px",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products &&
-                  products.map((p, index) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell>{p.product_name}</TableCell>
-                        <TableCell>{p.description}</TableCell>
-                        <TableCell>
-                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
-                            timeZone: "UTC",
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </TableList>
-          </TableContainer>
-        </Modal>
-      )}
-      <Dashboard title="Cadastro de produtos">
-        <ToastContainer style={{ color: "white" }} />
-        <Container>
+        <Modal color="#f8f8f8" handleClose={() => setOpenModalList(false)}>
           <ContainerForm>
             <FormRegister onSubmit={handleSubmit}>
               <ContainerInput>
@@ -290,7 +245,62 @@ function ProductsRegister() {
               </ButtonRegister>
             </FormRegister>
           </ContainerForm>
-          <Button onClick={() => setOpenModalList(true)}>Abrir</Button>
+        </Modal>
+      )}
+      <Dashboard title="Cadastro de produtos">
+        <ToastContainer style={{ color: "white" }} />
+        <Container>
+          <Button
+            style={{
+              backgroundColor: "var(--green)",
+              color: "white",
+              alignSelf: "flex-end",
+            }}
+            variant="contained"
+            size="large"
+            onClick={() => setOpenModalList(true)}
+          >
+            Cadastre
+          </Button>
+          <TableContainer
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              border: "1px solid var(--dark)",
+              height: "100vh",
+            }}
+          >
+            <TableList stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {products &&
+                  products.map((p, index) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={index}>
+                        <TableCell>{p.product_name}</TableCell>
+                        <TableCell>{p.description}</TableCell>
+                        <TableCell>
+                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
+                            timeZone: "UTC",
+                          })}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </TableList>
+          </TableContainer>
         </Container>
       </Dashboard>
     </>

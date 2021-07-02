@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "../../services/security";
-import {
-  ButtonContainer,
-} from "./styles";
+import { ButtonContainer } from "./styles";
 
 import Dashboard from "../../layouts/Dashboard";
 import {
@@ -11,7 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  CircularProgress
+  CircularProgress,
 } from "@material-ui/core";
 import { TableList } from "../BranchsRegister/styles";
 import { api } from "../../services/api";
@@ -54,7 +52,7 @@ function InventoryReports() {
             width: "100%",
             borderRadius: "10px",
             border: "1px solid var(--dark)",
-            height: "600px",
+            height: "100%",
           }}
         >
           <TableList stickyHeader aria-label="">
