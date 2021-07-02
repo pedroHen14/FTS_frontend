@@ -36,10 +36,10 @@ export const Header = styled.header`
 
 export const ContainerForm = styled.div`
   display: flex;
-  justify-items: flex-start;
-  height: 80%;
+  justify-items: center;
+  min-height: 30vh;
   align-items: center;
-  width: 70%;
+  width: 60vw;
 `;
 
 export const FormRegister = styled.form`

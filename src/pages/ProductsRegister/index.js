@@ -7,14 +7,12 @@ import {
   Container,
 } from "./styles";
 import Select from "../../components/Select";
-import Tag from "../../components/Tag";
 import { useState } from "react";
 import { useEffect } from "react";
 import { api } from "../../services/api";
 import { getUser } from "../../services/security";
-import { useRef } from "react";
 import Dashboard from "../../layouts/Dashboard";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import {
   TableBody,
   TableContainer,
@@ -22,9 +20,11 @@ import {
   TableRow,
   TableCell,
   TextareaAutosize,
+  Button,
 } from "@material-ui/core";
 import { notify } from "../../utils";
 import { TableList } from "../BranchsRegister/styles";
+import Modal from "../../components/Modal";
 
 function ProductsRegister() {
   const user = getUser();
@@ -45,6 +45,8 @@ function ProductsRegister() {
   const [unit, setUnit] = useState([]);
 
   const [products, setProducts] = useState([]);
+
+  const [openModalList, setOpenModalList] = useState(false);
 
   const columns = [
     { id: "name", label: "Nome", minWidth: 150 },
@@ -77,8 +79,6 @@ function ProductsRegister() {
 
     loadUnits();
 
-    console.log(user);
-
     const loadProducts = async () => {
       const company_id = user.user_cpf
         ? user.branch?.company_id
@@ -93,8 +93,6 @@ function ProductsRegister() {
     };
 
     loadProducts();
-
-    console.log(products);
   }, [reload]);
 
   const handleUnit = (e) => {
@@ -115,8 +113,6 @@ function ProductsRegister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(user);
 
     const company_id = user.user_cpf ? user.branch.company_id : user.id;
 
@@ -158,138 +154,156 @@ function ProductsRegister() {
   };
 
   return (
-    <Dashboard title="Cadastro de produtos">
-      <ToastContainer style={{ color: "white" }} />
-      <Container>
-        <ContainerForm>
-          <FormRegister onSubmit={handleSubmit}>
-            <ContainerInput>
-              <Input
-                id="product_name"
-                label="Nome do produto"
-                type="text"
-                variant="outlined"
-                value={register.product_name}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
-            <ContainerInput>
-              <Input
-                id="bar_code"
-                variant="outlined"
-                label="Código de barras"
-                type="decimal"
-                value={register.bar_code}
-                onChange={handleInput}
-                required
-              />
-              <Input
-                id="cost_per_item"
-                variant="outlined"
-                label="Valor unitário"
-                type="text"
-                value={register.cost_per_item}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
-            <ContainerInput>
-              <TextareaAutosize
-                id="description"
-                style={{
-                  flex: 1,
-                  resize: "none",
-                  padding: "10px",
-                  fontSize: "16px",
-                  fontFamily: "sans-serif",
-                }}
-                placeholder="Digite aqui a descrição do produto..."
-                rowsMin={5}
-                rowsMax={10}
-                value={register.description}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
+    <>
+      {openModalList && (
+        <Modal color="#f8f8f8" handleClose={() => setOpenModalList(false)}>
+          <ContainerForm>
+            <FormRegister onSubmit={handleSubmit}>
+              <ContainerInput>
+                <Input
+                  id="product_name"
+                  label="Nome do produto"
+                  type="text"
+                  variant="outlined"
+                  value={register.product_name}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
+              <ContainerInput>
+                <Input
+                  id="bar_code"
+                  variant="outlined"
+                  label="Código de barras"
+                  type="decimal"
+                  value={register.bar_code}
+                  onChange={handleInput}
+                  required
+                />
+                <Input
+                  id="cost_per_item"
+                  variant="outlined"
+                  label="Valor unitário"
+                  type="text"
+                  value={register.cost_per_item}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
+              <ContainerInput>
+                <TextareaAutosize
+                  id="description"
+                  style={{
+                    flex: 1,
+                    resize: "none",
+                    padding: "10px",
+                    fontSize: "16px",
+                    fontFamily: "sans-serif",
+                  }}
+                  placeholder="Digite aqui a descrição do produto..."
+                  rowsMin={5}
+                  rowsMax={10}
+                  value={register.description}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
 
-            <Select
-              id="unit_of_measurement_id"
-              value={register.unit_of_measurement_id}
-              handler={handleUnit}
-            >
-              <option value="">Selecione a unidade de medida</option>
-              {unit.map((u) => (
-                <option key={u.id} value={u.id}>
-                  {u.unit_name}
-                </option>
-              ))}
-            </Select>
-            <Select
-              id="product_type_id"
-              value={register.product_type_id}
-              handler={handleProductType}
-            >
-              <option value="">Selecione o tipo do produto</option>
-              {productType.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.type}
-                </option>
-              ))}
-            </Select>
-            <ButtonRegister
-              type="submit"
-              variant="contained"
-              style={{
-                backgroundColor: "var(--primary)",
-                color: "var(--white)",
-              }}
-            >
-              Cadastrar
-            </ButtonRegister>
-          </FormRegister>
-        </ContainerForm>
-        <TableContainer
-          style={{
-            width: "100%",
-            borderRadius: "10px",
-            border: "1px solid var(--dark)",
-            height: "300px",
-          }}
-        >
-          <TableList stickyHeader aria-label="">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
+              <Select
+                id="unit_of_measurement_id"
+                value={register.unit_of_measurement_id}
+                handler={handleUnit}
+              >
+                <option value="">Selecione a unidade de medida</option>
+                {unit.map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.unit_name}
+                  </option>
                 ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {products &&
-                products.map((p, index) => {
-                  return (
-                    <TableRow hover tabIndex={-1} key={index}>
-                      <TableCell>{p.product_name}</TableCell>
-                      <TableCell>{p.description}</TableCell>
-                      <TableCell>
-                        {new Date(p.created_at).toLocaleDateString("pt-BR", {
-                          timeZone: "UTC",
-                        })}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </TableList>
-        </TableContainer>
-      </Container>
-    </Dashboard>
+              </Select>
+              <Select
+                id="product_type_id"
+                value={register.product_type_id}
+                handler={handleProductType}
+              >
+                <option value="">Selecione o tipo do produto</option>
+                {productType.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.type}
+                  </option>
+                ))}
+              </Select>
+              <ButtonRegister
+                type="submit"
+                variant="contained"
+                style={{
+                  backgroundColor: "var(--primary)",
+                  color: "var(--white)",
+                }}
+              >
+                Cadastrar
+              </ButtonRegister>
+            </FormRegister>
+          </ContainerForm>
+        </Modal>
+      )}
+      <Dashboard title="Cadastro de produtos">
+        <ToastContainer style={{ color: "white" }} />
+        <Container>
+          <Button
+            style={{
+              backgroundColor: "var(--green)",
+              color: "white",
+              alignSelf: "flex-end",
+            }}
+            variant="contained"
+            size="large"
+            onClick={() => setOpenModalList(true)}
+          >
+            Cadastre
+          </Button>
+          <TableContainer
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              border: "1px solid var(--dark)",
+              height: "100vh",
+            }}
+          >
+            <TableList stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {products &&
+                  products.map((p, index) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={index}>
+                        <TableCell>{p.product_name}</TableCell>
+                        <TableCell>{p.description}</TableCell>
+                        <TableCell>
+                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
+                            timeZone: "UTC",
+                          })}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </TableList>
+          </TableContainer>
+        </Container>
+      </Dashboard>
+    </>
   );
 }
 

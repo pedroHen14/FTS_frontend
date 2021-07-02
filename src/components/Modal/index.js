@@ -1,10 +1,10 @@
 import "./styles";
 import { Overlay, ModalContainer } from "./styles";
 
-function Modal({ title, children, handleClose }) {
+function Modal({ title, children, handleClose, color }) {
   return (
     <Overlay>
-      <ModalContainer>
+      <ModalContainer color={color}>
         <span onClick={handleClose}>&times;</span>
         <header>{title}</header>
         {children}

@@ -4,8 +4,6 @@ import {
   Container,
   InfoContainer,
   InfoHeader,
-  SliderContainer,
-  CardProduct,
   InfoContent,
 } from "./styles";
 

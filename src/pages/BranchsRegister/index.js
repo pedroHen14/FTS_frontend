@@ -15,11 +15,13 @@ import {
   TableList,
 } from "./styles";
 
-import formatCnpj from "@brazilian-utils/format-cnpj";
+import { FaEdit } from "react-icons/fa";
+
+import Modal from "../../components/Modal";
 
 import { getUser } from "../../services/security";
 import {
-  Table,
+  Button,
   TableBody,
   TableCell,
   TableContainer,
@@ -27,6 +29,7 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { useEffect } from "react";
+import { AppsOutlined } from "@material-ui/icons";
 
 function BranchsRegister() {
   const user = getUser();
@@ -42,14 +45,27 @@ function BranchsRegister() {
     state: "",
   });
 
+  const [editBranch, setEditBranch] = useState({
+    branch_name: "",
+    branch_email: "",
+    place_number: "",
+  });
+
+  const [idBranch, setIdBranch] = useState("");
+
   const [branches, setBranches] = useState([]);
 
   const [reload, setReload] = useState(0);
+
+  const [openModalEditBranch, setOpenModalEditBranch] = useState(false);
+
+  const [openModalList, setOpenModalList] = useState(false);
 
   const columns = [
     { id: "name", label: "Nome", minWidth: 150 },
     { id: "email", label: "E-mail", minWidth: 150 },
     { id: "address", label: "Endereço", minWidth: 150 },
+    { id: "options", label: "Opções", minWidth: 150 },
   ];
 
   useEffect(() => {
@@ -66,7 +82,7 @@ function BranchsRegister() {
     };
 
     loadBranches();
-  }, [reload]);
+  }, [user.id, reload]);
 
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
@@ -139,152 +155,250 @@ function BranchsRegister() {
       state: "",
     });
 
+    setEditBranch({
+      branch_email: "",
+      branch_name: "",
+      place_number: "",
+    });
+
     setReload(Math.random());
   };
 
+  const handleUpdateBranch = (e) => {
+    setEditBranch({ ...editBranch, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmitEdit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.put(`/branch/${idBranch}`, {
+        branch_email: editBranch.branch_email,
+        branch_name: editBranch.branch_name,
+        place_number: editBranch.place_number,
+      });
+
+      handleReload(e);
+      setOpenModalEditBranch(false);
+      notify("Dados da filial atualizados com sucesso", "success");
+    } catch (error) {
+      notify("Falha ao editar filial", "error");
+    }
+  };
+
   return (
-    <Dashboard title="Cadastro de Filial">
-      <ToastContainer style={{ color: "white" }} />
-      <Container>
-        <ContainerForm>
-          <FormRegister onSubmit={handleSubmit}>
-            <ContainerInput>
-              <Input
-                id="place_number"
-                variant="outlined"
-                label="Número"
-                type="number"
-                value={register.place_number}
-                onChange={handleInput}
-                required
-              />
-
-              <Input
-                id="cep"
-                variant="outlined"
-                label="CEP"
-                type="text"
-                value={register.cep
-                  .replace(/(\d{5})(\d)/, "$1-$2")
-                  .replace(/(\d{3})$/, "$1")}
-                onChange={handleInput}
-                inputProps={{ maxLength: "9" }}
-                required
-              />
-            </ContainerInput>
-
-            <ContainerInput>
-              <Input
-                id="branch_name"
-                variant="outlined"
-                label="Nome da Filial"
-                type="text"
-                value={register.branch_name}
-                onChange={handleInput}
-                required
-              />
-              <Input
-                id="branch_email"
-                variant="outlined"
-                label="Email da Filial"
-                type="email"
-                value={register.branch_email}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
-
-            <ContainerInput>
-              <Input
-                id="street"
-                variant="outlined"
-                label="Rua"
-                type="text"
-                value={register.street}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
-            <ContainerInput>
-              <Input
-                id="district"
-                variant="outlined"
-                label="Bairro"
-                type="text"
-                value={register.district}
-                onChange={handleInput}
-                required
-              />
-
-              <Input
-                id="city"
-                variant="outlined"
-                label="Cidade"
-                type="text"
-                value={register.city}
-                onChange={handleInput}
-                required
-              />
-              <Input
-                id="state"
-                variant="outlined"
-                label="Estado"
-                type="text"
-                value={register.state}
-                onChange={handleInput}
-                required
-              />
-            </ContainerInput>
+    <>
+      {openModalEditBranch && (
+        <Modal
+          color="#f8f8f8"
+          title="Editar filial"
+          handleClose={() => setOpenModalEditBranch(false)}
+        >
+          <FormRegister onSubmit={handleSubmitEdit}>
+            <Input
+              id="branch_name"
+              variant="outlined"
+              label="Nome da Filial"
+              type="text"
+              value={editBranch.branch_name}
+              onChange={handleUpdateBranch}
+              required
+            />
+            <Input
+              id="branch_email"
+              variant="outlined"
+              label="Email da Filial"
+              type="email"
+              value={editBranch.branch_email}
+              onChange={handleUpdateBranch}
+              required
+            />
+            <Input
+              id="place_number"
+              variant="outlined"
+              label="Número"
+              type="number"
+              value={editBranch.place_number}
+              onChange={handleUpdateBranch}
+              required
+            />
             <ButtonRegister
               type="submit"
-              variant="contained"
-              style={{
-                backgroundColor: "var(--primary)",
-                color: "var(--white)",
-              }}
+              style={{ backgroundColor: "var(--dark)", color: "white" }}
             >
-              Cadastrar
+              Alterar
             </ButtonRegister>
           </FormRegister>
-        </ContainerForm>
-        <TableContainer
-          style={{
-            width: "100%",
-            borderRadius: "10px",
-            border: "1px solid var(--dark)",
-            height: "300px",
-          }}
-        >
-          <TableList stickyHeader aria-label="">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
+        </Modal>
+      )}
+      {openModalList && (
+        <Modal color="#f8f8f8" handleClose={() => setOpenModalList(false)}>
+          <ContainerForm>
+            <FormRegister onSubmit={handleSubmit}>
+              <ContainerInput>
+                <Input
+                  id="place_number"
+                  variant="outlined"
+                  label="Número"
+                  type="number"
+                  value={register.place_number}
+                  onChange={handleInput}
+                  required
+                />
 
-            <TableBody>
-              {branches &&
-                branches.map((p, index) => {
-                  return (
-                    <TableRow hover tabIndex={-1} key={index}>
-                      <TableCell>{p.branch_name}</TableCell>
-                      <TableCell>{p.branch_email}</TableCell>
-                      <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </TableList>
-        </TableContainer>
-      </Container>
-    </Dashboard>
+                <Input
+                  id="cep"
+                  variant="outlined"
+                  label="CEP"
+                  type="text"
+                  value={register.cep
+                    .replace(/(\d{5})(\d)/, "$1-$2")
+                    .replace(/(\d{3})$/, "$1")}
+                  onChange={handleInput}
+                  inputProps={{ maxLength: "9" }}
+                  required
+                />
+              </ContainerInput>
+
+              <ContainerInput>
+                <Input
+                  id="branch_name"
+                  variant="outlined"
+                  label="Nome da Filial"
+                  type="text"
+                  value={register.branch_name}
+                  onChange={handleInput}
+                  required
+                />
+                <Input
+                  id="branch_email"
+                  variant="outlined"
+                  label="Email da Filial"
+                  type="email"
+                  value={register.branch_email}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
+
+              <ContainerInput>
+                <Input
+                  id="street"
+                  variant="outlined"
+                  label="Rua"
+                  type="text"
+                  value={register.street}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
+              <ContainerInput>
+                <Input
+                  id="district"
+                  variant="outlined"
+                  label="Bairro"
+                  type="text"
+                  value={register.district}
+                  onChange={handleInput}
+                  required
+                />
+
+                <Input
+                  id="city"
+                  variant="outlined"
+                  label="Cidade"
+                  type="text"
+                  value={register.city}
+                  onChange={handleInput}
+                  required
+                />
+                <Input
+                  id="state"
+                  variant="outlined"
+                  label="Estado"
+                  type="text"
+                  value={register.state}
+                  onChange={handleInput}
+                  required
+                />
+              </ContainerInput>
+              <ButtonRegister
+                type="submit"
+                variant="contained"
+                style={{
+                  backgroundColor: "var(--primary)",
+                  color: "var(--white)",
+                }}
+              >
+                Cadastrar
+              </ButtonRegister>
+            </FormRegister>
+          </ContainerForm>
+        </Modal>
+      )}
+      <Dashboard title="Cadastro de Filial">
+        <ToastContainer style={{ color: "white" }} />
+        <Container>
+          <Button
+            style={{
+              backgroundColor: "var(--green)",
+              color: "white",
+              alignSelf: "flex-end",
+            }}
+            size="large"
+            variant="contained"
+            onClick={() => setOpenModalList(true)}
+          >
+            Cadastre
+          </Button>
+          <TableContainer
+            style={{
+              width: "100%",
+              borderRadius: "10px",
+              border: "1px solid var(--dark)",
+              height: "100vh",
+            }}
+          >
+            <TableList stickyHeader aria-label="">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {branches &&
+                  branches.map((p, index) => {
+                    return (
+                      <TableRow hover tabIndex={-1} key={index}>
+                        <TableCell>{p.branch_name}</TableCell>
+                        <TableCell>{p.branch_email}</TableCell>
+                        <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
+                        <TableCell>
+                          <FaEdit
+                            onClick={() => {
+                              setIdBranch(p.id);
+                              setOpenModalEditBranch(true);
+                            }}
+                            className="icon-edit"
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </TableList>
+          </TableContainer>
+        </Container>
+      </Dashboard>
+    </>
   );
 }
 
