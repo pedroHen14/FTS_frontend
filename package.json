@@ -3,18 +3,47 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@brazilian-utils/format-cnpj": "^0.1.9",
+    "@brazilian-utils/format-cpf": "^0.1.8",
+    "@date-io/date-fns": "^1.3.13",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@material-ui/pickers": "^3.3.10",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
+    "antd": "^4.16.1",
     "axios": "^0.21.1",
+    "babel-eslint": "^10.1.0",
+    "date-fns": "^2.22.1",
+    "dotenv": "^10.0.0",
     "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-google-charts": "^3.0.15",
     "react-icons": "^4.2.0",
+    "react-lottie": "^1.2.3",
+    "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-toastify": "^7.0.4",
+    "redux": "^4.0.5",
     "styled-components": "^5.2.3",
-    "web-vitals": "^1.1.1"
+    "swiper": "*",
+    "web-vitals": "^1.1.1",
+    "workbox-background-sync": "^5.1.3",
+    "workbox-broadcast-update": "^5.1.3",
+    "workbox-cacheable-response": "^5.1.3",
+    "workbox-core": "^5.1.3",
+    "workbox-expiration": "^5.1.3",
+    "workbox-google-analytics": "^5.1.3",
+    "workbox-navigation-preload": "^5.1.3",
+    "workbox-precaching": "^5.1.3",
+    "workbox-range-requests": "^5.1.3",
+    "workbox-routing": "^5.1.3",
+    "workbox-strategies": "^5.1.3",
+    "workbox-streams": "^5.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,5 +68,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-react": "^7.24.0"
   }
 }

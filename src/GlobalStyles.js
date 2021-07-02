@@ -3,12 +3,17 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 
     :root{
-        --dark: #6c85cc;
-        --darkGray: #3a4f6b;
-        --light: #d1e6ff;
+        --dark: #3A4F6B;
+        --darkGray: #3a4f6bCC;
+        --light: #D1E6FF;
+        --lightTransparent: #D1E6FFCC;
+        --grayLight: #82828240;
+        --white: #FFFFFF;
         --primary: #9EB4FF;
-        --secondary: #ffffff;
-        --text: #000000;
+        --secondary: #6C85CC;
+        --black: #000000;
+        --green: #27AE60;
+        --red: #EB5757;
     }
 
     *{
@@ -16,15 +21,15 @@ export const GlobalStyles = createGlobalStyle`
         margin: 0;
         outline: 0;
         box-sizing: border-box;
+        font-family: 'PT Sans'
     }
 
     body{
-        font-family: sans-serif;
         color: white;
         user-select:none;
     }
 
-    button{
+    /* button{
         padding:10px;
         font-weight:bold;
         color:var(--light);
@@ -49,14 +54,15 @@ export const GlobalStyles = createGlobalStyle`
             border:1px solid var(--darkGray);
             color:var(--darkGray);
         }
-    }
+    } */
 
     a{
-        color:var(--light);
+        color: var(--white);
         transition:.2s;
+        text-decoration:none;
         
         :hover{
-            color:var(--primary);
+            color:var(--dark);
         }
 
         :active{
