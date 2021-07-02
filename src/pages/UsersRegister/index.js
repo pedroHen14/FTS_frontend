@@ -60,6 +60,7 @@ function UsersRegister() {
     { id: "name", label: "Nome", minWidth: 150 },
     { id: "branch", label: "Filial", minWidth: 150 },
     { id: "address", label: "Cargo", minWidth: 150 },
+    { id: "created_at", label: "Data de criação", minWidth: 150 },
   ];
 
   useEffect(() => {
@@ -303,7 +304,7 @@ function UsersRegister() {
           </ContainerForm>
         </Modal>
       )}
-      <Dashboard title="Cadastro de usuários">
+      <Dashboard title="Usuários">
         <ToastContainer style={{ color: "white" }} />
         <Container>
           <Button
@@ -353,6 +354,11 @@ function UsersRegister() {
                                 {permission.permission_name}
                               </span>
                             );
+                          })}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
+                            timeZone: "UTC",
                           })}
                         </TableCell>
                       </TableRow>

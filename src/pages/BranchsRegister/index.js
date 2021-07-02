@@ -65,6 +65,7 @@ function BranchsRegister() {
     { id: "name", label: "Nome", minWidth: 150 },
     { id: "email", label: "E-mail", minWidth: 150 },
     { id: "address", label: "Endereço", minWidth: 150 },
+    { id: "created_at", label: "Data de criação", minWidth: 150 },
     { id: "options", label: "Opções", minWidth: 150 },
   ];
 
@@ -336,7 +337,7 @@ function BranchsRegister() {
           </ContainerForm>
         </Modal>
       )}
-      <Dashboard title="Cadastro de Filial">
+      <Dashboard title="Filiais">
         <ToastContainer style={{ color: "white" }} />
         <Container>
           <Button
@@ -381,6 +382,11 @@ function BranchsRegister() {
                         <TableCell>{p.branch_name}</TableCell>
                         <TableCell>{p.branch_email}</TableCell>
                         <TableCell>{`${p.Address.street}, ${p.place_number} - ${p.Address.city}`}</TableCell>
+                        <TableCell>
+                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
+                            timeZone: "UTC",
+                          })}
+                        </TableCell>
                         <TableCell>
                           <FaEdit
                             onClick={() => {

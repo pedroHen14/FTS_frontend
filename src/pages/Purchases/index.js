@@ -38,7 +38,11 @@ function Purchases() {
     e.preventDefault();
 
     try {
-      const response = await api.get(`/product/barCode/${code}`);
+      const response = await api.get(
+        `/company/${
+          user.user_cpf ? user.branch.company_id : user.id
+        }/product/barCode/${code}`
+      );
 
       if (productList.find((p) => p.bar_code == code)) {
         setProductList(

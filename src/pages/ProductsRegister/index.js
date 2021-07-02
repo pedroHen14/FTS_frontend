@@ -247,7 +247,7 @@ function ProductsRegister() {
           </ContainerForm>
         </Modal>
       )}
-      <Dashboard title="Cadastro de produtos">
+      <Dashboard title="Produtos">
         <ToastContainer style={{ color: "white" }} />
         <Container>
           <Button
