@@ -40,6 +40,7 @@ export const Items = styled.ul`
   justify-content: center;
   gap: 20px;
   padding: 20px;
+  position: relative;
 
   li {
     list-style: none;
@@ -47,8 +48,23 @@ export const Items = styled.ul`
     h3 {
       white-space: nowrap;
       text-overflow: ellipsis;
-
+      position: relative;
       width: 100%;
+      ::before {
+        content: "";
+        position: absolute;
+        background-color: var(--secondary);
+        height: 3px;
+        width: 0%;
+        transition: all 0.4s ease-in-out;
+        bottom: 0%;
+        left: 50%;
+      }
+
+      :hover::before {
+        width: 100%;
+        left: 0%;
+      }
     }
   }
 `;
