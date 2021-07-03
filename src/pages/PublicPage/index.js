@@ -55,13 +55,7 @@ import {
 } from "react-icons/bi";
 import Lottie from "react-lottie";
 import animationData from "../../assets/business_2.json";
-import {
-  Grow,
-  Slide,
-  Button,
-  IconButton,
-  Collapse,
-} from "@material-ui/core";
+import { Grow, Slide, Button, IconButton, Collapse } from "@material-ui/core";
 import { useState } from "react";
 import { useEffect } from "react";
 import imageTeste from "../../assets/bg.jpg";
@@ -484,6 +478,16 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
                 )}
               </PlansCardListItemIcon>
               <PlansCardListItemText primary="Função de venda pelo App" />
+            </PlansCardListItem>
+            <PlansCardListItem>
+              <PlansCardListItemIcon>
+                {plans.access_website ? (
+                  <FaCheck color="green" />
+                ) : (
+                  <FaTimesCircle color="red" />
+                )}
+              </PlansCardListItemIcon>
+              <PlansCardListItemText primary="Acesso a WebSite" />
             </PlansCardListItem>
           </PlansCardList>
         </PlansCardContent>

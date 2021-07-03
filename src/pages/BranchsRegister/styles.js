@@ -12,14 +12,26 @@ export const Container = styled.div`
   @media (max-width: 1290px) {
     gap: 10px;
   }
+
+  .icon-edit {
+    transition: all 0.4s;
+
+    :hover {
+      color: var(--secondary);
+    }
+
+    :active {
+      transform: scale(0.9);
+    }
+  }
 `;
 
 export const ContainerForm = styled.div`
   display: flex;
-  justify-items: flex-start;
-  height: 80%;
+  justify-items: center;
+  min-height: 30vh;
   align-items: center;
-  width: 70%;
+  width: 60vw;
 `;
 
 export const FormRegister = styled.form`

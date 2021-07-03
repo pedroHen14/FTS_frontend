@@ -17,9 +17,9 @@ export const Container = styled.div`
 export const ContainerForm = styled.div`
   display: flex;
   justify-items: center;
-  height: 80%;
+  min-height: 30vh;
   align-items: center;
-  width: 70%;
+  width: 60vw;
 `;
 
 export const FormRegister = styled.form`
