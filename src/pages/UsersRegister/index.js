@@ -92,10 +92,10 @@ function UsersRegister() {
     loadPermissions();
 
     const loadBranches = async () => {
-      const company_id = user.id;
-
       try {
-        const { data } = await api.get(`/company/${company_id}/branch`);
+        const { data } = await api.get(
+          `/company/${user.user_cpf ? user.branch.company_id : user.id}/branch`
+        );
 
         setBranches(data);
       } catch (error) {
