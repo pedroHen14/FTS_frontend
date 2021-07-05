@@ -46,6 +46,7 @@ function BranchsRegister() {
     city: "",
     street: "",
     state: "",
+    phone: "",
   });
 
   const [editBranch, setEditBranch] = useState({
@@ -131,6 +132,7 @@ function BranchsRegister() {
         branch_email: register.branch_email,
         place_number: parseInt(register.place_number),
         company_id: company_id,
+        phone: register.phone,
         address: {
           street: register.street,
           complement: "nandandnandna",
@@ -158,6 +160,7 @@ function BranchsRegister() {
       city: "",
       street: "",
       state: "",
+      phone: "",
     });
 
     setEditBranch({
@@ -304,6 +307,15 @@ function BranchsRegister() {
                   label="Rua"
                   type="text"
                   value={register.street}
+                  onChange={handleInput}
+                  required
+                />
+                <Input
+                  id="phone"
+                  variant="outlined"
+                  label="Telefone"
+                  type="tel"
+                  value={register.phone}
                   onChange={handleInput}
                   required
                 />

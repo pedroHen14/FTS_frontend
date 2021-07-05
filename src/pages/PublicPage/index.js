@@ -618,7 +618,7 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
               <Input
                 id="district"
                 variant="outlined"
-                label="Estado"
+                label="Bairro"
                 type="text"
                 value={stateRegister.district}
                 onChange={handleInput}
