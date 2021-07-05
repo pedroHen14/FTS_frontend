@@ -14,6 +14,7 @@ import Purchases from "./pages/Purchases";
 import ClientPage from "./pages/ClientPage";
 import { useLocation } from "react-router-dom";
 import BranchsRegister from "./pages/BranchsRegister";
+import Cms from "./pages/Cms";
 
 function PrivateRoute({ children, ...rest }) {
   const user = getUser();
@@ -60,6 +61,10 @@ function Router() {
         <PrivateRoute path="/clientPage">
           <ClientPage />
         </PrivateRoute>
+
+        <Route path="/cms">
+          <Cms />
+        </Route>
 
         <PrivateRoute path="/usersRegister">
           <UsersRegister />

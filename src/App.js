@@ -1,5 +1,6 @@
 import { GlobalStyles } from "./GlobalStyles";
 import ClientPage from "./pages/ClientPage";
+import Cms from "./pages/Cms";
 import Router from "./router";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <GlobalStyles />
       {/* <ClientPage /> */}
       <Router />
+      {/* <Cms /> */}
     </>
   );
 }

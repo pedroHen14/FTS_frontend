@@ -91,6 +91,7 @@ function PublicPage() {
     state: "",
     nature_of_the_business: "",
     commercial_email: "",
+    phone: "",
   });
 
   useEffect(() => {
@@ -428,6 +429,7 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
         plan_id: plans.id,
         nature_of_the_business: stateRegister.nature_of_the_business,
         commercial_email: stateRegister.commercial_email,
+        phone: stateRegister.phone,
         address: {
           cep: stateRegister.cep.replace("-", ""),
           street: stateRegister.street,
@@ -450,7 +452,6 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
     <PlansCard>
       <PlansCardNada>
         <PlansCardHeader title={plans.plan_name} />
-        <PlansCardMedia title="image 1" image={imageTeste} />
         <PlansCardContent>
           <PlansCardList>
             <PlansCardListItem>
@@ -591,6 +592,15 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
                 onChange={handleInput}
                 required
               />
+              <Input
+                id="nature_of_the_business"
+                variant="outlined"
+                label="Natureza da empresa"
+                type="text"
+                value={stateRegister.nature_of_the_business}
+                onChange={handleInput}
+                required
+              />
             </ContainerInput>
 
             <ContainerInput>
@@ -636,11 +646,11 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
             </ContainerInput>
             <ContainerInput>
               <Input
-                id="nature_of_the_business"
+                id="phone"
                 variant="outlined"
-                label="Natureza da empresa"
-                type="text"
-                value={stateRegister.nature_of_the_business}
+                label="Telefone"
+                type="tel"
+                value={stateRegister.phone}
                 onChange={handleInput}
                 required
               />

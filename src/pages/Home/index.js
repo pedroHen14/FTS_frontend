@@ -6,6 +6,7 @@ import {
   InfoCard,
   InfoCardHeader,
   InfoContainer,
+  SalesPurchasesContainer,
 } from "./styles";
 import {
   CircularProgress,
@@ -24,6 +25,8 @@ function Home() {
   const user = getUser();
 
   const [reportFinance, setReportFinance] = useState({});
+  const [purchases, setPurchases] = useState([]);
+  const [sales, setSales] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,8 +36,18 @@ function Home() {
     { id: "total_balance", label: "Balanço total", minWidth: 150 },
     { id: "sale_amount", label: "Qtd. de vendas", minWidth: 150 },
     { id: "purchase_amount", label: "Qtd. de compras", minWidth: 150 },
-    // { id: "sales", label: "Vendas", minWidth: 150 },
-    // { id: "purchase", label: "Compras", minWidth: 150 },
+  ];
+
+  const columnsPurchases = [
+    { id: "id", label: "ID", minWidth: 150 },
+    { id: "item", label: "Item", minWidth: 150 },
+    { id: "value", label: "Valor", minWidth: 150 },
+  ];
+
+  const columnsSales = [
+    { id: "id", label: "ID", minWidth: 150 },
+    { id: "item", label: "Item", minWidth: 150 },
+    { id: "value", label: "Valor", minWidth: 150 },
   ];
 
   useEffect(() => {
@@ -48,6 +61,8 @@ function Home() {
         );
 
         setReportFinance(data);
+        setPurchases(data.purchase);
+        setSales(data.sales);
         setIsLoading(false);
       } catch (error) {
         notify("Não foi possível buscar o relatório", "error");
@@ -130,6 +145,113 @@ function Home() {
                 </TableBody>
               </TableList>
             </TableContainer>
+            {/* <SalesPurchasesContainer>
+              <TableContainer
+                style={{
+                  width: "100%",
+                  borderRadius: "10px",
+                  border: "1px solid var(--dark)",
+                  height: "auto",
+                }}
+              >
+                <TableList stickyHeader aria-label="">
+                  <TableHead>
+                    <TableRow>
+                      {columnsPurchases.map((column) => (
+                        <TableCell
+                          key={column.id}
+                          style={{ minWidth: column.minWidth }}
+                        >
+                          {column.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {purchases && (
+                      <TableRow hover tabIndex={-1}>
+                        <TableCell>
+                          {purchases.map((purchase) => purchase.item)}
+                        </TableCell>
+                        <TableCell>
+                          {parseFloat(
+                            reportFinance.purchases_total_value
+                          ).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </TableCell>
+                        <TableCell>
+                          {parseFloat(
+                            reportFinance.total_balance
+                          ).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </TableCell>
+                        <TableCell>{reportFinance.sale_amount}</TableCell>
+                        <TableCell>{reportFinance.purchase_amount}</TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </TableList>
+              </TableContainer>
+              <TableContainer
+                style={{
+                  width: "100%",
+                  borderRadius: "10px",
+                  border: "1px solid var(--dark)",
+                  height: "auto",
+                }}
+              >
+                <TableList stickyHeader aria-label="">
+                  <TableHead>
+                    <TableRow>
+                      {columnsSales.map((column) => (
+                        <TableCell
+                          key={column.id}
+                          style={{ minWidth: column.minWidth }}
+                        >
+                          {column.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {reportFinance && (
+                      <TableRow hover tabIndex={-1}>
+                        <TableCell>
+                          {parseFloat(
+                            reportFinance.sales_total_value
+                          ).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </TableCell>
+                        <TableCell>
+                          {parseFloat(
+                            reportFinance.purchases_total_value
+                          ).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </TableCell>
+                        <TableCell>
+                          {parseFloat(
+                            reportFinance.total_balance
+                          ).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </TableCell>
+                        <TableCell>{reportFinance.sale_amount}</TableCell>
+                        <TableCell>{reportFinance.purchase_amount}</TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </TableList>
+              </TableContainer>
+            </SalesPurchasesContainer> */}
             <div className="container_graphic">
               <div className="graphic">
                 <GraphicChart

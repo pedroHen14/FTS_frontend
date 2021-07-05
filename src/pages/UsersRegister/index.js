@@ -28,6 +28,7 @@ import formatCpf from "@brazilian-utils/format-cpf";
 import { notify } from "../../utils";
 import { TableList } from "../BranchsRegister/styles";
 import Modal from "../../components/Modal";
+import { FaEdit } from "react-icons/fa";
 
 function UsersRegister() {
   const user = getUser();
@@ -57,6 +58,10 @@ function UsersRegister() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [editUser, setEditUser] = useState({});
+
+  const [openModalEditUser, setOpenModalEditUser] = useState(false);
+
   const permissionsRef = useRef();
 
   const columns = [
@@ -64,6 +69,7 @@ function UsersRegister() {
     { id: "branch", label: "Filial", minWidth: 150 },
     { id: "address", label: "Cargo", minWidth: 150 },
     { id: "created_at", label: "Data de criação", minWidth: 150 },
+    { id: "options", label: "Opções", minWidth: 150 },
   ];
 
   useEffect(() => {
@@ -121,6 +127,14 @@ function UsersRegister() {
 
     loadUsers();
   }, [reload]);
+
+  const handleUpdateUser = async (id) => {
+    try {
+      const { data } = await api.get(`/user/find/${id}`);
+
+      setEditUser(data);
+    } catch (error) {}
+  };
 
   const handlePermissions = (e) => {
     const idSel = e.target.value;
@@ -184,8 +198,31 @@ function UsersRegister() {
     }
   };
 
+  const handleSubmitUpdate = async (e) => {
+    e.preventDefault();
+    console.log(editUser);
+
+    try {
+      await api.put(`/user/${editUser.id}`, {
+        user_name: editUser.user_name,
+        rg: editUser.rg,
+        cpf: editUser.cpf.replace(/\D/g, ""),
+      });
+
+      handleReload(e);
+
+      notify("Usuário atualizado com sucesso!", "success");
+    } catch (error) {
+      notify("Falha ao cadastrar o usuário!", "error");
+    }
+  };
+
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
+  };
+
+  const handleInputUpdate = (e) => {
+    setEditUser({ ...editUser, [e.target.id]: e.target.value });
   };
 
   const handleReload = (e) => {
@@ -311,6 +348,31 @@ function UsersRegister() {
           </ContainerForm>
         </Modal>
       )}
+      {openModalEditUser && (
+        <Modal
+          color="#f8f8f8"
+          title="Editar Usuário"
+          handleClose={() => setOpenModalEditUser(false)}
+        >
+          <FormRegister onSubmit={handleSubmitUpdate}>
+            <Input
+              id="user_name"
+              variant="outlined"
+              label="Nome"
+              type="text"
+              value={editUser.user_name}
+              onChange={handleInputUpdate}
+              required
+            />
+            <ButtonRegister
+              type="submit"
+              style={{ backgroundColor: "var(--dark)", color: "white" }}
+            >
+              Alterar
+            </ButtonRegister>
+          </FormRegister>
+        </Modal>
+      )}
       <Dashboard title="Usuários">
         <ToastContainer style={{ color: "white" }} />
         <Container>
@@ -357,15 +419,7 @@ function UsersRegister() {
                         <TableRow hover tabIndex={-1} key={index}>
                           <TableCell>{p.user_name}</TableCell>
                           <TableCell>{p.Branch.branch_name}</TableCell>
-                          <TableCell style={{ display: "flex", gap: "10px" }}>
-                            {p.Permissions.map((permission) => {
-                              return (
-                                <span style={{ display: "flex" }}>
-                                  {permission.permission_name}
-                                </span>
-                              );
-                            })}
-                          </TableCell>
+                          <TableCell>{p.Role.role_name}</TableCell>
                           <TableCell>
                             {new Date(p.created_at).toLocaleDateString(
                               "pt-BR",
@@ -373,6 +427,15 @@ function UsersRegister() {
                                 timeZone: "UTC",
                               }
                             )}
+                          </TableCell>
+                          <TableCell>
+                            <FaEdit
+                              onClick={() => {
+                                setOpenModalEditUser(true);
+                                handleUpdateUser(p.id);
+                              }}
+                              className="icon-edit"
+                            />
                           </TableCell>
                         </TableRow>
                       );

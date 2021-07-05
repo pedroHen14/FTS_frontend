@@ -23,17 +23,17 @@ export const Container = styled.div`
 
 export const InfoContainer = styled.div`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
   width: 100%;
   height: 100%;
 
-  .container_graphic{
-    display:flex;
-    
-    *{
+  .container_graphic {
+    display: flex;
+
+    * {
       flex: 1;
     }
   }
@@ -67,6 +67,10 @@ export const InfoCardContent = styled.div`
 `;
 
 export const GraphicChart = styled(Chart)`
-  width:30vw;
-  height:40vh;
+  width: 30vw;
+  height: 40vh;
+`;
+
+export const SalesPurchasesContainer = styled.div`
+  display: flex;
 `;

@@ -287,7 +287,6 @@ export const PlansCard = styled(Card)`
   justify-content: center;
 
   .aberto {
-    height: 50vh;
     width: 40vw;
     display: flex;
     align-items: center;
@@ -297,8 +296,6 @@ export const PlansCard = styled(Card)`
 
 export const PlansCardNada = styled(Card)`
   min-width: 345px;
-
-  min-height: 50vh;
 `;
 
 export const ContainerInput = styled.div`
@@ -309,15 +306,13 @@ export const ContainerInput = styled.div`
   justify-content: center;
 `;
 
-export const PlansCardHeader = styled(CardHeader)``;
-
-export const PlansCardMedia = styled(CardMedia)`
-  height: 0;
-  padding-top: 56.25%;
+export const PlansCardHeader = styled(CardHeader)`
+  background-color: var(--secondary);
+  color: var(--white);
 `;
 
 export const PlansCardContent = styled(CardContent)`
-  height: inherit;
+  height: 35vh;
 `;
 
 export const PlansCardFooter = styled(CardActions)`

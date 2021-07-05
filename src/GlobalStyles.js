@@ -60,9 +60,9 @@ export const GlobalStyles = createGlobalStyle`
         color: var(--white);
         transition:.2s;
         text-decoration:none;
-        
+
         :hover{
-            color:var(--dark);
+            color:var(--secondary);
         }
 
         :active{

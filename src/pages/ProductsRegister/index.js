@@ -21,6 +21,7 @@ import {
   TableCell,
   TextareaAutosize,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import { notify } from "../../utils";
 import { TableList } from "../BranchsRegister/styles";
@@ -47,6 +48,8 @@ function ProductsRegister() {
   const [products, setProducts] = useState([]);
 
   const [openModalList, setOpenModalList] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const columns = [
     { id: "name", label: "Nome", minWidth: 150 },
@@ -80,6 +83,7 @@ function ProductsRegister() {
     loadUnits();
 
     const loadProducts = async () => {
+      setIsLoading(true);
       const company_id = user.user_cpf
         ? user.branch?.company_id
         : user.branch[0]?.company_id;
@@ -87,6 +91,7 @@ function ProductsRegister() {
         const { data } = await api.get(`/company/${company_id}/product`);
 
         setProducts(data);
+        setIsLoading(false);
       } catch (error) {
         notify("Produtos não encontrados", "error");
       }
@@ -110,6 +115,23 @@ function ProductsRegister() {
 
     setRegister({ ...register, ["product_type_id"]: productTypeSel?.id });
   };
+
+  //TODO: ENVIAR IMAGEM JUNTO AO PRODUTO PARA A API
+
+  // const handleAddProduct = async(e) => {
+  //   e.preventDefault();
+
+  //   const data = new FormData();
+
+  //   data.append('product_name', );
+  //   data.append('description', );
+  //   data.append('bar_code', );
+  //   data.append('cost_per_item', );
+  //   data.append('unit_of_measurement_id', );
+  //   data.append('product_type_id', );
+
+  //   if(image) data.append('image', );
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -262,45 +284,52 @@ function ProductsRegister() {
           >
             Cadastre
           </Button>
-          <TableContainer
-            style={{
-              width: "100%",
-              borderRadius: "10px",
-              border: "1px solid var(--dark)",
-              height: "100vh",
-            }}
-          >
-            <TableList stickyHeader aria-label="">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products &&
-                  products.map((p, index) => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={index}>
-                        <TableCell>{p.product_name}</TableCell>
-                        <TableCell>{p.description}</TableCell>
-                        <TableCell>
-                          {new Date(p.created_at).toLocaleDateString("pt-BR", {
-                            timeZone: "UTC",
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </TableList>
-          </TableContainer>
+          {isLoading ? (
+            <CircularProgress size={100} />
+          ) : (
+            <TableContainer
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                border: "1px solid var(--dark)",
+                height: "100vh",
+              }}
+            >
+              <TableList stickyHeader aria-label="">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {products &&
+                    products.map((p, index) => {
+                      return (
+                        <TableRow hover tabIndex={-1} key={index}>
+                          <TableCell>{p.product_name}</TableCell>
+                          <TableCell>{p.description}</TableCell>
+                          <TableCell>
+                            {new Date(p.created_at).toLocaleDateString(
+                              "pt-BR",
+                              {
+                                timeZone: "UTC",
+                              }
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </TableList>
+            </TableContainer>
+          )}
         </Container>
       </Dashboard>
     </>

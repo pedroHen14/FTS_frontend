@@ -49,12 +49,11 @@ function BranchsRegister() {
   });
 
   const [editBranch, setEditBranch] = useState({
+    id: "",
     branch_name: "",
     branch_email: "",
     place_number: "",
   });
-
-  const [idBranch, setIdBranch] = useState("");
 
   const [branches, setBranches] = useState([]);
 
@@ -170,26 +169,37 @@ function BranchsRegister() {
     setReload(Math.random());
   };
 
-  const handleUpdateBranch = (e) => {
-    setEditBranch({ ...editBranch, [e.target.id]: e.target.value });
-  };
+  const handleUpdateUser = async (id) => {
+    try {
+      const { data } = await api.get(`/branch/find/${id}`);
 
-  const handleSubmitEdit = async (e) => {
+      setEditBranch({
+        id: data.id,
+        branch_name: data.branch_name,
+        branch_email: data.branch_email,
+        place_number: data.place_number,
+      });
+    } catch (error) {}
+  };
+  const handleSubmitUpdate = async (e) => {
     e.preventDefault();
 
     try {
-      await api.put(`/branch/${idBranch}`, {
-        branch_email: editBranch.branch_email,
+      await api.put(`/branch/${editBranch.id}`, {
         branch_name: editBranch.branch_name,
+        branch_email: editBranch.branch_email,
         place_number: editBranch.place_number,
       });
 
       handleReload(e);
-      setOpenModalEditBranch(false);
-      notify("Dados da filial atualizados com sucesso", "success");
+
+      notify("Usuário atualizado com sucesso!", "success");
     } catch (error) {
-      notify("Falha ao editar filial", "error");
+      notify("Falha ao cadastrar o usuário!", "error");
     }
+  };
+  const handleInputUpdate = (e) => {
+    setEditBranch({ ...editBranch, [e.target.id]: e.target.value });
   };
 
   return (
@@ -200,14 +210,14 @@ function BranchsRegister() {
           title="Editar filial"
           handleClose={() => setOpenModalEditBranch(false)}
         >
-          <FormRegister onSubmit={handleSubmitEdit}>
+          <FormRegister onSubmit={handleSubmitUpdate}>
             <Input
               id="branch_name"
               variant="outlined"
               label="Nome da Filial"
               type="text"
               value={editBranch.branch_name}
-              onChange={handleUpdateBranch}
+              onChange={handleInputUpdate}
               required
             />
             <Input
@@ -216,7 +226,7 @@ function BranchsRegister() {
               label="Email da Filial"
               type="email"
               value={editBranch.branch_email}
-              onChange={handleUpdateBranch}
+              onChange={handleInputUpdate}
               required
             />
             <Input
@@ -225,7 +235,7 @@ function BranchsRegister() {
               label="Número"
               type="number"
               value={editBranch.place_number}
-              onChange={handleUpdateBranch}
+              onChange={handleInputUpdate}
               required
             />
             <ButtonRegister
@@ -401,7 +411,7 @@ function BranchsRegister() {
                           <TableCell>
                             <FaEdit
                               onClick={() => {
-                                setIdBranch(p.id);
+                                handleUpdateUser(p.id);
                                 setOpenModalEditBranch(true);
                               }}
                               className="icon-edit"
