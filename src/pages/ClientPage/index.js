@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardProductClient from "../../components/CardProductClient";
 
 import {
@@ -38,10 +38,13 @@ import "swiper/swiper.min.css";
 import "swiper/components/pagination/pagination.min.css";
 
 import SwiperCore, { Pagination } from "swiper/core";
+import { api } from "../../services/api";
 
 SwiperCore.use([Pagination]);
 
 function ClientPage() {
+  const [siteData, setSiteData] = useState({});
+
   const arrayProducts = [
     {
       id: 1,
@@ -75,11 +78,23 @@ function ClientPage() {
     },
   ];
 
+  useEffect(() => {
+    const loadSite = async () => {
+      try {
+        const { data } = await api.get("/company/2/site");
+
+        setSiteData(data);
+        console.log(siteData);
+      } catch (error) {}
+    };
+    loadSite();
+  }, []);
+
   return (
-    <Container>
-      <HeaderContainer>
+    <Container primaryColor={siteData.primary_color}>
+      <HeaderContainer secondaryColor={siteData.secondary_color}>
         <ImageLogo>
-          <img src={imageLogo} alt="" />
+          <img src={siteData.logo_img} alt="" />
         </ImageLogo>
         <HeaderMenu>
           <ul>
@@ -90,13 +105,30 @@ function ClientPage() {
         </HeaderMenu>
       </HeaderContainer>
       <BodyContainer>
-        <CompanyContainer>
-          <CompanyContent>
-            <h1>Nome da empresa</h1>
+        <CompanyContainer banner={siteData.banner_img}>
+          <CompanyContent lightColor={siteData.light_color}>
+            <h1>{siteData.slogan}</h1>
           </CompanyContent>
         </CompanyContainer>
         <ProductsContainer>
           <h1>Nossos Produtos</h1>
+          <OtherProductsContent>
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              freeMode={true}
+              className="mySwiper"
+            >
+              {siteData.Company?.Products.map((p) => (
+                <SwiperSlide>
+                  <div>
+                    <img src="" alt={p.product_name} />
+                  </div>
+                  <h3>{p.product_name}</h3>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </OtherProductsContent>
         </ProductsContainer>
         <PopularProductsContainer>
           <PopularProductsHeader>
@@ -157,7 +189,7 @@ function ClientPage() {
             </FooterInfoRightContent>
           </FooterInfoRight>
         </FooterInfosContainer>
-        <FooterCopyright>
+        <FooterCopyright secondaryColor={siteData.secondary_color}>
           <p>Flow Trading System | 2021</p>
         </FooterCopyright>
       </FooterContainer>

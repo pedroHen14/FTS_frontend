@@ -42,7 +42,7 @@ function Pdv() {
   });
   const [reload, setReload] = useState(null);
 
-  const [discount, setDiscount] = useState(null);
+  const [discount, setDiscount] = useState(0);
 
   const [productList, setProductList] = useState([]);
 
@@ -164,7 +164,7 @@ function Pdv() {
         branch_id: parseInt(brandh_id),
         costumer_id: idClient,
         items: productsSale,
-        discount: discount ? parseInt(discount) : null,
+        discount: discount ? parseInt(discount) : 0,
       });
 
       handleReload(e);

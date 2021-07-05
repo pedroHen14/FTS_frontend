@@ -6,6 +6,8 @@ import {
 } from "@material-ui/core";
 import React, { useRef, useState } from "react";
 import Dashboard from "../../layouts/Dashboard";
+import { api } from "../../services/api";
+import { getUser } from "../../services/security";
 import { notify } from "../../utils";
 import {
   ContainerInput,
@@ -17,40 +19,48 @@ import {
 } from "./styles";
 
 function Cms() {
+  const user = getUser();
+
   const [register, setRegister] = useState({
     slogan: "",
     primaryColor: "",
     secondaryColor: "",
     lightColor: "",
-    contact: {
-      phone: "",
-      cellPhone: "",
-    },
-    address: {
-      cep: "",
-      street: "",
-      district: "",
-      place_number: "",
-      city: "",
-    },
   });
 
-  const [image, setImage] = useState(null);
+  const [logoImg, setLogoImg] = useState(null);
+  const [bannerImg, setBannerImg] = useState(null);
 
   const bannerRef = useRef();
   const logoRef = useRef();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    try {
-    } catch (error) {
-      notify("Cadastro de conteúdo falhou", "error");
-    }
-  };
-
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
+  };
+  const handleWebsite = async (e) => {
+    e.preventDefault();
+
+    const form = new FormData();
+
+    form.append("logo", logoImg);
+    form.append("banner", bannerImg);
+    form.append("slogan", register.slogan);
+    form.append("primary_color", register.primaryColor);
+    form.append("secondary_color", register.secondaryColor);
+    form.append("light_color", register.lightColor);
+
+    try {
+      const { data } = await api.post(`/site/company/${user.id}`, form, {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.log(form, register, bannerImg, logoImg);
+      alert(error);
+    }
   };
 
   const handleImage = (e) => {
@@ -63,7 +73,8 @@ function Cms() {
           logoRef.current.src = "";
           logoRef.current.style.display = "none";
         }
-        setImage(e.target.files[0]);
+        console.log(e.target.files[0]);
+        setLogoImg(e.target.files[0]);
         break;
       case "bannerImg":
         if (e.target.files[0]) {
@@ -73,7 +84,8 @@ function Cms() {
           bannerRef.current.src = "";
           bannerRef.current.style.display = "none";
         }
-        setImage(e.target.files[0]);
+        console.log(e.target.files[0]);
+        setBannerImg(e.target.files[0]);
         break;
       default:
         break;
@@ -84,7 +96,7 @@ function Cms() {
     <Dashboard title="CMS">
       <Container>
         <ContainerForm>
-          <FormRegister onSubmit={handleSubmit}>
+          <FormRegister onSubmit={handleWebsite}>
             <ContainerInput>
               <TextareaAutosize
                 id="slogan"

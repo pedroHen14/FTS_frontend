@@ -16,7 +16,7 @@ export const HeaderContainer = styled.header`
   justify-content: space-around;
   border-bottom: 1px solid black;
   padding: 30px;
-  background-color: var(--secondary);
+  background-color: ${(props) => props.secondaryColor};
   color: var(--white);
 `;
 
@@ -63,7 +63,11 @@ export const CompanyContainer = styled.div`
   justify-content: center;
   align-items: center;
   color: var(--white);
-  background-color: var(--primary);
+
+  background-image: url(${(props) => props.banner});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 `;
 
 export const CompanyContent = styled.div`
@@ -72,7 +76,7 @@ export const CompanyContent = styled.div`
   height: 50%;
   justify-content: center;
   align-items: center;
-  background-color: var(--dark);
+  background-color: ${(props) => props.lightColor};
   border-radius: 20px;
 `;
 
@@ -83,7 +87,6 @@ export const ProductsContainer = styled.div`
   justify-content: center;
   align-items: center;
 
- 
   h1 {
     width: 70%;
     border-bottom: 1px solid black;
@@ -166,7 +169,7 @@ export const OtherProductsContent = styled.div`
     gap: 20px;
     align-items: center;
     color: var(--black);
-    
+
     div {
       box-shadow: 5px 5px 5px var(--dark);
       width: 250px;
