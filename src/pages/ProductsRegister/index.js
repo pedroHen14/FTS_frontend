@@ -7,7 +7,7 @@ import {
   Container,
 } from "./styles";
 import Select from "../../components/Select";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { api } from "../../services/api";
 import { getUser } from "../../services/security";
@@ -50,6 +50,11 @@ function ProductsRegister() {
   const [openModalList, setOpenModalList] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [image, setImage] = useState(null);
+
+  const imageRef = useRef();
+
 
   const columns = [
     { id: "name", label: "Nome", minWidth: 150 },
@@ -100,6 +105,19 @@ function ProductsRegister() {
     loadProducts();
   }, [reload]);
 
+  const handleImage = (e) => {
+      if (e.target.files[0]) {
+        imageRef.current.src = URL.createObjectURL(e.target.files[0]);
+        imageRef.current.style.display = "flex";
+      } else {
+        imageRef.current.src = "";
+        imageRef.current.style.display = "none";
+      }
+      console.log(e.target.files[0]);
+      setImage(e.target.files[0]);
+  };
+  
+
   const handleUnit = (e) => {
     const idSel = e.target.value;
 
@@ -138,16 +156,19 @@ function ProductsRegister() {
 
     const company_id = user.user_cpf ? user.branch.company_id : user.id;
 
+    const form = new FormData();
+
+    form.append("product_name", register.product_name);
+    form.append("description", register.description);
+    form.append("bar_code", register.bar_code);
+    form.append("cost_per_item", register.cost_per_item);
+    form.append("image", image);
+    form.append("unit_of_measurement_id", register.unit_of_measurement_id);
+    form.append("product_type_id", register.product_type_id);
+    form.append("company_id", company_id);
+
     try {
-      await api.post("/product", {
-        product_name: register.product_name,
-        description: register.description,
-        bar_code: register.bar_code,
-        cost_per_item: register.cost_per_item,
-        unit_of_measurement_id: register.unit_of_measurement_id,
-        product_type_id: register.product_type_id,
-        company_id: company_id,
-      });
+      await api.post("/product", form);
 
       handleReload(e);
 
@@ -230,6 +251,18 @@ function ProductsRegister() {
                   required
                 />
               </ContainerInput>
+              <div className="container-input-image">
+                <div className="div">
+                  <Input
+                    id="image"
+                    label="Imagem"
+                    type="file"
+                    ref={imageRef}
+                    onChange={handleImage}
+                  />
+                  <img alt="Pré-visualização" ref={imageRef} />
+                </div>
+              </div>
 
               <Select
                 id="unit_of_measurement_id"
@@ -333,7 +366,8 @@ function ProductsRegister() {
         </Container>
       </Dashboard>
     </>
-  );
+  )
 }
+
 
 export default ProductsRegister;

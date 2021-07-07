@@ -5,11 +5,17 @@ export const Container = styled.div`
   height: 40vh;
   display: flex;
   border-radius: 20px;
-  background-color: var(--light);
+  background-color: ${props => props.lightColor};
   padding: 20px;
   color: black;
   justify-content: space-between;
   gap: 20px;
+
+  .card-image {
+    img{
+      max-width: 150px;
+    }
+  }
 
   .swiper-container {
     width: 75%;
@@ -71,6 +77,7 @@ export const InfoContent = styled.div`
   height: 80%;
   justify-content: flex-start;
   padding: 10px 0;
+  gap:20px;
   align-items: center;
 
   p {

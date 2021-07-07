@@ -26,6 +26,7 @@ function Cms() {
     primaryColor: "",
     secondaryColor: "",
     lightColor: "",
+    darkColor: "",
   });
 
   const [logoImg, setLogoImg] = useState(null);
@@ -47,14 +48,11 @@ function Cms() {
     form.append("slogan", register.slogan);
     form.append("primary_color", register.primaryColor);
     form.append("secondary_color", register.secondaryColor);
+    form.append("dark_color", register.darkColor);
     form.append("light_color", register.lightColor);
 
     try {
-      const { data } = await api.post(`/site/company/${user.id}`, form, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
+      const { data } = await api.post(`/site/company/${user.id}`, form);
 
       console.log(data);
     } catch (error) {
@@ -138,6 +136,17 @@ function Cms() {
                   label="Cor light"
                   type="color"
                   value={register.lightColor}
+                  onChange={handleInput}
+                  required
+                />
+              </InputColor>
+              <InputColor>
+                <InputLabel htmlFor="">Cor dark</InputLabel>
+                <input
+                  id="darkColor"
+                  label="Cor dark"
+                  type="color"
+                  value={register.darkColor}
                   onChange={handleInput}
                   required
                 />

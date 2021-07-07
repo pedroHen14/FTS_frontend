@@ -653,6 +653,7 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
                 value={stateRegister.phone}
                 onChange={handleInput}
                 required
+                inputProps={{ maxLength: "12"}}
               />
 
               <Input
