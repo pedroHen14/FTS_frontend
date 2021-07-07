@@ -63,7 +63,7 @@ import { ExpandMore } from "@material-ui/icons";
 import { Anchor } from "antd";
 import { useHistory } from "react-router";
 import { api, apiCep } from "../../services/api";
-import { notify } from "../../utils";
+import { maskCel, notify } from "../../utils";
 import formatCnpj from "@brazilian-utils/format-cnpj";
 import { ToastContainer } from "react-toastify";
 
@@ -429,7 +429,7 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
         plan_id: plans.id,
         nature_of_the_business: stateRegister.nature_of_the_business,
         commercial_email: stateRegister.commercial_email,
-        phone: stateRegister.phone,
+        phone: String(stateRegister.phone).replace(/\D/g, ""),
         address: {
           cep: stateRegister.cep.replace("-", ""),
           street: stateRegister.street,
@@ -650,10 +650,10 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
                 variant="outlined"
                 label="Telefone"
                 type="tel"
-                value={stateRegister.phone}
+                value={maskCel(stateRegister.phone)}
                 onChange={handleInput}
                 required
-                inputProps={{ maxLength: "12"}}
+                inputProps={{ maxLength: "16"}}
               />
 
               <Input
