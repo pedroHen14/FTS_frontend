@@ -58,7 +58,7 @@ function Router() {
           <Home />
         </PrivateRoute>
 
-        <Route path="/clientPage">
+        <Route path="/clientPage/:id">
           <ClientPage />
         </Route>
 
