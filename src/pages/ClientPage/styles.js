@@ -66,6 +66,7 @@ export const CompanyContainer = styled.div`
 
   background-image: url(${(props) => props.banner});
   background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
 `;
@@ -76,7 +77,7 @@ export const CompanyContent = styled.div`
   height: 50%;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.lightColor};
+  background-color: ${(props) => props.primaryColor};
   border-radius: 20px;
 `;
 
@@ -219,6 +220,7 @@ export const FooterContainer = styled.footer`
   height: 40vh;
   flex-direction: column;
   align-items: center;
+  background-color: ${props => props.secondaryColor};
   color: var(--white);
 `;
 
@@ -226,7 +228,6 @@ export const FooterInfosContainer = styled.div`
   display: flex;
   height: 35vh;
   width: 100%;
-  background-color: var(--dark);
   align-items: center;
   justify-content: space-around;
 
@@ -239,7 +240,7 @@ export const FooterCopyright = styled.div`
   display: flex;
   width: 100%;
   height: 5vh;
-  background-color: var(--secondary);
+  background-color: ${props => props.darkColor};
   justify-content: center;
   align-items: center;
 `;

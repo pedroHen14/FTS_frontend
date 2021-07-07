@@ -27,7 +27,7 @@ export const Container = styled.div`
 
       img {
         align-self: center;
-        max-width: 400px;
+        max-width: 200px;
         display: none;
       }
     }

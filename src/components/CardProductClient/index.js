@@ -16,7 +16,7 @@ import SwiperCore, { Pagination, EffectCoverflow } from "swiper/core";
 
 SwiperCore.use([EffectCoverflow, Pagination]);
 
-function CardProductClient() {
+function CardProductClient({siteData}) {
   const arrayProducts = [
     {
       id: 1,
@@ -54,7 +54,7 @@ function CardProductClient() {
     <Container>
       <InfoContainer>
         <InfoHeader>
-          <img src={imageLogo} alt="" />
+          <img src={siteData.logo_img} alt="" />
         </InfoHeader>
         <InfoContent>
           <h1>Seu Produto</h1>

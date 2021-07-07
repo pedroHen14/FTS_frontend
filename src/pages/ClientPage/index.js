@@ -81,10 +81,10 @@ function ClientPage() {
   useEffect(() => {
     const loadSite = async () => {
       try {
-        const { data } = await api.get("/company/2/site");
+        const { data } = await api.get("/company/1/site");
 
         setSiteData(data);
-        console.log(siteData);
+        console.log(data);
       } catch (error) {}
     };
     loadSite();
@@ -106,7 +106,7 @@ function ClientPage() {
       </HeaderContainer>
       <BodyContainer>
         <CompanyContainer banner={siteData.banner_img}>
-          <CompanyContent lightColor={siteData.light_color}>
+          <CompanyContent primaryColor={siteData.primary_color}>
             <h1>{siteData.slogan}</h1>
           </CompanyContent>
         </CompanyContainer>
@@ -122,7 +122,7 @@ function ClientPage() {
               {siteData.Company?.Products.map((p) => (
                 <SwiperSlide>
                   <div>
-                    <img src="" alt={p.product_name} />
+                    <img src={p.image_url} alt={p.image_url} />
                   </div>
                   <h3>{p.product_name}</h3>
                 </SwiperSlide>
@@ -135,7 +135,7 @@ function ClientPage() {
             <h1>Produtos populares</h1>
           </PopularProductsHeader>
           <PopularProductsContent>
-            <CardProductClient />
+            <CardProductClient siteData={siteData}/>
           </PopularProductsContent>
         </PopularProductsContainer>
         <OtherProductsContainer>
@@ -161,7 +161,7 @@ function ClientPage() {
           </OtherProductsContent>
         </OtherProductsContainer>
       </BodyContainer>
-      <FooterContainer>
+      <FooterContainer secondaryColor={siteData.secondary_color}>
         <FooterInfosContainer>
           <FooterInfoLeft>
             <FooterInfoLeftHeader>
@@ -189,7 +189,7 @@ function ClientPage() {
             </FooterInfoRightContent>
           </FooterInfoRight>
         </FooterInfosContainer>
-        <FooterCopyright secondaryColor={siteData.secondary_color}>
+        <FooterCopyright darkColor={siteData.dark_color}>
           <p>Flow Trading System | 2021</p>
         </FooterCopyright>
       </FooterContainer>

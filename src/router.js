@@ -58,13 +58,13 @@ function Router() {
           <Home />
         </PrivateRoute>
 
-        <PrivateRoute path="/clientPage">
+        <Route path="/clientPage">
           <ClientPage />
-        </PrivateRoute>
-
-        <Route path="/cms">
-          <Cms />
         </Route>
+
+        <PrivateRoute path="/cms">
+          <Cms />
+        </PrivateRoute>
 
         <PrivateRoute path="/usersRegister">
           <UsersRegister />
