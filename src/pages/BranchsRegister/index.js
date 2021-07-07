@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "../../layouts/Dashboard";
 import { api, apiCep } from "../../services/api";
-import { notify } from "../../utils";
+import { maskCel, notify } from "../../utils";
 
 import {
   Container,
@@ -132,7 +132,7 @@ function BranchsRegister() {
         branch_email: register.branch_email,
         place_number: parseInt(register.place_number),
         company_id: company_id,
-        phone: register.phone,
+        phone: register.phone.replace(/\D/g, ""),
         address: {
           street: register.street,
           complement: "nandandnandna",
@@ -315,7 +315,7 @@ function BranchsRegister() {
                   variant="outlined"
                   label="Telefone"
                   type="tel"
-                  value={register.phone}
+                  value={maskCel(register.phone)}
                   onChange={handleInput}
                   required
                 />
