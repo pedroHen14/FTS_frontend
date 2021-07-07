@@ -38,6 +38,24 @@ export const ModalContainer = styled.section`
   overflow-y: auto;
   color: var(--dark);
 
+  .div {
+      display: flex;
+      flex: 1;
+      gap: 10px;
+      align-items: center;
+      flex-direction: column;
+
+      input {
+        flex: 1;
+      }
+
+      img {
+        align-self: center;
+        max-width: 200px;
+        display: none;
+      }
+  }
+
   > span {
     position: absolute;
     top: 15px;

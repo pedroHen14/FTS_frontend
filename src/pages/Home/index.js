@@ -9,6 +9,7 @@ import {
   SalesPurchasesContainer,
 } from "./styles";
 import {
+  Button,
   CircularProgress,
   TableBody,
   TableCell,
@@ -20,9 +21,12 @@ import { TableList } from "../BranchsRegister/styles";
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { notify } from "../../utils";
+import { useHistory } from "react-router-dom";
 
 function Home() {
   const user = getUser();
+
+  const history = useHistory();
 
   const [reportFinance, setReportFinance] = useState({});
   const [purchases, setPurchases] = useState([]);
@@ -82,6 +86,14 @@ function Home() {
             recomendamos que baixe o atalho para a área de trabalho que irá
             redirecionar você diretamente para a tela de PDV
           </strong>
+        ) : (
+          ""
+        )}
+        
+        {user_permission == "Administrador" ? (
+          <Button variant="contained" style={{backgroundColor: 'var(--primary)', color: 'var(--white)'}}  onClick={() => {
+            history.push(`/clientPage/${user.id}`)
+          }}>Clique aqui para ser redirecionado para o site da sua empresa</Button>
         ) : (
           ""
         )}

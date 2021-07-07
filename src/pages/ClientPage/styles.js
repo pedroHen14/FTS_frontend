@@ -4,22 +4,54 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow: hidden;
   color: var(--black);
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 `;
 
-export const HeaderContainer = styled.header`
+export const Header = styled.header`
   display: flex;
+  height: 100px;
+  transition: 0.4s all;
   width: 100%;
-  height: 10vh;
-  justify-content: space-around;
-  border-bottom: 1px solid black;
-  padding: 30px;
-  background-color: ${(props) => props.secondaryColor};
-  color: var(--white);
+  justify-content: space-evenly;
+  padding: 0px 50px;
+  align-items: center;
+  position: fixed;
+  z-index: 999;
+  background-color: ${props => props.secondaryColor};
+
+  a {
+    font-weight: bold;
+    font-size: 20px;
+
+    :hover {
+      color: var(--secondary);
+    }
+  }
 `;
 
+export const MenuContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  justify-content: flex-end;
+`;
+
+export const ImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+
+  img {
+    width: 100px;
+    border-radius: 10%;
+    border: solid 2px var(--light);
+    box-shadow: 5px 5px 5px var(--dark);
+  }
+`; 
 export const ImageLogo = styled.div`
   width: 100px;
   height: 100px;
@@ -52,6 +84,7 @@ export const BodyContainer = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 100px;
+  margin-top: 100px;
 `;
 
 export const CompanyContainer = styled.div`
@@ -59,24 +92,24 @@ export const CompanyContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  height: 50vh;
+  height: 100vh;
   justify-content: center;
   align-items: center;
   color: var(--white);
 
   background-image: url(${(props) => props.banner});
   background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
 `;
 
 export const CompanyContent = styled.div`
   display: flex;
-  width: 40%;
-  height: 50%;
+  padding: 100px;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.lightColor};
+  background-color: ${(props) => props.primaryColor};
   border-radius: 20px;
 `;
 
@@ -97,10 +130,13 @@ export const ProductsContainer = styled.div`
 export const PopularProductsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 150px;
   align-items: center;
-  height: 50vh;
   justify-content: space-around;
+
+  :last-child{
+    margin-bottom: 20vh;
+  }
 `;
 
 export const PopularProductsHeader = styled.div`
@@ -219,6 +255,7 @@ export const FooterContainer = styled.footer`
   height: 40vh;
   flex-direction: column;
   align-items: center;
+  background-color: ${props => props.secondaryColor};
   color: var(--white);
 `;
 
@@ -226,7 +263,6 @@ export const FooterInfosContainer = styled.div`
   display: flex;
   height: 35vh;
   width: 100%;
-  background-color: var(--dark);
   align-items: center;
   justify-content: space-around;
 
@@ -239,7 +275,7 @@ export const FooterCopyright = styled.div`
   display: flex;
   width: 100%;
   height: 5vh;
-  background-color: var(--secondary);
+  background-color: ${props => props.darkColor};
   justify-content: center;
   align-items: center;
 `;
@@ -258,8 +294,8 @@ export const FooterInfoLeftContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 20px;
 `;
 
 export const FooterInfoCenter = styled.div`
@@ -271,15 +307,9 @@ export const FooterInfoCenter = styled.div`
 export const FooterInfoRight = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   gap: 20px;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const FooterInfoRightHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const FooterInfoRightContent = styled.div`
