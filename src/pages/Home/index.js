@@ -271,8 +271,8 @@ function Home() {
                   loader={<div>Loading Chart</div>}
                   data={[
                     ["Estoque", "Movimento"],
-                    ["Vendas", 11],
-                    ["Compras", 5],
+                    ["Vendas", reportFinance.sale_amount || 6],
+                    ["Compras", reportFinance.purchase_amount || 4],
                   ]}
                   options={{
                     is3D: true,
