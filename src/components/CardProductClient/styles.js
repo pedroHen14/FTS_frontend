@@ -75,7 +75,7 @@ export const InfoContent = styled.div`
   flex-direction: column;
   width: 100%;
   height: 80%;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 10px 0;
   gap:20px;
   align-items: center;
