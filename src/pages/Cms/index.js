@@ -56,6 +56,7 @@ function Cms() {
     try {
       await api.post(`/site/company/${user.id}`, form);
 
+      notify("Conteúdo do site cadastrado com sucesso!", "success");
       handleReload(e);
     } catch (error) {
       notify('não foi possível cadastrar o produto', 'error');
@@ -102,6 +103,11 @@ function Cms() {
 
     setLogoImg(null);
     setBannerImg(null);
+
+    logoRef.current.src = "";
+    logoRef.current.style.display = "none";
+    bannerRef.current.src = "";
+    bannerRef.current.style.display = "none";
 
     setReload(Math.random());
   };
@@ -169,6 +175,7 @@ function Cms() {
               </InputColor>
               <div className="container-input-image">
                 <div className="div">
+                <span style={{color:'black'}}>Selecione o logo</span>
                   <Input
                     id="logoImg"
                     label="Logo"
@@ -181,6 +188,7 @@ function Cms() {
                 </div>
 
                 <div className="div">
+                  <span style={{color:'black'}}>Selecione o banner</span>
                   <Input
                     id="bannerImg"
                     label="Banner"
