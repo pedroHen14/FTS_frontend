@@ -51,8 +51,7 @@ export const ImageContainer = styled.div`
     border: solid 2px var(--light);
     box-shadow: 5px 5px 5px var(--dark);
   }
-`;
-
+`; 
 export const ImageLogo = styled.div`
   width: 100px;
   height: 100px;
