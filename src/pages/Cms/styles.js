@@ -49,7 +49,7 @@ export const ContainerForm = styled.div`
 export const FormRegister = styled.form`
   display: flex;
   width: 100%;
-  gap: 20px;
+  gap: 40px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;

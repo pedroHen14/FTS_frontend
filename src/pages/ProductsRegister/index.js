@@ -195,6 +195,9 @@ function ProductsRegister() {
 
     setImage(null);
 
+    imageRef.current.src = "";
+    imageRef.current.style.display = "none";
+
     setReload(Math.random());
   };
 
