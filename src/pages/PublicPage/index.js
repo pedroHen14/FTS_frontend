@@ -382,21 +382,21 @@ function PublicPage() {
             <FooterInfoContainer>
               <FooterInfos>
                 <h3>Contato</h3>
-                <span>4002-8922</span>
-                <span>4002-8922</span>
-                <span>4002-8922</span>
+                <span>+55 (11) 4773-3278</span>
+                <span>+55 (11) 4773-4279</span>
+                <span>+55 (11) 4332-5466</span>
               </FooterInfos>
               <FooterInfos>
-                <h3>Contato</h3>
-                <span>4002-8922</span>
-                <span>4002-8922</span>
-                <span>4002-8922</span>
+                <h3>E-mail</h3>
+                <span>flowtrading@outlook.com</span>
+                <span>flowsgc@gmail.com</span>
+                <span>ftscomercial@gmail.com</span>
               </FooterInfos>
               <FooterInfos>
-                <h3>Contato</h3>
-                <span>4002-8922</span>
-                <span>4002-8922</span>
-                <span>4002-8922</span>
+                <h3>Endereços</h3>
+                <span>rua Robert Carmo Silva, 277</span>
+                <span>rua Mosteiro, 98</span>
+                <span>rua da Bica, Belval, 77</span>
               </FooterInfos>
             </FooterInfoContainer>
             <div className="info-footer">
@@ -653,7 +653,7 @@ function CardPlans({ plans, handleInput, stateRegister, reload }) {
                 value={maskCel(stateRegister.phone)}
                 onChange={handleInput}
                 required
-                inputProps={{ maxLength: "16"}}
+                inputProps={{ maxLength: "16" }}
               />
 
               <Input
