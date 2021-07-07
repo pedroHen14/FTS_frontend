@@ -193,6 +193,8 @@ function ProductsRegister() {
       company_id: "",
     });
 
+    setImage(null);
+
     setReload(Math.random());
   };
 

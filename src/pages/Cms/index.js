@@ -29,6 +29,8 @@ function Cms() {
     darkColor: "",
   });
 
+  const [reload, setReload] = useState(0);
+
   const [logoImg, setLogoImg] = useState(null);
   const [bannerImg, setBannerImg] = useState(null);
 
@@ -52,12 +54,11 @@ function Cms() {
     form.append("light_color", register.lightColor);
 
     try {
-      const { data } = await api.post(`/site/company/${user.id}`, form);
+      await api.post(`/site/company/${user.id}`, form);
 
-      console.log(data);
+      handleReload(e);
     } catch (error) {
-      console.log(form, register, bannerImg, logoImg);
-      alert(error);
+      notify('não foi possível cadastrar o produto', 'error');
     }
   };
 
@@ -88,6 +89,21 @@ function Cms() {
       default:
         break;
     }
+  };
+
+  const handleReload = (e) => {
+    setRegister({
+      slogan: "",
+      primaryColor: "",
+      secondaryColor: "",
+      lightColor: "",
+      darkColor: "",
+    });
+
+    setLogoImg(null);
+    setBannerImg(null);
+
+    setReload(Math.random());
   };
 
   return (
@@ -130,10 +146,10 @@ function Cms() {
               </InputColor>
 
               <InputColor>
-                <InputLabel htmlFor="">Cor light</InputLabel>
+                <InputLabel htmlFor="">Cor clara</InputLabel>
                 <input
                   id="lightColor"
-                  label="Cor light"
+                  label="Cor clara"
                   type="color"
                   value={register.lightColor}
                   onChange={handleInput}
@@ -141,10 +157,10 @@ function Cms() {
                 />
               </InputColor>
               <InputColor>
-                <InputLabel htmlFor="">Cor dark</InputLabel>
+                <InputLabel htmlFor="">Cor escura</InputLabel>
                 <input
                   id="darkColor"
-                  label="Cor dark"
+                  label="Cor escura"
                   type="color"
                   value={register.darkColor}
                   onChange={handleInput}
@@ -159,6 +175,7 @@ function Cms() {
                     type="file"
                     ref={logoRef}
                     onChange={handleImage}
+                    placeholder="Logo"
                   />
                   <img alt="Pré-visualização" ref={logoRef} />
                 </div>
@@ -168,6 +185,7 @@ function Cms() {
                     id="bannerImg"
                     label="Banner"
                     type="file"
+                    placeholder="Banner"
                     ref={bannerRef}
                     onChange={handleImage}
                   />
